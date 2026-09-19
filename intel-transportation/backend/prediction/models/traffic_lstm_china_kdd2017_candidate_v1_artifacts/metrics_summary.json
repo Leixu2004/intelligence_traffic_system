@@ -1,0 +1,130 @@
+{
+  "model": {
+    "mae": 9.812291505552915,
+    "rmse": 15.180155411881698,
+    "wape": 17.3400048650181,
+    "r2": 0.8644117562155736,
+    "valid_count": 1467,
+    "excluded_count": 0,
+    "model_name": "traffic_lstm_china_kdd2017_candidate_v1",
+    "sample_count": 1467,
+    "forecast_steps": 1
+  },
+  "baselines": {
+    "last_value": {
+      "mae": 10.526244035446489,
+      "rmse": 17.144201752052055,
+      "wape": 18.60168164406004,
+      "r2": 0.8270565423533475,
+      "valid_count": 1467,
+      "excluded_count": 0,
+      "model_name": "last_value",
+      "sample_count": 1467,
+      "forecast_steps": 1
+    },
+    "moving_average": {
+      "mae": 14.854396728016361,
+      "rmse": 21.821028862395487,
+      "wape": 26.250271038619992,
+      "r2": 0.7198310210459458,
+      "valid_count": 1467,
+      "excluded_count": 0,
+      "model_name": "moving_average",
+      "sample_count": 1467,
+      "forecast_steps": 1
+    },
+    "linear_trend": {
+      "mae": 12.253033401499657,
+      "rmse": 19.96069469551124,
+      "wape": 21.653215120341144,
+      "r2": 0.7655658346690073,
+      "valid_count": 1467,
+      "excluded_count": 0,
+      "model_name": "linear_trend",
+      "sample_count": 1467,
+      "forecast_steps": 1
+    }
+  },
+  "per_series": {
+    "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t1_d0#segment5": {
+      "mae": 7.455704303530903,
+      "rmse": 9.562807560994436,
+      "wape": 25.190400674501078,
+      "r2": 0.7802812409608366,
+      "valid_count": 308,
+      "excluded_count": 0
+    },
+    "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t1_d1#segment5": {
+      "mae": 10.20340301773765,
+      "rmse": 17.561221741191236,
+      "wape": 16.153421379918765,
+      "r2": 0.810893312612919,
+      "valid_count": 308,
+      "excluded_count": 0
+    },
+    "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment72": {
+      "mae": 6.796539130418197,
+      "rmse": 8.101592789912063,
+      "wape": 20.70468874167133,
+      "r2": 0.894204826312941,
+      "valid_count": 23,
+      "excluded_count": 0
+    },
+    "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment75": {
+      "mae": 9.866090517933086,
+      "rmse": 13.362352492444103,
+      "wape": 15.072484219524911,
+      "r2": 0.8729311789193321,
+      "valid_count": 59,
+      "excluded_count": 0
+    },
+    "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment78": {
+      "mae": 13.857627868652344,
+      "rmse": 13.857627868652344,
+      "wape": 106.59713745117188,
+      "r2": null,
+      "valid_count": 1,
+      "excluded_count": 0
+    },
+    "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment79": {
+      "mae": 9.86704847547743,
+      "rmse": 11.915283626709439,
+      "wape": 16.749044941398882,
+      "r2": 0.8686335488795214,
+      "valid_count": 45,
+      "excluded_count": 0
+    },
+    "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment82": {
+      "mae": 10.593626856803894,
+      "rmse": 12.50305080163404,
+      "wape": 19.637308969911224,
+      "r2": 0.8441158728555054,
+      "valid_count": 56,
+      "excluded_count": 0
+    },
+    "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment85": {
+      "mae": 9.469474867278455,
+      "rmse": 12.364897974237726,
+      "wape": 15.273346560126539,
+      "r2": 0.8481218192914157,
+      "valid_count": 51,
+      "excluded_count": 0
+    },
+    "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t3_d0#segment3": {
+      "mae": 10.051202650968131,
+      "rmse": 13.483066052350017,
+      "wape": 14.633061148129062,
+      "r2": 0.9215262734148212,
+      "valid_count": 308,
+      "excluded_count": 0
+    },
+    "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t3_d1#segment4": {
+      "mae": 11.647322386890263,
+      "rmse": 20.04299905830303,
+      "wape": 18.097035237664333,
+      "r2": 0.7840126129351067,
+      "valid_count": 308,
+      "excluded_count": 0
+    }
+  }
+}

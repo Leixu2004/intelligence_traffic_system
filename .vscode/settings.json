@@ -1,0 +1,23 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/intel-transportation/.venv/Scripts/python.exe",
+  "python.envFile": "${workspaceFolder}/intel-transportation/.env",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/intel-transportation",
+    "${workspaceFolder}/dashboard"
+  ],
+  "python.analysis.indexing": true,
+  "python.terminal.activateEnvironment": true,
+  "python.terminal.envVar": "$env:PYTHONUTF8='1'",
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": [
+    "tests",
+    "backend/prediction/tests",
+    "backend/agent/tests",
+    "backend/rag/tests",
+    "acceptance/tests"
+  ],
+  "python.testing.unittestEnabled": false,
+  "files.exclude": {
+    "**/__pycache__": true
+  }
+}

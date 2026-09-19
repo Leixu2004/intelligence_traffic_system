@@ -1,0 +1,33 @@
+{
+  "schema_version": "project1-requirements/v1",
+  "sources": [
+    {
+      "name": "20260911项目1验收_全流程联调与提交.pptx",
+      "role": "项目1提交清单和验收门槛"
+    },
+    {
+      "name": "车辆检测车牌识别全流程联调技术验收文档.docx",
+      "role": "技术联调、质量与分段性能参考"
+    }
+  ],
+  "thresholds": {
+    "coverage_percent_min": 80.0,
+    "todo_count_max_exclusive": 5,
+    "detection_map_min_exclusive": 0.8,
+    "prediction_r2_min_exclusive": 0.85,
+    "plate_accuracy_percent_min": 95.0,
+    "end_to_end_latency_ms_max_exclusive": 200.0,
+    "detection_latency_ms_max_exclusive": 20.0,
+    "ocr_latency_ms_max_exclusive": 80.0,
+    "database_read_p99_ms_max_exclusive": 20.0,
+    "database_write_p99_ms_max_exclusive": 100.0,
+    "api_latency_ms_max_exclusive": 50.0,
+    "dashboard_first_render_ms_max_exclusive": 1000.0
+  },
+  "evidence_policy": {
+    "model_file_is_not_accuracy_evidence": true,
+    "source_code_is_not_runtime_evidence": true,
+    "model_only_benchmark_is_not_end_to_end_evidence": true,
+    "missing_external_evidence_status": ["BLOCKED", "NOT_VERIFIED"]
+  }
+}

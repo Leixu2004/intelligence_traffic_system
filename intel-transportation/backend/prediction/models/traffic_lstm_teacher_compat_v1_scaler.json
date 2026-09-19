@@ -1,0 +1,25 @@
+{
+  "type": "minmax",
+  "feature_columns": [
+    "vehicle_count",
+    "hour",
+    "day_of_week",
+    "is_holiday"
+  ],
+  "feature_offset": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "feature_scale": [
+    7280.0,
+    23.0,
+    6.0,
+    1.0
+  ],
+  "target_column": "vehicle_count",
+  "target_offset": 0.0,
+  "target_scale": 7280.0,
+  "fit_partition": "train"
+}

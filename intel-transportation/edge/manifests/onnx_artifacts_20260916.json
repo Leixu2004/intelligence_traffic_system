@@ -1,0 +1,111 @@
+{
+  "manifest_version": "edge-artifact-manifest/v1",
+  "artifacts": [
+    {
+      "path": "yolov8n.onnx",
+      "sha256": "b61c3924134cb79d8b3ccaf6c1806247d7435a2f7b270a5c870761215f9dcd63",
+      "size_bytes": 12677627,
+      "opset": 18,
+      "inputs": [
+        {
+          "name": "images",
+          "dtype": "float",
+          "shape": [
+            "batch",
+            3,
+            "height",
+            "width"
+          ],
+          "rank": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output0",
+          "dtype": "float",
+          "shape": [
+            "batch",
+            "Concatoutput0_dim_1",
+            "anchors"
+          ],
+          "rank": 3
+        }
+      ],
+      "quantization": {
+        "detected": false,
+        "node_types": [],
+        "node_count": 0
+      }
+    },
+    {
+      "path": "exp-7.onnx",
+      "sha256": "b462c046f044b61f5d05a857673dc74321e762744c66acd2f6e806aed553ed3c",
+      "size_bytes": 9620496,
+      "opset": 18,
+      "inputs": [
+        {
+          "name": "images",
+          "dtype": "float",
+          "shape": [
+            "batch",
+            3,
+            "height",
+            "width"
+          ],
+          "rank": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output0",
+          "dtype": "float",
+          "shape": [
+            "batch",
+            "Concatoutput0_dim_1",
+            "anchors"
+          ],
+          "rank": 3
+        }
+      ],
+      "quantization": {
+        "detected": false,
+        "node_types": [],
+        "node_count": 0
+      }
+    },
+    {
+      "path": "traffic_lstm_china_kdd2017_candidate_v1.onnx",
+      "sha256": "7af33dccb4dc1ff7191dd55277161b886d980ae3467c394c42b5fc803a720aa4",
+      "size_bytes": 130598,
+      "opset": 17,
+      "inputs": [
+        {
+          "name": "features",
+          "dtype": "float",
+          "shape": [
+            "batch",
+            6,
+            6
+          ],
+          "rank": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "forecast",
+          "dtype": "float",
+          "shape": [
+            "batch",
+            1
+          ],
+          "rank": 2
+        }
+      ],
+      "quantization": {
+        "detected": false,
+        "node_types": [],
+        "node_count": 0
+      }
+    }
+  ]
+}

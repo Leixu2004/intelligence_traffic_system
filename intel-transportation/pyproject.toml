@@ -1,0 +1,41 @@
+[project]
+name = "intel-transportation"
+version = "0.1.0"
+description = "Intelligent transportation detection, LPR, event, prediction, and dashboard pipeline"
+requires-python = ">=3.10,<3.14"
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+extend-exclude = [
+  ".venv",
+  ".git",
+  ".idea",
+  "data",
+  "models",
+  "tmp",
+  "backend/prediction/models",
+]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["acceptance", "backend", "core", "db", "edge"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "backend/prediction/tests", "backend/crew/tests", "acceptance/tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers"
+
+[tool.coverage.run]
+branch = true
+source = ["core", "backend", "db", "edge"]
+omit = ["*/tests/*", "*/__pycache__/*"]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
+skip_empty = true
+precision = 2

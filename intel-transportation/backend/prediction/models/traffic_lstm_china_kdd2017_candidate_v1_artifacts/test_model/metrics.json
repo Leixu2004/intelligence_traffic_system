@@ -1,0 +1,11 @@
+{
+  "mae": 9.812291505552915,
+  "rmse": 15.180155411881698,
+  "wape": 17.3400048650181,
+  "r2": 0.8644117562155736,
+  "valid_count": 1467,
+  "excluded_count": 0,
+  "model_name": "traffic_lstm_china_kdd2017_candidate_v1",
+  "sample_count": 1467,
+  "forecast_steps": 1
+}

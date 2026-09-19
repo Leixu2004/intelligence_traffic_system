@@ -1,0 +1,6003 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-09-16T04:15:53.662735+00:00",
+  "comparison_scope": "post_nms_detection_equivalence",
+  "reference_model": {
+    "path": "D:\\intelligent_transportation\\intel-transportation\\models\\exp-7.pt",
+    "sha256": "73c51fe292187cf0a883e99e32480bb85dfc049134fd53de9a51cfc68611db6e"
+  },
+  "candidate_model": {
+    "path": "D:\\intelligent_transportation\\intel-transportation\\models\\exp-7.onnx",
+    "sha256": "b462c046f044b61f5d05a857673dc74321e762744c66acd2f6e806aed553ed3c"
+  },
+  "settings": {
+    "confidence": 0.25,
+    "nms_iou": 0.7,
+    "match_iou": 0.5,
+    "image_size": 1280,
+    "reference_device": "cpu",
+    "candidate_device": "cpu"
+  },
+  "summary": {
+    "image_count": 184,
+    "images_with_reference_detections": 103,
+    "reference_count": 121,
+    "candidate_count": 121,
+    "matched_count": 121,
+    "reference_match_rate": 1.0,
+    "candidate_match_rate": 1.0,
+    "mean_iou": 0.9999995160293222,
+    "mean_confidence_delta": 6.095929579301314e-07,
+    "max_confidence_delta": 1.8775463104248047e-06
+  },
+  "images": [
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_039021_20260902_191105.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_073399_20260902_183407.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1039021_20260902_191926.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1039021_20260902_192335.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1771770_20260902_183422.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999995117270946,
+      "mean_confidence_delta": 3.2782554626464844e-07,
+      "reference": [
+        {
+          "box": [
+            1441.11572265625,
+            437.37603759765625,
+            1691.1199951171875,
+            477.0111389160156
+          ],
+          "confidence": 0.45184290409088135,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.11572265625,
+            437.37603759765625,
+            1691.119873046875,
+            477.0111389160156
+          ],
+          "confidence": 0.4518425762653351,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999995117270946,
+          "confidence_delta": 3.2782554626464844e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1771780_20260902_185600.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.7881393432617188e-06,
+      "reference": [
+        {
+          "box": [
+            1441.118896484375,
+            437.3767395019531,
+            1691.12109375,
+            477.0019226074219
+          ],
+          "confidence": 0.4479351043701172,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.118896484375,
+            437.3767395019531,
+            1691.12109375,
+            477.0019226074219
+          ],
+          "confidence": 0.4479333162307739,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.7881393432617188e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_182001_20260902_185436.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_18201_20260902_185458.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_190950R_20260902_190921.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_190950R_20260902_191301.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_190950R_20260902_191507.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_190950R_20260902_191738.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_190950R_20260902_192154.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_190950R_20260903_154057.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_190950R_20260903_162054.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_190959_20260902_190157.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1B2001_20260902_185450.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1B2YV21_20260902_190229.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.043081283569336e-06,
+      "reference": [
+        {
+          "box": [
+            564.4365844726562,
+            1950.9644775390625,
+            701.381591796875,
+            2001.788330078125
+          ],
+          "confidence": 0.4560700058937073,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            564.4365844726562,
+            1950.9644775390625,
+            701.381591796875,
+            2001.788330078125
+          ],
+          "confidence": 0.4560689628124237,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.043081283569336e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1B2YV21_20260902_191340.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.043081283569336e-06,
+      "reference": [
+        {
+          "box": [
+            564.4365844726562,
+            1950.9644775390625,
+            701.381591796875,
+            2001.788330078125
+          ],
+          "confidence": 0.4560700058937073,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            564.4365844726562,
+            1950.9644775390625,
+            701.381591796875,
+            2001.788330078125
+          ],
+          "confidence": 0.4560689628124237,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.043081283569336e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1B2YV21_20260902_191543.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.043081283569336e-06,
+      "reference": [
+        {
+          "box": [
+            564.4365844726562,
+            1950.9644775390625,
+            701.381591796875,
+            2001.788330078125
+          ],
+          "confidence": 0.4560700058937073,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            564.4365844726562,
+            1950.9644775390625,
+            701.381591796875,
+            2001.788330078125
+          ],
+          "confidence": 0.4560689628124237,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.043081283569336e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1B2YV21_20260902_191818.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.043081283569336e-06,
+      "reference": [
+        {
+          "box": [
+            564.4365844726562,
+            1950.9644775390625,
+            701.381591796875,
+            2001.788330078125
+          ],
+          "confidence": 0.4560700058937073,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            564.4365844726562,
+            1950.9644775390625,
+            701.381591796875,
+            2001.788330078125
+          ],
+          "confidence": 0.4560689628124237,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.043081283569336e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1B2YV21_20260902_192232.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.043081283569336e-06,
+      "reference": [
+        {
+          "box": [
+            564.4365844726562,
+            1950.9644775390625,
+            701.381591796875,
+            2001.788330078125
+          ],
+          "confidence": 0.4560700058937073,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            564.4365844726562,
+            1950.9644775390625,
+            701.381591796875,
+            2001.788330078125
+          ],
+          "confidence": 0.4560689628124237,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.043081283569336e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1B2YV21_20260903_154134.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.043081283569336e-06,
+      "reference": [
+        {
+          "box": [
+            564.4365844726562,
+            1950.9644775390625,
+            701.381591796875,
+            2001.788330078125
+          ],
+          "confidence": 0.4560700058937073,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            564.4365844726562,
+            1950.9644775390625,
+            701.381591796875,
+            2001.788330078125
+          ],
+          "confidence": 0.4560689628124237,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.043081283569336e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1B3565J_20260902_190113.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1B388H2_20260902_185620.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999992314130701,
+      "mean_confidence_delta": 6.854534149169922e-07,
+      "reference": [
+        {
+          "box": [
+            1441.1646728515625,
+            437.35540771484375,
+            1691.08544921875,
+            477.06146240234375
+          ],
+          "confidence": 0.4643287658691406,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.1646728515625,
+            437.3553771972656,
+            1691.08544921875,
+            477.06146240234375
+          ],
+          "confidence": 0.4643280804157257,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999992314130701,
+          "confidence_delta": 6.854534149169922e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1B38BH2_20260902_185613.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.1622905731201172e-06,
+      "reference": [
+        {
+          "box": [
+            1441.160400390625,
+            437.3595886230469,
+            1691.0865478515625,
+            477.06219482421875
+          ],
+          "confidence": 0.4642733931541443,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.160400390625,
+            437.3595886230469,
+            1691.0865478515625,
+            477.06219482421875
+          ],
+          "confidence": 0.46427223086357117,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1622905731201172e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1B8F85J_20260902_192024.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999964574282801,
+      "mean_confidence_delta": 5.960464477539062e-07,
+      "reference": [
+        {
+          "box": [
+            754.6537475585938,
+            1540.1932373046875,
+            868.7476806640625,
+            1580.7801513671875
+          ],
+          "confidence": 0.28535231947898865,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            754.6537475585938,
+            1540.193115234375,
+            868.7477416992188,
+            1580.7801513671875
+          ],
+          "confidence": 0.2853517234325409,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999964574282801,
+          "confidence_delta": 5.960464477539062e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1B8F85J_20260902_192422.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999964574282801,
+      "mean_confidence_delta": 5.960464477539062e-07,
+      "reference": [
+        {
+          "box": [
+            754.6537475585938,
+            1540.1932373046875,
+            868.7476806640625,
+            1580.7801513671875
+          ],
+          "confidence": 0.28535231947898865,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            754.6537475585938,
+            1540.193115234375,
+            868.7477416992188,
+            1580.7801513671875
+          ],
+          "confidence": 0.2853517234325409,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999964574282801,
+          "confidence_delta": 5.960464477539062e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_1BFX528_20260902_183114.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.7881393432617188e-07,
+      "reference": [
+        {
+          "box": [
+            901.71044921875,
+            881.261474609375,
+            968.753662109375,
+            908.7601928710938
+          ],
+          "confidence": 0.363761305809021,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            901.71044921875,
+            881.261474609375,
+            968.753662109375,
+            908.7601928710938
+          ],
+          "confidence": 0.36376112699508667,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.7881393432617188e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_203010_20260902_191118.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999974565191957,
+      "mean_confidence_delta": 1.1920928955078125e-07,
+      "reference": [
+        {
+          "box": [
+            2054.09521484375,
+            1510.43701171875,
+            2172.3984375,
+            1558.430419921875
+          ],
+          "confidence": 0.407174676656723,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            2054.09521484375,
+            1510.4371337890625,
+            2172.3984375,
+            1558.430419921875
+          ],
+          "confidence": 0.40717455744743347,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999974565191957,
+          "confidence_delta": 1.1920928955078125e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_2301G2_20260902_191940.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999974565191957,
+      "mean_confidence_delta": 1.1920928955078125e-07,
+      "reference": [
+        {
+          "box": [
+            2054.09521484375,
+            1510.43701171875,
+            2172.3984375,
+            1558.430419921875
+          ],
+          "confidence": 0.407174676656723,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            2054.09521484375,
+            1510.4371337890625,
+            2172.3984375,
+            1558.430419921875
+          ],
+          "confidence": 0.40717455744743347,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999974565191957,
+          "confidence_delta": 1.1920928955078125e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_2301G2_20260902_192347.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999974565191957,
+      "mean_confidence_delta": 1.1920928955078125e-07,
+      "reference": [
+        {
+          "box": [
+            2054.09521484375,
+            1510.43701171875,
+            2172.3984375,
+            1558.430419921875
+          ],
+          "confidence": 0.407174676656723,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            2054.09521484375,
+            1510.4371337890625,
+            2172.3984375,
+            1558.430419921875
+          ],
+          "confidence": 0.40717455744743347,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999974565191957,
+          "confidence_delta": 1.1920928955078125e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_3005070_20260902_191035.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_4B5606T_20260902_183233.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 5.960464477539063e-08,
+      "reference": [
+        {
+          "box": [
+            895.5349731445312,
+            1178.9757080078125,
+            968.9345703125,
+            1206.958984375
+          ],
+          "confidence": 0.7151699066162109,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            895.5349731445312,
+            1178.9757080078125,
+            968.9345703125,
+            1206.958984375
+          ],
+          "confidence": 0.7151698470115662,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 5.960464477539063e-08
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_4B9A7K7_20260902_190309.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_59073319_20260902_183403.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_5958R_20260902_185252.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 8.344650268554688e-07,
+      "reference": [
+        {
+          "box": [
+            1441.19921875,
+            437.3531799316406,
+            1691.02490234375,
+            477.21630859375
+          ],
+          "confidence": 0.49276629090309143,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.19921875,
+            437.3531799316406,
+            1691.02490234375,
+            477.21630859375
+          ],
+          "confidence": 0.4927654564380646,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 8.344650268554688e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_785NL89_20260902_191626.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.0132789611816406e-06,
+      "reference": [
+        {
+          "box": [
+            1339.1314697265625,
+            1792.012451171875,
+            1454.7763671875,
+            1833.509521484375
+          ],
+          "confidence": 0.7656166553497314,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1339.1314697265625,
+            1792.012451171875,
+            1454.7763671875,
+            1833.509521484375
+          ],
+          "confidence": 0.7656176686286926,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.0132789611816406e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_785NL89_20260902_191905.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.0132789611816406e-06,
+      "reference": [
+        {
+          "box": [
+            1339.1314697265625,
+            1792.012451171875,
+            1454.7763671875,
+            1833.509521484375
+          ],
+          "confidence": 0.7656166553497314,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1339.1314697265625,
+            1792.012451171875,
+            1454.7763671875,
+            1833.509521484375
+          ],
+          "confidence": 0.7656176686286926,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.0132789611816406e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_785NL89_20260902_192316.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.0132789611816406e-06,
+      "reference": [
+        {
+          "box": [
+            1339.1314697265625,
+            1792.012451171875,
+            1454.7763671875,
+            1833.509521484375
+          ],
+          "confidence": 0.7656166553497314,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1339.1314697265625,
+            1792.012451171875,
+            1454.7763671875,
+            1833.509521484375
+          ],
+          "confidence": 0.7656176686286926,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.0132789611816406e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_8071370_20260902_183405.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_8071370_20260902_185448.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_84296_20260902_183036.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 3.8743019104003906e-07,
+      "reference": [
+        {
+          "box": [
+            898.4905395507812,
+            924.3397216796875,
+            964.8797607421875,
+            950.5082397460938
+          ],
+          "confidence": 0.2844591438770294,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            898.4905395507812,
+            924.3397216796875,
+            964.8797607421875,
+            950.5082397460938
+          ],
+          "confidence": 0.2844587564468384,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 3.8743019104003906e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_8R3S45_20260903_162156.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_A3G8A2_20260903_162424.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_AB270LI_20260902_190303.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 9.98377799987793e-07,
+      "reference": [
+        {
+          "box": [
+            736.4337158203125,
+            1580.787841796875,
+            892.3518676757812,
+            1623.1185302734375
+          ],
+          "confidence": 0.37303587794303894,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1438.1199951171875,
+            1753.105224609375,
+            1561.350341796875,
+            1798.4534912109375
+          ],
+          "confidence": 0.31702616810798645,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            736.4337158203125,
+            1580.787841796875,
+            892.3518676757812,
+            1623.1185302734375
+          ],
+          "confidence": 0.3730340003967285,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1438.1199951171875,
+            1753.105224609375,
+            1561.350341796875,
+            1798.4534912109375
+          ],
+          "confidence": 0.317026287317276,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-07
+        },
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.8775463104248047e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_AB4296K_20260902_183041.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999990807961776,
+      "mean_confidence_delta": 2.980232238769531e-07,
+      "reference": [
+        {
+          "box": [
+            898.5662231445312,
+            924.4681396484375,
+            964.9662475585938,
+            950.57763671875
+          ],
+          "confidence": 0.2638471722602844,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            898.5662231445312,
+            924.4681396484375,
+            964.9661865234375,
+            950.57763671875
+          ],
+          "confidence": 0.2638474702835083,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999990807961776,
+          "confidence_delta": 2.980232238769531e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_AB5606T_20260902_183221.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.7881393432617188e-07,
+      "reference": [
+        {
+          "box": [
+            895.5390625,
+            1179.0108642578125,
+            968.908447265625,
+            1206.962890625
+          ],
+          "confidence": 0.7131522297859192,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            895.5390625,
+            1179.0108642578125,
+            968.908447265625,
+            1206.962890625
+          ],
+          "confidence": 0.7131524085998535,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.7881393432617188e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_AB9A7K7_20260902_191046.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ABFX528_20260902_183106.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.5497207641601562e-06,
+      "reference": [
+        {
+          "box": [
+            904.4483642578125,
+            884.6846923828125,
+            968.6181640625,
+            912.584228515625
+          ],
+          "confidence": 0.4270675778388977,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            904.4483642578125,
+            884.6846923828125,
+            968.6181640625,
+            912.584228515625
+          ],
+          "confidence": 0.42706602811813354,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.5497207641601562e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ABFX528_20260902_190904.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ABFX528_20260902_192141.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ABFX528_20260903_154043.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ABFX528_20260903_160010.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ABFX528_20260903_162041.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ABZIULI_20260903_162410.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.7881393432617188e-07,
+      "reference": [
+        {
+          "box": [
+            2285.15673828125,
+            1989.1666259765625,
+            2421.1376953125,
+            2042.6302490234375
+          ],
+          "confidence": 0.942937433719635,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            2285.15673828125,
+            1989.1666259765625,
+            2421.1376953125,
+            2042.6302490234375
+          ],
+          "confidence": 0.9429376125335693,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.7881393432617188e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_AD3S65J_20260902_190828.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_AD3S65J_20260903_162002.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ADY97R5_20260902_192324.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.999997274729108,
+      "mean_confidence_delta": 2.384185791015625e-07,
+      "reference": [
+        {
+          "box": [
+            1376.883544921875,
+            1684.5238037109375,
+            1488.30615234375,
+            1729.315673828125
+          ],
+          "confidence": 0.8262830376625061,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1376.883544921875,
+            1684.523681640625,
+            1488.30615234375,
+            1729.315673828125
+          ],
+          "confidence": 0.826282799243927,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.999997274729108,
+          "confidence_delta": 2.384185791015625e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_AVERAN_20260902_185535.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999992292615478,
+      "mean_confidence_delta": 8.940696716308594e-08,
+      "reference": [
+        {
+          "box": [
+            1441.1171875,
+            437.3892517089844,
+            1691.1385498046875,
+            476.9844970703125
+          ],
+          "confidence": 0.4477804899215698,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.1171875,
+            437.3892822265625,
+            1691.1385498046875,
+            476.9844970703125
+          ],
+          "confidence": 0.44778040051460266,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999992292615478,
+          "confidence_delta": 8.940696716308594e-08
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B2001_20260902_185442.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B270LI_20260902_192312.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 9.98377799987793e-07,
+      "reference": [
+        {
+          "box": [
+            736.4337158203125,
+            1580.787841796875,
+            892.3518676757812,
+            1623.1185302734375
+          ],
+          "confidence": 0.37303587794303894,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1438.1199951171875,
+            1753.105224609375,
+            1561.350341796875,
+            1798.4534912109375
+          ],
+          "confidence": 0.31702616810798645,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            736.4337158203125,
+            1580.787841796875,
+            892.3518676757812,
+            1623.1185302734375
+          ],
+          "confidence": 0.3730340003967285,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1438.1199951171875,
+            1753.105224609375,
+            1561.350341796875,
+            1798.4534912109375
+          ],
+          "confidence": 0.317026287317276,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-07
+        },
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.8775463104248047e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B2877B_20260903_162429.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B2YV21_20260903_162331.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 2.086162567138672e-07,
+      "reference": [
+        {
+          "box": [
+            565.0477294921875,
+            1951.6923828125,
+            703.7839965820312,
+            2001.774169921875
+          ],
+          "confidence": 0.37257689237594604,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            565.0477294921875,
+            1951.6923828125,
+            703.7839965820312,
+            2001.774169921875
+          ],
+          "confidence": 0.37257710099220276,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 2.086162567138672e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B3902L_20260902_190322.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B3902L_20260903_162433.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B3S65J_20260902_185316.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B4296_20260902_183017.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.1324882507324219e-06,
+      "reference": [
+        {
+          "box": [
+            896.8255615234375,
+            941.513916015625,
+            960.5911254882812,
+            967.0282592773438
+          ],
+          "confidence": 0.7434759736061096,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            896.8255615234375,
+            941.513916015625,
+            960.5911254882812,
+            967.0282592773438
+          ],
+          "confidence": 0.7434748411178589,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1324882507324219e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B4296K_20260902_182959.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999992129405172,
+      "mean_confidence_delta": 9.5367431640625e-07,
+      "reference": [
+        {
+          "box": [
+            1891.2138671875,
+            1233.7744140625,
+            1968.7620849609375,
+            1263.264404296875
+          ],
+          "confidence": 0.7995337843894958,
+          "class_id": 0
+        },
+        {
+          "box": [
+            897.5809936523438,
+            950.5834350585938,
+            961.2667236328125,
+            974.5296020507812
+          ],
+          "confidence": 0.6641091108322144,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1891.2138671875,
+            1233.7744140625,
+            1968.76220703125,
+            1263.264404296875
+          ],
+          "confidence": 0.7995330691337585,
+          "class_id": 0
+        },
+        {
+          "box": [
+            897.5809936523438,
+            950.5834350585938,
+            961.2667236328125,
+            974.5296020507812
+          ],
+          "confidence": 0.6641079187393188,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-06
+        },
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999984258810344,
+          "confidence_delta": 7.152557373046875e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B4296K_20260902_185432.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999997328720212,
+      "mean_confidence_delta": 1.1324882507324219e-06,
+      "reference": [
+        {
+          "box": [
+            291.9593200683594,
+            123.76011657714844,
+            453.393310546875,
+            180.88174438476562
+          ],
+          "confidence": 0.6076503396034241,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            291.9593200683594,
+            123.76010131835938,
+            453.393310546875,
+            180.88174438476562
+          ],
+          "confidence": 0.6076514720916748,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999997328720212,
+          "confidence_delta": 1.1324882507324219e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B5606T_20260903_162252.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B792Y8_20260902_190352.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B7N9R7_20260902_190306.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.0132789611816406e-06,
+      "reference": [
+        {
+          "box": [
+            1339.1314697265625,
+            1792.012451171875,
+            1454.7763671875,
+            1833.509521484375
+          ],
+          "confidence": 0.7656166553497314,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1339.1314697265625,
+            1792.012451171875,
+            1454.7763671875,
+            1833.509521484375
+          ],
+          "confidence": 0.7656176686286926,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.0132789611816406e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B7N9R7_20260903_162414.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.043081283569336e-06,
+      "reference": [
+        {
+          "box": [
+            2123.75537109375,
+            1755.5634765625,
+            2874.171875,
+            2025.0045166015625
+          ],
+          "confidence": 0.3095879554748535,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1452.23779296875,
+            1644.6904296875,
+            1566.0908203125,
+            1688.4498291015625
+          ],
+          "confidence": 0.2549656629562378,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            2123.75537109375,
+            1755.5634765625,
+            2874.171875,
+            2025.0045166015625
+          ],
+          "confidence": 0.3095872402191162,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1452.23779296875,
+            1644.6904296875,
+            1566.0908203125,
+            1688.4498291015625
+          ],
+          "confidence": 0.25496429204940796,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.3709068298339844e-06
+        },
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 7.152557373046875e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B8365_20260902_182835.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 8.344650268554688e-07,
+      "reference": [
+        {
+          "box": [
+            889.480712890625,
+            942.3301391601562,
+            958.7994995117188,
+            967.7976684570312
+          ],
+          "confidence": 0.4561108350753784,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            889.480712890625,
+            942.3301391601562,
+            958.7994995117188,
+            967.7976684570312
+          ],
+          "confidence": 0.45611000061035156,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 8.344650268554688e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B8365_20260902_185014.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.999999122637702,
+      "mean_confidence_delta": 3.8743019104003906e-07,
+      "reference": [
+        {
+          "box": [
+            889.7376708984375,
+            942.50927734375,
+            959.3043212890625,
+            967.6465454101562
+          ],
+          "confidence": 0.4582655727863312,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            889.7377319335938,
+            942.50927734375,
+            959.3043212890625,
+            967.6465454101562
+          ],
+          "confidence": 0.4582659602165222,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.999999122637702,
+          "confidence_delta": 3.8743019104003906e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B84296_20260902_183045.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999990809727353,
+      "mean_confidence_delta": 1.4901161193847656e-06,
+      "reference": [
+        {
+          "box": [
+            898.5574340820312,
+            924.4724731445312,
+            964.9701538085938,
+            950.5747680664062
+          ],
+          "confidence": 0.2609640955924988,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            898.5574340820312,
+            924.4724731445312,
+            964.97021484375,
+            950.5747680664062
+          ],
+          "confidence": 0.26096558570861816,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999990809727353,
+          "confidence_delta": 1.4901161193847656e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B84296K_20260902_183021.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 5.364418029785156e-07,
+      "reference": [
+        {
+          "box": [
+            896.8506469726562,
+            941.5450439453125,
+            960.593994140625,
+            967.0540161132812
+          ],
+          "confidence": 0.7423397302627563,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            896.8506469726562,
+            941.5450439453125,
+            960.593994140625,
+            967.0540161132812
+          ],
+          "confidence": 0.7423402667045593,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 5.364418029785156e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B8F85J_20260902_190403.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999964574282801,
+      "mean_confidence_delta": 5.960464477539062e-07,
+      "reference": [
+        {
+          "box": [
+            754.6537475585938,
+            1540.1932373046875,
+            868.7476806640625,
+            1580.7801513671875
+          ],
+          "confidence": 0.28535231947898865,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            754.6537475585938,
+            1540.193115234375,
+            868.7477416992188,
+            1580.7801513671875
+          ],
+          "confidence": 0.2853517234325409,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999964574282801,
+          "confidence_delta": 5.960464477539062e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B9A7K7_20260902_192319.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_B9A7K7_20260903_162416.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_BB2YV21_20260902_191002.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.043081283569336e-06,
+      "reference": [
+        {
+          "box": [
+            564.4365844726562,
+            1950.9644775390625,
+            701.381591796875,
+            2001.788330078125
+          ],
+          "confidence": 0.4560700058937073,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            564.4365844726562,
+            1950.9644775390625,
+            701.381591796875,
+            2001.788330078125
+          ],
+          "confidence": 0.4560689628124237,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.043081283569336e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_BBFX528_20260902_190146.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_BDF070_20260903_162307.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999975465842319,
+      "mean_confidence_delta": 1.7881393432617188e-07,
+      "reference": [
+        {
+          "box": [
+            564.7620239257812,
+            1951.7864990234375,
+            703.9132080078125,
+            2001.5416259765625
+          ],
+          "confidence": 0.29060226678848267,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            564.7620239257812,
+            1951.786376953125,
+            703.9132080078125,
+            2001.5416259765625
+          ],
+          "confidence": 0.290602445602417,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999975465842319,
+          "confidence_delta": 1.7881393432617188e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_BDG7629_20260903_162317.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_BDM178_20260903_162232.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_BFX528_20260902_183109.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.4901161193847656e-07,
+      "reference": [
+        {
+          "box": [
+            904.4415893554688,
+            884.684814453125,
+            968.6244506835938,
+            912.576171875
+          ],
+          "confidence": 0.4265364110469818,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            904.4415893554688,
+            884.684814453125,
+            968.6244506835938,
+            912.576171875
+          ],
+          "confidence": 0.42653656005859375,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.4901161193847656e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_BFX528_20260902_185349.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_BFX528_20260903_162237.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_BJOP32A_20260902_190301.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999998135324707,
+      "mean_confidence_delta": 3.2782554626464844e-07,
+      "reference": [
+        {
+          "box": [
+            1417.1614990234375,
+            2073.69677734375,
+            1556.6959228515625,
+            2125.6337890625
+          ],
+          "confidence": 0.9429874420166016,
+          "class_id": 0
+        },
+        {
+          "box": [
+            481.79144287109375,
+            1994.7515869140625,
+            645.4530639648438,
+            2048.97705078125
+          ],
+          "confidence": 0.6898366212844849,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1417.1614990234375,
+            2073.69677734375,
+            1556.6959228515625,
+            2125.6337890625
+          ],
+          "confidence": 0.9429875612258911,
+          "class_id": 0
+        },
+        {
+          "box": [
+            481.79150390625,
+            1994.7515869140625,
+            645.4530639648438,
+            2048.97705078125
+          ],
+          "confidence": 0.6898360848426819,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-07
+        },
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 0.9999996270649414,
+          "confidence_delta": 5.364418029785156e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_BJOP32A_20260902_191037.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999998135324707,
+      "mean_confidence_delta": 3.2782554626464844e-07,
+      "reference": [
+        {
+          "box": [
+            1417.1614990234375,
+            2073.69677734375,
+            1556.6959228515625,
+            2125.6337890625
+          ],
+          "confidence": 0.9429874420166016,
+          "class_id": 0
+        },
+        {
+          "box": [
+            481.79144287109375,
+            1994.7515869140625,
+            645.4530639648438,
+            2048.97705078125
+          ],
+          "confidence": 0.6898366212844849,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1417.1614990234375,
+            2073.69677734375,
+            1556.6959228515625,
+            2125.6337890625
+          ],
+          "confidence": 0.9429875612258911,
+          "class_id": 0
+        },
+        {
+          "box": [
+            481.79150390625,
+            1994.7515869140625,
+            645.4530639648438,
+            2048.97705078125
+          ],
+          "confidence": 0.6898360848426819,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-07
+        },
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 0.9999996270649414,
+          "confidence_delta": 5.364418029785156e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_BN788L_20260902_192446.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999995164358615,
+      "mean_confidence_delta": 3.129243850708008e-07,
+      "reference": [
+        {
+          "box": [
+            1418.53515625,
+            1849.8515625,
+            1544.75439453125,
+            1902.91015625
+          ],
+          "confidence": 0.8080336451530457,
+          "class_id": 0
+        },
+        {
+          "box": [
+            749.2501220703125,
+            1537.8455810546875,
+            856.8209838867188,
+            1585.34033203125
+          ],
+          "confidence": 0.2929503619670868,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1418.53515625,
+            1849.8515625,
+            1544.7545166015625,
+            1902.91015625
+          ],
+          "confidence": 0.8080332279205322,
+          "class_id": 0
+        },
+        {
+          "box": [
+            749.2501220703125,
+            1537.8455810546875,
+            856.8209838867188,
+            1585.34033203125
+          ],
+          "confidence": 0.2929501533508301,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 2.086162567138672e-07
+        },
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.999999032871723,
+          "confidence_delta": 4.172325134277344e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_BN9H10_20260902_192457.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 6.109476089477539e-07,
+      "reference": [
+        {
+          "box": [
+            1418.836669921875,
+            1850.394287109375,
+            1543.996337890625,
+            1903.056640625
+          ],
+          "confidence": 0.8204565644264221,
+          "class_id": 0
+        },
+        {
+          "box": [
+            2662.344970703125,
+            1392.1983642578125,
+            2772.705810546875,
+            1430.515869140625
+          ],
+          "confidence": 0.4605155289173126,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1418.836669921875,
+            1850.394287109375,
+            1543.996337890625,
+            1903.056640625
+          ],
+          "confidence": 0.8204562664031982,
+          "class_id": 0
+        },
+        {
+          "box": [
+            2662.344970703125,
+            1392.1983642578125,
+            2772.705810546875,
+            1430.515869140625
+          ],
+          "confidence": 0.46051645278930664,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 9.238719940185547e-07
+        },
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 2.980232238769531e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_BZ33X9_20260903_162404.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999995209144785,
+      "mean_confidence_delta": 5.066394805908203e-07,
+      "reference": [
+        {
+          "box": [
+            1432.95751953125,
+            1790.346923828125,
+            1560.356689453125,
+            1830.174560546875
+          ],
+          "confidence": 0.275372177362442,
+          "class_id": 0
+        },
+        {
+          "box": [
+            579.6519775390625,
+            1940.2974853515625,
+            724.0372314453125,
+            1981.345703125
+          ],
+          "confidence": 0.2518419027328491,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1432.95751953125,
+            1790.346923828125,
+            1560.3568115234375,
+            1830.174560546875
+          ],
+          "confidence": 0.27537164092063904,
+          "class_id": 0
+        },
+        {
+          "box": [
+            579.6519775390625,
+            1940.2974853515625,
+            724.0372314453125,
+            1981.345703125
+          ],
+          "confidence": 0.2518414258956909,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 4.76837158203125e-07
+        },
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999990418289569,
+          "confidence_delta": 5.364418029785156e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_CROCED_20260902_185300.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 4.470348358154297e-07,
+      "reference": [
+        {
+          "box": [
+            1441.2745361328125,
+            437.3194580078125,
+            1691.0362548828125,
+            477.0384826660156
+          ],
+          "confidence": 0.44924643635749817,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.2745361328125,
+            437.3194580078125,
+            1691.0362548828125,
+            477.0384826660156
+          ],
+          "confidence": 0.44924598932266235,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 4.470348358154297e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_D3S65J_20260902_191210.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_D3S65J_20260902_192054.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_D3S65J_20260903_153955.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_D3S65J_20260903_155926.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_D792Y8_20260902_192408.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_D97R5_20260902_190313.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.999997274729108,
+      "mean_confidence_delta": 2.384185791015625e-07,
+      "reference": [
+        {
+          "box": [
+            1376.883544921875,
+            1684.5238037109375,
+            1488.30615234375,
+            1729.315673828125
+          ],
+          "confidence": 0.8262830376625061,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1376.883544921875,
+            1684.523681640625,
+            1488.30615234375,
+            1729.315673828125
+          ],
+          "confidence": 0.826282799243927,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.999997274729108,
+          "confidence_delta": 2.384185791015625e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_DY97R5_20260902_191052.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.999997274729108,
+      "mean_confidence_delta": 2.384185791015625e-07,
+      "reference": [
+        {
+          "box": [
+            1376.883544921875,
+            1684.5238037109375,
+            1488.30615234375,
+            1729.315673828125
+          ],
+          "confidence": 0.8262830376625061,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1376.883544921875,
+            1684.523681640625,
+            1488.30615234375,
+            1729.315673828125
+          ],
+          "confidence": 0.826282799243927,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.999997274729108,
+          "confidence_delta": 2.384185791015625e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_HF7762_20260903_162419.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999995289826402,
+      "mean_confidence_delta": 1.1920928955078125e-07,
+      "reference": [
+        {
+          "box": [
+            655.3837280273438,
+            1684.1607666015625,
+            784.9652709960938,
+            1726.954833984375
+          ],
+          "confidence": 0.8840659260749817,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            655.3837890625,
+            1684.1607666015625,
+            784.9652709960938,
+            1726.954833984375
+          ],
+          "confidence": 0.8840660452842712,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999995289826402,
+          "confidence_delta": 1.1920928955078125e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_IB270LI_20260902_191040.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 9.98377799987793e-07,
+      "reference": [
+        {
+          "box": [
+            736.4337158203125,
+            1580.787841796875,
+            892.3518676757812,
+            1623.1185302734375
+          ],
+          "confidence": 0.37303587794303894,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1438.1199951171875,
+            1753.105224609375,
+            1561.350341796875,
+            1798.4534912109375
+          ],
+          "confidence": 0.31702616810798645,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            736.4337158203125,
+            1580.787841796875,
+            892.3518676757812,
+            1623.1185302734375
+          ],
+          "confidence": 0.3730340003967285,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1438.1199951171875,
+            1753.105224609375,
+            1561.350341796875,
+            1798.4534912109375
+          ],
+          "confidence": 0.317026287317276,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-07
+        },
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.8775463104248047e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_J0P32A_20260902_192310.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999998135324707,
+      "mean_confidence_delta": 3.2782554626464844e-07,
+      "reference": [
+        {
+          "box": [
+            1417.1614990234375,
+            2073.69677734375,
+            1556.6959228515625,
+            2125.6337890625
+          ],
+          "confidence": 0.9429874420166016,
+          "class_id": 0
+        },
+        {
+          "box": [
+            481.79144287109375,
+            1994.7515869140625,
+            645.4530639648438,
+            2048.97705078125
+          ],
+          "confidence": 0.6898366212844849,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1417.1614990234375,
+            2073.69677734375,
+            1556.6959228515625,
+            2125.6337890625
+          ],
+          "confidence": 0.9429875612258911,
+          "class_id": 0
+        },
+        {
+          "box": [
+            481.79150390625,
+            1994.7515869140625,
+            645.4530639648438,
+            2048.97705078125
+          ],
+          "confidence": 0.6898360848426819,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-07
+        },
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 0.9999996270649414,
+          "confidence_delta": 5.364418029785156e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_JBDHI78_20260902_191613.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 4.172325134277344e-07,
+      "reference": [
+        {
+          "box": [
+            756.0917358398438,
+            1660.179931640625,
+            869.8994140625,
+            1701.584716796875
+          ],
+          "confidence": 0.7837439179420471,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            756.0917358398438,
+            1660.179931640625,
+            869.8994140625,
+            1701.584716796875
+          ],
+          "confidence": 0.7837443351745605,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 4.172325134277344e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_JBDHI78_20260902_191853.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 4.172325134277344e-07,
+      "reference": [
+        {
+          "box": [
+            756.0917358398438,
+            1660.179931640625,
+            869.8994140625,
+            1701.584716796875
+          ],
+          "confidence": 0.7837439179420471,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            756.0917358398438,
+            1660.179931640625,
+            869.8994140625,
+            1701.584716796875
+          ],
+          "confidence": 0.7837443351745605,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 4.172325134277344e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_JBDHI78_20260902_192304.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 4.172325134277344e-07,
+      "reference": [
+        {
+          "box": [
+            756.0917358398438,
+            1660.179931640625,
+            869.8994140625,
+            1701.584716796875
+          ],
+          "confidence": 0.7837439179420471,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            756.0917358398438,
+            1660.179931640625,
+            869.8994140625,
+            1701.584716796875
+          ],
+          "confidence": 0.7837443351745605,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 4.172325134277344e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_JOP32A_20260903_162407.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_L85NL0E_20260902_191043.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.0132789611816406e-06,
+      "reference": [
+        {
+          "box": [
+            1339.1314697265625,
+            1792.012451171875,
+            1454.7763671875,
+            1833.509521484375
+          ],
+          "confidence": 0.7656166553497314,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1339.1314697265625,
+            1792.012451171875,
+            1454.7763671875,
+            1833.509521484375
+          ],
+          "confidence": 0.7656176686286926,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.0132789611816406e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_LATION_20260902_185603.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999992294254674,
+      "mean_confidence_delta": 4.76837158203125e-07,
+      "reference": [
+        {
+          "box": [
+            1441.1190185546875,
+            437.38055419921875,
+            1691.119140625,
+            476.9842224121094
+          ],
+          "confidence": 0.4443075358867645,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.1190185546875,
+            437.38055419921875,
+            1691.119140625,
+            476.98419189453125
+          ],
+          "confidence": 0.4443070590496063,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999992294254674,
+          "confidence_delta": 4.76837158203125e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_LSENNE_20260902_185453.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_M03S65J_20260903_161553.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_MBDH178_20260902_190257.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 4.172325134277344e-07,
+      "reference": [
+        {
+          "box": [
+            756.0917358398438,
+            1660.179931640625,
+            869.8994140625,
+            1701.584716796875
+          ],
+          "confidence": 0.7837439179420471,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            756.0917358398438,
+            1660.179931640625,
+            869.8994140625,
+            1701.584716796875
+          ],
+          "confidence": 0.7837443351745605,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 4.172325134277344e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_MBDH178_20260902_191032.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 4.172325134277344e-07,
+      "reference": [
+        {
+          "box": [
+            756.0917358398438,
+            1660.179931640625,
+            869.8994140625,
+            1701.584716796875
+          ],
+          "confidence": 0.7837439179420471,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            756.0917358398438,
+            1660.179931640625,
+            869.8994140625,
+            1701.584716796875
+          ],
+          "confidence": 0.7837443351745605,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 4.172325134277344e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_N0733V9_20260902_183408.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_N0733V9_20260902_185454.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_N856061_20260902_185409.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999947897391873,
+      "mean_confidence_delta": 1.0728836059570312e-06,
+      "reference": [
+        {
+          "box": [
+            895.5687255859375,
+            1179.0343017578125,
+            968.8401489257812,
+            1206.921630859375
+          ],
+          "confidence": 0.7124016284942627,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            895.5687255859375,
+            1179.034423828125,
+            968.8402099609375,
+            1206.921630859375
+          ],
+          "confidence": 0.7124005556106567,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999947897391873,
+          "confidence_delta": 1.0728836059570312e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_N85606T_20260902_183243.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999991677195015,
+      "mean_confidence_delta": 2.980232238769531e-07,
+      "reference": [
+        {
+          "box": [
+            895.560302734375,
+            1178.9901123046875,
+            968.8950805664062,
+            1206.94970703125
+          ],
+          "confidence": 0.7231221795082092,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            895.560302734375,
+            1178.9901123046875,
+            968.8951416015625,
+            1206.94970703125
+          ],
+          "confidence": 0.7231224775314331,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999991677195015,
+          "confidence_delta": 2.980232238769531e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_OB301GZ_20260902_190332.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999974565191957,
+      "mean_confidence_delta": 1.1920928955078125e-07,
+      "reference": [
+        {
+          "box": [
+            2054.09521484375,
+            1510.43701171875,
+            2172.3984375,
+            1558.430419921875
+          ],
+          "confidence": 0.407174676656723,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            2054.09521484375,
+            1510.4371337890625,
+            2172.3984375,
+            1558.430419921875
+          ],
+          "confidence": 0.40717455744743347,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999974565191957,
+          "confidence_delta": 1.1920928955078125e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_R38BHZ_20260903_162303.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_SATUIVE_20260902_185528.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 8.940696716308594e-07,
+      "reference": [
+        {
+          "box": [
+            1441.197509765625,
+            437.41851806640625,
+            1691.616943359375,
+            476.8310241699219
+          ],
+          "confidence": 0.3998473286628723,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.197509765625,
+            437.41851806640625,
+            1691.616943359375,
+            476.8310241699219
+          ],
+          "confidence": 0.3998464345932007,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 8.940696716308594e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_SHE7762_20260902_191912.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 4.76837158203125e-07,
+      "reference": [
+        {
+          "box": [
+            1359.7496337890625,
+            1764.6529541015625,
+            1484.603271484375,
+            1817.568115234375
+          ],
+          "confidence": 0.5569301843643188,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1359.7496337890625,
+            1764.6529541015625,
+            1484.603271484375,
+            1817.568115234375
+          ],
+          "confidence": 0.5569297075271606,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 4.76837158203125e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_SHE7762_20260902_192322.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 4.76837158203125e-07,
+      "reference": [
+        {
+          "box": [
+            1359.7496337890625,
+            1764.6529541015625,
+            1484.603271484375,
+            1817.568115234375
+          ],
+          "confidence": 0.5569301843643188,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1359.7496337890625,
+            1764.6529541015625,
+            1484.603271484375,
+            1817.568115234375
+          ],
+          "confidence": 0.5569297075271606,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 4.76837158203125e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_SHF7762_20260902_190311.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 4.76837158203125e-07,
+      "reference": [
+        {
+          "box": [
+            1359.7496337890625,
+            1764.6529541015625,
+            1484.603271484375,
+            1817.568115234375
+          ],
+          "confidence": 0.5569301843643188,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1359.7496337890625,
+            1764.6529541015625,
+            1484.603271484375,
+            1817.568115234375
+          ],
+          "confidence": 0.5569297075271606,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 4.76837158203125e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_SHF7762_20260902_191050.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 4.76837158203125e-07,
+      "reference": [
+        {
+          "box": [
+            1359.7496337890625,
+            1764.6529541015625,
+            1484.603271484375,
+            1817.568115234375
+          ],
+          "confidence": 0.5569301843643188,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1359.7496337890625,
+            1764.6529541015625,
+            1484.603271484375,
+            1817.568115234375
+          ],
+          "confidence": 0.5569297075271606,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 4.76837158203125e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_SNV566A_20260903_162249.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_TEREI_20260902_185624.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 4.470348358154297e-07,
+      "reference": [
+        {
+          "box": [
+            1441.109375,
+            437.3779296875,
+            1691.109375,
+            476.9818420410156
+          ],
+          "confidence": 0.44709837436676025,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.109375,
+            437.3779296875,
+            1691.109375,
+            476.9818420410156
+          ],
+          "confidence": 0.44709792733192444,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 4.470348358154297e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_TRTAVR_20260902_185459.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_TWEEEY_20260902_185521.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 3.5762786865234375e-07,
+      "reference": [
+        {
+          "box": [
+            1441.2080078125,
+            437.4942626953125,
+            1693.031982421875,
+            477.0212097167969
+          ],
+          "confidence": 0.43521982431411743,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.2080078125,
+            437.4942626953125,
+            1693.031982421875,
+            477.0212097167969
+          ],
+          "confidence": 0.4352194666862488,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 3.5762786865234375e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ULUSUG_20260902_192308.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ULUSUIGE_20260902_190300.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_V0Z40_20260902_183413.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 4.76837158203125e-07,
+      "reference": [
+        {
+          "box": [
+            1440.98291015625,
+            437.32598876953125,
+            1700.4462890625,
+            476.7129821777344
+          ],
+          "confidence": 0.34916186332702637,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1440.98291015625,
+            437.32598876953125,
+            1700.4462890625,
+            476.7129821777344
+          ],
+          "confidence": 0.34916138648986816,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 4.76837158203125e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_VERAN_20260902_185554.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.5497207641601562e-06,
+      "reference": [
+        {
+          "box": [
+            1441.1146240234375,
+            437.3760986328125,
+            1691.123291015625,
+            476.99237060546875
+          ],
+          "confidence": 0.44914311170578003,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.1146240234375,
+            437.3760986328125,
+            1691.123291015625,
+            476.99237060546875
+          ],
+          "confidence": 0.44914156198501587,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.5497207641601562e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_VERTAN_20260902_185544.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.999999229579227,
+      "mean_confidence_delta": 1.7583370208740234e-06,
+      "reference": [
+        {
+          "box": [
+            1441.11328125,
+            437.380615234375,
+            1691.1231689453125,
+            476.9921875
+          ],
+          "confidence": 0.44862794876098633,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.11328125,
+            437.3806457519531,
+            1691.1231689453125,
+            476.9921875
+          ],
+          "confidence": 0.44862619042396545,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.999999229579227,
+          "confidence_delta": 1.7583370208740234e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_VEZ40_20260902_183418.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 6.854534149169922e-07,
+      "reference": [
+        {
+          "box": [
+            1441.0970458984375,
+            437.2728271484375,
+            1693.176025390625,
+            476.83978271484375
+          ],
+          "confidence": 0.3927595913410187,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.0970458984375,
+            437.2728271484375,
+            1693.176025390625,
+            476.83978271484375
+          ],
+          "confidence": 0.39275890588760376,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 6.854534149169922e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_VEZ40_20260902_185516.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.1920928955078125e-06,
+      "reference": [
+        {
+          "box": [
+            1441.0843505859375,
+            437.27545166015625,
+            1693.1788330078125,
+            476.833740234375
+          ],
+          "confidence": 0.39180272817611694,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.0843505859375,
+            437.27545166015625,
+            1693.1788330078125,
+            476.833740234375
+          ],
+          "confidence": 0.39180153608322144,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_VREZ40_20260902_183416.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999995190536515,
+      "mean_confidence_delta": 8.940696716308594e-07,
+      "reference": [
+        {
+          "box": [
+            1441.2381591796875,
+            437.2164306640625,
+            1695.05078125,
+            476.9329528808594
+          ],
+          "confidence": 0.39113903045654297,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.238037109375,
+            437.2164306640625,
+            1695.05078125,
+            476.9329528808594
+          ],
+          "confidence": 0.39113813638687134,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999995190536515,
+          "confidence_delta": 8.940696716308594e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_VREZCO_20260902_183415.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999992317189443,
+      "mean_confidence_delta": 3.2782554626464844e-07,
+      "reference": [
+        {
+          "box": [
+            1441.2288818359375,
+            437.2164611816406,
+            1695.1058349609375,
+            476.9383239746094
+          ],
+          "confidence": 0.39382752776145935,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.2288818359375,
+            437.2164306640625,
+            1695.1058349609375,
+            476.9383239746094
+          ],
+          "confidence": 0.3938271999359131,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999992317189443,
+          "confidence_delta": 3.2782554626464844e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_VREZCO_20260902_185508.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 6.556510925292969e-07,
+      "reference": [
+        {
+          "box": [
+            1441.21923828125,
+            437.2192077636719,
+            1695.1068115234375,
+            476.93231201171875
+          ],
+          "confidence": 0.39262571930885315,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.21923828125,
+            437.2192077636719,
+            1695.1068115234375,
+            476.93231201171875
+          ],
+          "confidence": 0.3926250636577606,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 6.556510925292969e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_WEEEY_20260902_185526.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999987385667353,
+      "mean_confidence_delta": 1.2516975402832031e-06,
+      "reference": [
+        {
+          "box": [
+            1441.218994140625,
+            437.4157409667969,
+            1691.6171875,
+            476.84771728515625
+          ],
+          "confidence": 0.4011094570159912,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.2188720703125,
+            437.41571044921875,
+            1691.6171875,
+            476.84771728515625
+          ],
+          "confidence": 0.4011082053184509,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999987385667353,
+          "confidence_delta": 1.2516975402832031e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ZEASEA_20260902_182758.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999992312813156,
+      "mean_confidence_delta": 2.682209014892578e-07,
+      "reference": [
+        {
+          "box": [
+            1441.1180419921875,
+            437.3832092285156,
+            1690.99658203125,
+            477.08245849609375
+          ],
+          "confidence": 0.47650080919265747,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.1180419921875,
+            437.3831787109375,
+            1690.99658203125,
+            477.08245849609375
+          ],
+          "confidence": 0.476500540971756,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999992312813156,
+          "confidence_delta": 2.682209014892578e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ZEASEA_20260902_184942.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999995114806922,
+      "mean_confidence_delta": 9.238719940185547e-07,
+      "reference": [
+        {
+          "box": [
+            1441.118408203125,
+            437.3833312988281,
+            1690.99658203125,
+            477.08203125
+          ],
+          "confidence": 0.47631070017814636,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.1185302734375,
+            437.3833312988281,
+            1690.99658203125,
+            477.08203125
+          ],
+          "confidence": 0.47630977630615234,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999995114806922,
+          "confidence_delta": 9.238719940185547e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ZEASEA_20260902_185301.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999995114806922,
+      "mean_confidence_delta": 9.238719940185547e-07,
+      "reference": [
+        {
+          "box": [
+            1441.118408203125,
+            437.3833312988281,
+            1690.99658203125,
+            477.08203125
+          ],
+          "confidence": 0.47631070017814636,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.1185302734375,
+            437.3833312988281,
+            1690.99658203125,
+            477.08203125
+          ],
+          "confidence": 0.47630977630615234,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999995114806922,
+          "confidence_delta": 9.238719940185547e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ZEOCEA8_20260902_182802.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 3.8743019104003906e-07,
+      "reference": [
+        {
+          "box": [
+            1441.136962890625,
+            437.3624572753906,
+            1691.04052734375,
+            477.0863342285156
+          ],
+          "confidence": 0.4792812168598175,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.136962890625,
+            437.3624572753906,
+            1691.04052734375,
+            477.0863342285156
+          ],
+          "confidence": 0.47928160429000854,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 3.8743019104003906e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ZEOCEA8_20260902_184945.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 3.8743019104003906e-07,
+      "reference": [
+        {
+          "box": [
+            1441.1383056640625,
+            437.3624267578125,
+            1691.0394287109375,
+            477.08526611328125
+          ],
+          "confidence": 0.4788009524345398,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.1383056640625,
+            437.3624267578125,
+            1691.0394287109375,
+            477.08526611328125
+          ],
+          "confidence": 0.47880133986473083,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 3.8743019104003906e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ZEOCEA8_20260902_185303.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 3.8743019104003906e-07,
+      "reference": [
+        {
+          "box": [
+            1441.1383056640625,
+            437.3624267578125,
+            1691.0394287109375,
+            477.08526611328125
+          ],
+          "confidence": 0.4788009524345398,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.1383056640625,
+            437.3624267578125,
+            1691.0394287109375,
+            477.08526611328125
+          ],
+          "confidence": 0.47880133986473083,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 3.8743019104003906e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ZOACE8_20260902_182800.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999992312754064,
+      "mean_confidence_delta": 3.5762786865234375e-07,
+      "reference": [
+        {
+          "box": [
+            1441.06591796875,
+            437.38446044921875,
+            1691.012451171875,
+            477.08343505859375
+          ],
+          "confidence": 0.48108765482902527,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.06591796875,
+            437.3844909667969,
+            1691.012451171875,
+            477.08343505859375
+          ],
+          "confidence": 0.4810872972011566,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999992312754064,
+          "confidence_delta": 3.5762786865234375e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_ZOACE8_20260902_184943.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.1920928955078125e-07,
+      "reference": [
+        {
+          "box": [
+            1441.0673828125,
+            437.38446044921875,
+            1691.01123046875,
+            477.0823974609375
+          ],
+          "confidence": 0.4806167483329773,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1441.0673828125,
+            437.38446044921875,
+            1691.01123046875,
+            477.0823974609375
+          ],
+          "confidence": 0.48061662912368774,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_粤B270LI_20260902_191622.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 9.98377799987793e-07,
+      "reference": [
+        {
+          "box": [
+            736.4337158203125,
+            1580.787841796875,
+            892.3518676757812,
+            1623.1185302734375
+          ],
+          "confidence": 0.37303587794303894,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1438.1199951171875,
+            1753.105224609375,
+            1561.350341796875,
+            1798.4534912109375
+          ],
+          "confidence": 0.31702616810798645,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            736.4337158203125,
+            1580.787841796875,
+            892.3518676757812,
+            1623.1185302734375
+          ],
+          "confidence": 0.3730340003967285,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1438.1199951171875,
+            1753.105224609375,
+            1561.350341796875,
+            1798.4534912109375
+          ],
+          "confidence": 0.317026287317276,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-07
+        },
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.8775463104248047e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_粤B270LI_20260902_191902.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 9.98377799987793e-07,
+      "reference": [
+        {
+          "box": [
+            736.4337158203125,
+            1580.787841796875,
+            892.3518676757812,
+            1623.1185302734375
+          ],
+          "confidence": 0.37303587794303894,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1438.1199951171875,
+            1753.105224609375,
+            1561.350341796875,
+            1798.4534912109375
+          ],
+          "confidence": 0.31702616810798645,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            736.4337158203125,
+            1580.787841796875,
+            892.3518676757812,
+            1623.1185302734375
+          ],
+          "confidence": 0.3730340003967285,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1438.1199951171875,
+            1753.105224609375,
+            1561.350341796875,
+            1798.4534912109375
+          ],
+          "confidence": 0.317026287317276,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-07
+        },
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.8775463104248047e-06
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_粤B9A7K7_20260902_191908.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_粤BFX528_20260902_191247.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_粤BFX528_20260902_191451.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_粤BFX528_20260902_191724.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_粤D3S65J_20260902_191411.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_粤D3S65J_20260902_191643.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_粤D792Y8_20260902_192009.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_粤DY97R5_20260902_191914.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.999997274729108,
+      "mean_confidence_delta": 2.384185791015625e-07,
+      "reference": [
+        {
+          "box": [
+            1376.883544921875,
+            1684.5238037109375,
+            1488.30615234375,
+            1729.315673828125
+          ],
+          "confidence": 0.8262830376625061,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1376.883544921875,
+            1684.523681640625,
+            1488.30615234375,
+            1729.315673828125
+          ],
+          "confidence": 0.826282799243927,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.999997274729108,
+          "confidence_delta": 2.384185791015625e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_粤J0P32A_20260902_191618.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999998135324707,
+      "mean_confidence_delta": 3.2782554626464844e-07,
+      "reference": [
+        {
+          "box": [
+            1417.1614990234375,
+            2073.69677734375,
+            1556.6959228515625,
+            2125.6337890625
+          ],
+          "confidence": 0.9429874420166016,
+          "class_id": 0
+        },
+        {
+          "box": [
+            481.79144287109375,
+            1994.7515869140625,
+            645.4530639648438,
+            2048.97705078125
+          ],
+          "confidence": 0.6898366212844849,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1417.1614990234375,
+            2073.69677734375,
+            1556.6959228515625,
+            2125.6337890625
+          ],
+          "confidence": 0.9429875612258911,
+          "class_id": 0
+        },
+        {
+          "box": [
+            481.79150390625,
+            1994.7515869140625,
+            645.4530639648438,
+            2048.97705078125
+          ],
+          "confidence": 0.6898360848426819,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-07
+        },
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 0.9999996270649414,
+          "confidence_delta": 5.364418029785156e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_粤J0P32A_20260902_191859.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999998135324707,
+      "mean_confidence_delta": 3.2782554626464844e-07,
+      "reference": [
+        {
+          "box": [
+            1417.1614990234375,
+            2073.69677734375,
+            1556.6959228515625,
+            2125.6337890625
+          ],
+          "confidence": 0.9429874420166016,
+          "class_id": 0
+        },
+        {
+          "box": [
+            481.79144287109375,
+            1994.7515869140625,
+            645.4530639648438,
+            2048.97705078125
+          ],
+          "confidence": 0.6898366212844849,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1417.1614990234375,
+            2073.69677734375,
+            1556.6959228515625,
+            2125.6337890625
+          ],
+          "confidence": 0.9429875612258911,
+          "class_id": 0
+        },
+        {
+          "box": [
+            481.79150390625,
+            1994.7515869140625,
+            645.4530639648438,
+            2048.97705078125
+          ],
+          "confidence": 0.6898360848426819,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-07
+        },
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 0.9999996270649414,
+          "confidence_delta": 5.364418029785156e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_粤ULUSUG_20260902_191616.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\violation_粤ULUSUG_20260902_191857.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_792Y8_20260903_181551.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_B18JT8_20260903_181612.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.1920928955078125e-07,
+      "reference": [
+        {
+          "box": [
+            1362.0643310546875,
+            2077.363525390625,
+            1500.0794677734375,
+            2127.124755859375
+          ],
+          "confidence": 0.7863394021987915,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1362.0643310546875,
+            2077.363525390625,
+            1500.0794677734375,
+            2127.124755859375
+          ],
+          "confidence": 0.786339282989502,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_B27DLI_20260903_181458.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_B3902L_20260903_181522.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_BN062N_20260903_181526.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_BPT873_20260903_181603.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_BZ33X9_20260903_181401.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 7.450580596923828e-07,
+      "reference": [
+        {
+          "box": [
+            2202.301025390625,
+            1719.111083984375,
+            2326.08447265625,
+            1765.828369140625
+          ],
+          "confidence": 0.34855160117149353,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            2202.301025390625,
+            1719.111083984375,
+            2326.08447265625,
+            1765.828369140625
+          ],
+          "confidence": 0.3485523462295532,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 7.450580596923828e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_CA3G8AZ_20260903_181514.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_G03355_20260903_181118.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_HF7762_20260903_181509.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 2.5331974029541016e-07,
+      "reference": [
+        {
+          "box": [
+            2187.01318359375,
+            1644.148681640625,
+            2302.14501953125,
+            1712.9925537109375
+          ],
+          "confidence": 0.3924705386161804,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1349.2735595703125,
+            1716.4091796875,
+            1462.772705078125,
+            1759.771484375
+          ],
+          "confidence": 0.34052252769470215,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            2187.01318359375,
+            1644.148681640625,
+            2302.14501953125,
+            1712.9925537109375
+          ],
+          "confidence": 0.3924708664417267,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1349.2735595703125,
+            1716.4091796875,
+            1462.772705078125,
+            1759.771484375
+          ],
+          "confidence": 0.3405223488807678,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.7881393432617188e-07
+        },
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 3.2782554626464844e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_JOP32A_20260903_181349.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_MB3S65J_20260903_181154.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 2.980232238769531e-07,
+      "reference": [
+        {
+          "box": [
+            1371.2808837890625,
+            1645.897705078125,
+            1491.889892578125,
+            1692.421142578125
+          ],
+          "confidence": 0.7793566584587097,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1371.2808837890625,
+            1645.897705078125,
+            1491.889892578125,
+            1692.421142578125
+          ],
+          "confidence": 0.7793563604354858,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 2.980232238769531e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_浙B2877B_20260903_181519.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_浙B3S65J_20260903_181259.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_浙B7N9R7_20260903_181502.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 1.7881393432617188e-07,
+      "reference": [
+        {
+          "box": [
+            1429.4344482421875,
+            1867.366943359375,
+            1556.158935546875,
+            1914.400634765625
+          ],
+          "confidence": 0.6554375886917114,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1429.4344482421875,
+            1867.366943359375,
+            1556.158935546875,
+            1914.400634765625
+          ],
+          "confidence": 0.6554377675056458,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.7881393432617188e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_浙B9A7K7_20260903_181504.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_浙BAD246_20260903_181615.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 8.940696716308594e-08,
+      "reference": [
+        {
+          "box": [
+            3042.097412109375,
+            2016.2005615234375,
+            3175.933837890625,
+            2067.8037109375
+          ],
+          "confidence": 0.8185465931892395,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1406.9844970703125,
+            1846.1529541015625,
+            1536.5474853515625,
+            1885.3502197265625
+          ],
+          "confidence": 0.417100727558136,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            3042.097412109375,
+            2016.2005615234375,
+            3175.933837890625,
+            2067.8037109375
+          ],
+          "confidence": 0.8185466527938843,
+          "class_id": 0
+        },
+        {
+          "box": [
+            1406.9844970703125,
+            1846.1529541015625,
+            1536.5474853515625,
+            1885.3502197265625
+          ],
+          "confidence": 0.41710084676742554,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.1920928955078125e-07
+        },
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 5.960464477539063e-08
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_浙BDM178_20260903_181331.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 2.980232238769531e-07,
+      "reference": [
+        {
+          "box": [
+            616.4396362304688,
+            1705.0947265625,
+            733.8687744140625,
+            1751.9769287109375
+          ],
+          "confidence": 0.743803858757019,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            616.4396362304688,
+            1705.0947265625,
+            733.8687744140625,
+            1751.9769287109375
+          ],
+          "confidence": 0.7438035607337952,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 2.980232238769531e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_浙BDR353_20260903_181633.jpg",
+      "reference_count": 2,
+      "candidate_count": 2,
+      "matched_count": 2,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 0.9999995248977342,
+      "mean_confidence_delta": 3.8743019104003906e-07,
+      "reference": [
+        {
+          "box": [
+            1418.63720703125,
+            1850.508056640625,
+            1547.1044921875,
+            1901.8363037109375
+          ],
+          "confidence": 0.7338374853134155,
+          "class_id": 0
+        },
+        {
+          "box": [
+            742.42236328125,
+            1538.0010986328125,
+            855.67041015625,
+            1584.051025390625
+          ],
+          "confidence": 0.2942579388618469,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1418.63720703125,
+            1850.508056640625,
+            1547.1046142578125,
+            1901.8363037109375
+          ],
+          "confidence": 0.7338368892669678,
+          "class_id": 0
+        },
+        {
+          "box": [
+            742.42236328125,
+            1538.0010986328125,
+            855.67041015625,
+            1584.051025390625
+          ],
+          "confidence": 0.2942577600479126,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 1,
+          "candidate_index": 1,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 1.7881393432617188e-07
+        },
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 0.9999990497954685,
+          "confidence_delta": 5.960464477539062e-07
+        }
+      ]
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_浙RPT8731_20260903_181601.jpg",
+      "reference_count": 0,
+      "candidate_count": 0,
+      "matched_count": 0,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": null,
+      "mean_confidence_delta": null,
+      "reference": [],
+      "candidate": [],
+      "matches": []
+    },
+    {
+      "image": "D:\\intelligent_transportation\\intel-transportation\\data\\violations\\压线违章_苏NV566A_20260903_181347.jpg",
+      "reference_count": 1,
+      "candidate_count": 1,
+      "matched_count": 1,
+      "reference_match_rate": 1.0,
+      "candidate_match_rate": 1.0,
+      "mean_iou": 1.0,
+      "mean_confidence_delta": 5.364418029785156e-07,
+      "reference": [
+        {
+          "box": [
+            1420.5601806640625,
+            1897.312744140625,
+            1542.6488037109375,
+            1940.331298828125
+          ],
+          "confidence": 0.812223494052887,
+          "class_id": 0
+        }
+      ],
+      "candidate": [
+        {
+          "box": [
+            1420.5601806640625,
+            1897.312744140625,
+            1542.6488037109375,
+            1940.331298828125
+          ],
+          "confidence": 0.812222957611084,
+          "class_id": 0
+        }
+      ],
+      "matches": [
+        {
+          "reference_index": 0,
+          "candidate_index": 0,
+          "class_id": 0,
+          "iou": 1.0,
+          "confidence_delta": 5.364418029785156e-07
+        }
+      ]
+    }
+  ]
+}

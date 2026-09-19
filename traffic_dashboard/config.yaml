@@ -1,0 +1,10 @@
+cookie:
+  expiry_days: 30
+  key: some_signature_key
+  name: some_cookie_name
+credentials:
+  usernames:
+    admin:
+      email: admin@example.com
+      name: 管理员
+      password: $2b$12$pJX258Ks5IDZG3/bAVS69eXeVTHtfloSm7T9M2UEiRL53bEz/Mw4W

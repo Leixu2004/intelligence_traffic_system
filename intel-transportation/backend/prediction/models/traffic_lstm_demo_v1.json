@@ -1,0 +1,15 @@
+{
+  "model": "traffic_lstm_demo_v1",
+  "model_type": "lstm",
+  "mean": 58.125,
+  "std": 6.514167308807373,
+  "history_steps": 5,
+  "forecast_steps": 4,
+  "bin_seconds": 60,
+  "validation_mse_normalized": 2.66898775100708,
+  "training_windows": 20,
+  "sources": [
+    "C:\\Users\\37535\\Desktop\\实训留痕迹\\基本直线绕城高速重庆\\location1\\1-1_trajectory.xlsx",
+    "C:\\Users\\37535\\Desktop\\实训留痕迹\\基本直线绕城高速重庆\\location1\\1-2_trajectory.xlsx"
+  ]
+}

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html, body, #map { width: 100%; height: 100%; margin: 0; background: #0b1320; }
+    body { overflow: hidden; font-family: "Microsoft YaHei", sans-serif; }
+    .map-status { position: absolute; z-index: 10; top: 12px; left: 12px; padding: 6px 10px; color: #dce9f7; background: rgba(9, 19, 33, .84); border: 1px solid rgba(96, 165, 250, .45); border-radius: 4px; font-size: 12px; }
+  </style>
+  <script>
+    window._AMapSecurityConfig = { securityJsCode: __AMAP_SECURITY_CODE__ };
+  </script>
+  <script src="https://webapi.amap.com/maps?v=2.0&key=__AMAP_KEY__&plugin=AMap.Scale,AMap.ToolBar,AMap.HeatMap"></script>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="map-status" class="map-status">高德 WebGIS · 监测卡口</div>
+  <script>
+    const mapPoints = __MAP_POINTS__;
+    const mapCenter = __MAP_CENTER__;
+    const status = document.getElementById("map-status");
+
+    const showError = (message) => {
+      status.textContent = `高德地图加载失败：${message}`;
+      status.style.color = "#fecaca";
+      status.style.borderColor = "rgba(248, 113, 113, .65)";
+    };
+
+    window.addEventListener("error", (event) => {
+      if (event && event.message) showError(event.message);
+    });
+
+    try {
+      if (!window.AMap || !AMap.Map) {
+        throw new Error("JS API 未加载，请检查 Key、Security Code 与域名白名单");
+      }
+
+      const map = new AMap.Map("map", {
+        viewMode: "2D",
+        zoom: 12,
+        center: mapCenter,
+        mapStyle: "amap://styles/dark",
+        resizeEnable: true
+      });
+
+      if (AMap.Scale) map.addControl(new AMap.Scale({ position: "LB" }));
+      if (AMap.ToolBar) map.addControl(new AMap.ToolBar({ position: "RB" }));
+
+      const markers = mapPoints.map((point) => {
+        const marker = new AMap.Marker({
+          position: [point.lng, point.lat],
+          title: point.name,
+          offset: new AMap.Pixel(-8, -8)
+        });
+        marker.on("click", () => {
+          const content = `<div style="padding:8px 10px;color:#1f2937;min-width:150px"><b>${point.name}</b><br/>车辆数：${point.vehicleCount}<br/>平均速度：${point.averageSpeed} km/h</div>`;
+          new AMap.InfoWindow({ isCustom: false, content, offset: new AMap.Pixel(0, -18) }).open(map, marker.getPosition());
+        });
+        return marker;
+      });
+      map.add(markers);
+
+      if (mapPoints.length > 0 && AMap.HeatMap) {
+        const heat = new AMap.HeatMap(map, { radius: 28, opacity: [0, 0.7] });
+        heat.setDataSet({
+          data: mapPoints.map((point) => ({ lng: point.lng, lat: point.lat, count: Math.max(point.vehicleCount, 1) })),
+          max: Math.max(...mapPoints.map((point) => point.vehicleCount), 1)
+        });
+      }
+      status.textContent = `高德 WebGIS · ${mapPoints.length} 个监测卡口`;
+    } catch (error) {
+      showError(error instanceof Error ? error.message : String(error));
+    }
+  </script>
+</body>
+</html>

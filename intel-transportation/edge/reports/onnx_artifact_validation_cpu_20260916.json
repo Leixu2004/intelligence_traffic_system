@@ -1,0 +1,260 @@
+{
+  "schema_version": "edge-artifact-report/v1",
+  "generated_at_utc": "2026-09-16T04:10:03.423416+00:00",
+  "artifacts": [
+    {
+      "path": "D:\\intelligent_transportation\\intel-transportation\\yolov8n.onnx",
+      "exists": true,
+      "size_bytes": 12677627,
+      "sha256": "b61c3924134cb79d8b3ccaf6c1806247d7435a2f7b270a5c870761215f9dcd63",
+      "checks": {
+        "onnx_checker": {
+          "status": "ok"
+        },
+        "opset": {
+          "status": "ok",
+          "value": 18
+        },
+        "io": {
+          "status": "ok",
+          "errors": []
+        },
+        "quantization": {
+          "status": "ok",
+          "detected": false
+        },
+        "hash": {
+          "status": "ok",
+          "value": "b61c3924134cb79d8b3ccaf6c1806247d7435a2f7b270a5c870761215f9dcd63",
+          "expected": false
+        }
+      },
+      "errors": [],
+      "warnings": [],
+      "ok": true,
+      "opset": {
+        "default": 18,
+        "imports": {
+          "ai.onnx": 18
+        }
+      },
+      "inputs": [
+        {
+          "name": "images",
+          "dtype": "float",
+          "shape": [
+            "batch",
+            3,
+            "height",
+            "width"
+          ],
+          "rank": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output0",
+          "dtype": "float",
+          "shape": [
+            "batch",
+            "Concatoutput0_dim_1",
+            "anchors"
+          ],
+          "rank": 3
+        }
+      ],
+      "quantization": {
+        "detected": false,
+        "node_types": [],
+        "node_count": 0
+      },
+      "provider": {
+        "requested": [
+          "CPUExecutionProvider"
+        ],
+        "available": [
+          "AzureExecutionProvider",
+          "CPUExecutionProvider"
+        ],
+        "selected": [
+          "CPUExecutionProvider"
+        ],
+        "loaded": true,
+        "fallback": false,
+        "status": "ok",
+        "error": null
+      }
+    },
+    {
+      "path": "D:\\intelligent_transportation\\intel-transportation\\models\\exp-7.onnx",
+      "exists": true,
+      "size_bytes": 9620496,
+      "sha256": "b462c046f044b61f5d05a857673dc74321e762744c66acd2f6e806aed553ed3c",
+      "checks": {
+        "onnx_checker": {
+          "status": "ok"
+        },
+        "opset": {
+          "status": "ok",
+          "value": 18
+        },
+        "io": {
+          "status": "ok",
+          "errors": []
+        },
+        "quantization": {
+          "status": "ok",
+          "detected": false
+        },
+        "hash": {
+          "status": "ok",
+          "value": "b462c046f044b61f5d05a857673dc74321e762744c66acd2f6e806aed553ed3c",
+          "expected": false
+        }
+      },
+      "errors": [],
+      "warnings": [],
+      "ok": true,
+      "opset": {
+        "default": 18,
+        "imports": {
+          "ai.onnx": 18
+        }
+      },
+      "inputs": [
+        {
+          "name": "images",
+          "dtype": "float",
+          "shape": [
+            "batch",
+            3,
+            "height",
+            "width"
+          ],
+          "rank": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output0",
+          "dtype": "float",
+          "shape": [
+            "batch",
+            "Concatoutput0_dim_1",
+            "anchors"
+          ],
+          "rank": 3
+        }
+      ],
+      "quantization": {
+        "detected": false,
+        "node_types": [],
+        "node_count": 0
+      },
+      "provider": {
+        "requested": [
+          "CPUExecutionProvider"
+        ],
+        "available": [
+          "AzureExecutionProvider",
+          "CPUExecutionProvider"
+        ],
+        "selected": [
+          "CPUExecutionProvider"
+        ],
+        "loaded": true,
+        "fallback": false,
+        "status": "ok",
+        "error": null
+      }
+    },
+    {
+      "path": "D:\\intelligent_transportation\\intel-transportation\\backend\\prediction\\models\\traffic_lstm_china_kdd2017_candidate_v1.onnx",
+      "exists": true,
+      "size_bytes": 130598,
+      "sha256": "7af33dccb4dc1ff7191dd55277161b886d980ae3467c394c42b5fc803a720aa4",
+      "checks": {
+        "onnx_checker": {
+          "status": "ok"
+        },
+        "opset": {
+          "status": "ok",
+          "value": 17
+        },
+        "io": {
+          "status": "ok",
+          "errors": []
+        },
+        "quantization": {
+          "status": "ok",
+          "detected": false
+        },
+        "hash": {
+          "status": "ok",
+          "value": "7af33dccb4dc1ff7191dd55277161b886d980ae3467c394c42b5fc803a720aa4",
+          "expected": false
+        }
+      },
+      "errors": [],
+      "warnings": [],
+      "ok": true,
+      "opset": {
+        "default": 17,
+        "imports": {
+          "ai.onnx": 17
+        }
+      },
+      "inputs": [
+        {
+          "name": "features",
+          "dtype": "float",
+          "shape": [
+            "batch",
+            6,
+            6
+          ],
+          "rank": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "forecast",
+          "dtype": "float",
+          "shape": [
+            "batch",
+            1
+          ],
+          "rank": 2
+        }
+      ],
+      "quantization": {
+        "detected": false,
+        "node_types": [],
+        "node_count": 0
+      },
+      "provider": {
+        "requested": [
+          "CPUExecutionProvider"
+        ],
+        "available": [
+          "AzureExecutionProvider",
+          "CPUExecutionProvider"
+        ],
+        "selected": [
+          "CPUExecutionProvider"
+        ],
+        "loaded": true,
+        "fallback": false,
+        "status": "ok",
+        "error": null
+      }
+    }
+  ],
+  "summary": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0
+  },
+  "ok": true,
+  "manifest_path": "D:\\intelligent_transportation\\intel-transportation\\edge\\manifests\\onnx_artifacts_20260916.json"
+}

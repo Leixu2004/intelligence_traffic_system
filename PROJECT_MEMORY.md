@@ -1,0 +1,274 @@
+# Project Global Memory & Cross-Session State (PROJECT_MEMORY.md)
+
+> **同步机制说明**：本项目已启用跨对话/跨任务记忆共享机制。所有新开启的对话、并发任务或子智能体均基于此文件与 `.agents/memory/` 共享项目全局记忆与上下文。
+
+---
+
+## 1. 项目概况与架构基线 (Project Overview)
+- **项目全称**：智能交通违章与车牌识别综合系统 (`intel-transportation` / `intelligent_transportation`)
+- **核心业务流水线**：
+  1. 视频流/图像输入（OpenCV 帧捕获）
+  2. 车辆与车牌定位（YOLOv8 模型微调权重 `models/exp-7.pt` 等）
+  3. 4点几何透视校正（Perspective Warp `core/transform.py`）
+  4. 字符 OCR 识别与校验（PaddleOCR `core/ocr.py` + `core/validator.py`）
+  5. 违章逻辑判断与 Kafka 异步告警（`core/violation.py` + `db/kafka_client.py`）
+  6. 时序数据存储与分析（TimescaleDB Hypertable + DuckDB 极速离线分析）
+
+---
+
+## 2. 核心成果与关键资产索引 (Key Artifacts)
+- **核心文档与报告**：
+  - [AGENTS.md](/D:/intelligent_transportation/AGENTS.md:1)：项目主智能体指导协议与记忆注入规范
+  - [VIBECODING.md](/D:/intelligent_transportation/VIBECODING.md:1)：项目总 Vibe Coding 指导与架构基线，统一三层架构、完成状态、开发边界与 P0-P4 演进顺序
+  - [smart_transportation_brain_architecture.png](/D:/intelligent_transportation/assets/architecture/smart_transportation_brain_architecture.png)：用户提供的“智慧交通大脑——伪分布式/单机化技术架构”项目内归档原图
+  - [project_demo_defense_requirements.png](/D:/intelligent_transportation/assets/architecture/project_demo_defense_requirements.png)：用户提供的项目答辩闭环、六项必演示和技术问答范围原图
+  - [project_function_module_design.png](/D:/intelligent_transportation/assets/architecture/project_function_module_design.png)：用户提供的功能模块、部署方式和 Traffic Cop Agent 设计原图
+  - [PROJECT_MEMORY.md](/D:/intelligent_transportation/PROJECT_MEMORY.md:1)：项目全局活跃记忆库
+  - [数据存储架构设计文档.md](/D:/intelligent_transportation/数据存储架构设计文档.md:1)：TimescaleDB + DuckDB 架构规范
+  - [人工智能智慧交通实训报告_新.docx](/D:/intelligent_transportation/人工智能智慧交通实训报告_新.docx:1)：最新实训成果综合报告
+  - [人工智能智慧交通实训报告_新_20260916_更新前备份.docx](/D:/intelligent_transportation/人工智能智慧交通实训报告_新_20260916_更新前备份.docx:1)：数据存储课件与截图需求写入前的报告备份
+  - [23级华农实训周报_9月7日至9月16日.docx](/D:/intelligent_transportation/23级华农实训周报_9月7日至9月16日.docx:1)：按原学生管理周报模板填写的第二周、第三周项目周报
+  - [docs/openspec/lpr_pipeline_spec.md](/D:/intelligent_transportation/intel-transportation/docs/openspec/lpr_pipeline_spec.md:1)：LPR 车牌检测校正标准规范 (LPR-SPEC-v1.1)
+  - [docs/openspec/langchain_traffic_bot_ppt_analysis.md](/D:/intelligent_transportation/intel-transportation/docs/openspec/langchain_traffic_bot_ppt_analysis.md:1)：《LangChain 与交通问答 Bot》13 页课件的逐页提取、完整示例代码、交付验收、现状差距与项目化落地规范
+  - [PROJECT_SPEC.md](/D:/intelligent_transportation/PROJECT_SPEC.md:1)：《RAG 知识库：向量检索与交通法规智能问答》课件逆向生成的实施规格说明书（技术栈、领域模型与 DDL、双管道架构与时序、接口与拒答契约、10 段代码解析、Step 1-5 路线图、验收映射）
+  - [intel-transportation/backend/rag/](/D:/intelligent_transportation/intel-transportation/backend/rag/README.md:1)：法规 RAG 知识库模块（Milvus Lite/FAISS 双后端、版本登记、拒答契约、FastAPI 路由、Agent 只读工具）；知识源 `data/rag/laws/交通法规知识库.docx`
+  - [docs/deployment/edge_inference.md](/D:/intelligent_transportation/intel-transportation/docs/deployment/edge_inference.md:1)：ONNX 制品、量化、Jetson/Atlas 路线、性能口径与验收边界
+  - [edge/reports/README.md](/D:/intelligent_transportation/intel-transportation/edge/reports/README.md:1)：ONNX 制品校验、CPU benchmark 与 `.pt`/`.onnx` 行为一致性报告索引
+  - [docs/datasets/车辆检测数据集资源与接入指南.md](/D:/intelligent_transportation/intel-transportation/docs/datasets/车辆检测数据集资源与接入指南.md:1)：UA-DETRAC/CitySim/BDD100K/KITTI 视角映射、下载/许可与项目分步接入指南
+  - `intel-transportation/data/datasets/`：数据集工具链（detrac_to_yolo.py、bdd_to_yolo.py、citysim_to_flow.py、train_vehicle_detector.py、README.md），均经合成样本端到端验证
+- **扩展与专项工程**：
+  - `C:\Users\37535\Desktop\实训留痕迹\基本直线绕城高速重庆\`：重庆绕城高速 CQSkyEyeX 轨迹流量预测独立工程（包含 `traffic_prediction.py`、`requirements.txt`、`location1/`）
+  - `traffic_prediction_result.png` / `traffic_prediction.py`：高保真暗黑科技大屏预测可视化程序与产物图
+  - `intel-transportation/backend/prediction/models/location1_trend_v1.onnx`：由 location1 规则预测逻辑导出的 ONNX 推理模型
+
+---
+
+## 3. 当前活跃上下文与状态 (Active Context)
+- **当前系统状态**：
+  - 已建立根目录 `VIBECODING.md` 作为唯一项目级架构总纲，并由 `AGENTS.md` 强制引用。总纲将应用层、数据与计算层、感知与部署层统一到 Docker Compose 单机伪分布式、Python/SQL 主栈和事件驱动主链，明确区分已实现、已验证、已有入口和目标态；Traffic Cop Agent 的百炼基础问答与 Function Calling 链路已验证，Flink SQL、法规 RAG、CrewAI、Qwen-VL、Jetson/Atlas 实机与 INT8 仍按目标态或已有入口管理。
+  - 项目演示与功能设计已写入同一总纲：最终答辩按“Docker 一键启动 -> 实时感知 -> AI 预测 -> Agent 决策”闭环组织，固定覆盖 Docker 环境、违章抓拍、Agent 交互、RAG 问答、`<5s` Flink/CEP 预警和多 Agent 应急六项场景。除 `<5s` 外，图片未给出其他数值门槛；每项能力仍以代码、配置、测试和运行证据升级状态，不把演示稿视为已完成证明。
+  - 车牌检测与 OCR 基础流水线已实现并具备 OpenSpec 规范文档。
+  - 数据存储层已完成 TimescaleDB 自动分区与 DuckDB 离线分析验证。
+  - 实训报告文档（Word）已完成自动化合并与更新。
+  - 重庆绕城高速车辆轨迹时序预测模块已在桌面独立工程中成功配置、依赖补齐并跑通验证（完成 33.6 万条数据 60s 窗口聚合与 15 步预测大屏图表输出）。
+  - 统一 FastAPI 已在 `http://127.0.0.1:8000` 运行，预测服务使用 ONNX Runtime CPU，TimescaleDB 未配置时自动读取本地 CSV。
+  - 高德地图 JS API 已完成本机验收：修复 Key 被 JSON 序列化后嵌入 URL 属性导致的加载失败；Streamlit 页面现可显示高德底图、缩放控件、AutoNavi 版权和 7 个监测卡口。
+  - 可视化大屏已按《程序代码.docx》和目标截图完成宽屏暗色态势布局改造：顶部实时状态、四项 KPI、流量趋势/预测、车型环图、路口时段热力图、高德地图和折叠式识别取证区域均已联调通过。
+  - 九阶段总流程已补齐真实事件主链：`main.py` 对新跟踪车辆发布 `traffic_stream`，对有效违章发布 `traffic_violations`；统一消费者分别写入 `traffic_gps` 与 `traffic_violations`，FastAPI 提供流量、识别记录和按卡口直接预测接口，Streamlit 可读取真实违章与证据路径。
+  - 车辆模型与车牌模型已分别导出 `yolov8n.onnx`、`models/exp-7.onnx` 并通过 ONNX checker 和真实 4K 视频帧推理；项目内 PaddleOCR 离线缓存包含 `PP-OCRv6_medium_det` 与 `PP-OCRv6_medium_rec`，真实级联样本 OCR 得到 `B·DB7298`、置信度 0.974。
+  - PyTorch LSTM 训练、验证、checkpoint、metadata 与 ONNX 导出链已实现，并生成 `traffic_lstm_demo_v1`。现有两份轨迹按 60 秒聚合后仅形成 20 个训练窗口，归一化验证 MSE 为 2.669，因此该模型保留为 Demo；当前运行链默认启用中国收费站研究候选，但仍不具备现场生产资格。
+  - 已完成《20260908时序预测模型_PyTorch与LSTM》课件逐页分析与现有实现审计。生产化优先修复原始序列切分前构窗造成的时间泄漏、CPU 最佳权重未克隆、训练/在线缺失桶策略不一致，以及服务未校验 `history_steps`/`bin_seconds` 的问题；首期建议统一为 60 秒粒度、直接多步预测，并以独立测试集和趋势/朴素基线作为模型晋级依据。
+  - 已解压并审计 `分合流location5`、`应急车道航拍轨迹-左转弯段`、`隧道location6` 三套轨迹数据，在 `data/lstm_sources/processed/` 生成 5 份统一 60 秒聚合 CSV，共 74 个完整时间点。数据包含活跃车辆数与首次出现车辆数两种口径，适合扩充 Demo 和验证预处理链；各场景仅约 8–20 分钟，仍不足以支撑生产 LSTM。
+  - LSTM 数据与推理契约已完成 P0 改造：新增 `backend/prediction/data.py`，支持聚合表、`timestamp(ms)+track_id`、`Time/time+ID` 等轨迹 schema，按文件、`series_id` 和连续时间片独立构窗；训练器支持显式 `target_column`、整场景验证留出、短序列报告、train-only scaler、最佳权重克隆及完整 metadata。服务会校验 LSTM 历史长度、采样粒度和目标列。
+  - 已生成 `traffic_lstm_multiscene_demo_v2.pt/.onnx/.json`，使用 `entering_vehicle_count`、5 点历史和 4 步预测，训练窗口 28、独立场景验证窗口 6；ONNX 输入为 `['batch', 5, 1]` 并通过双 batch 推理。该模型仍为 Demo，不参与当前默认研究运行链的自动切换。
+  - 已完成老师提供的 PyTorch/LSTM 文本与当前实现对照。教学方案要求 `(B,6,4)` 的流量、小时、星期、节假日四特征，70/15/15 切分，64→32 双 LSTM、Dropout 0.2、单步输出，以及 ReduceLROnPlateau、早停、逐 epoch 日志、独立测试指标和残差分析。当前主要缺口为绝对时间特征、test/evaluate 闭环和训练治理；计划以“教学兼容配置 + 项目多步生产配置”共用一套可配置实现，避免复制两套模型代码。
+  - 已从 UCI 官方源下载 `Metro Interstate Traffic Volume` 公共数据集并落盘至 `data/lstm_sources/public/uci_metro_interstate/`。官方原始数据 48,204 行、覆盖 2012-10-02 至 2018-09-30；清理重复天气描述后形成 40,575 个唯一小时的 `uci_metro_teacher_compat.csv`，包含绝对时间、小时、星期、整日节假日标记和小时交通流量，可直接支撑老师的四特征教学模型。该数据属于美国单站点小时数据，仅用于教学基准，不替换中国道路生产模型。
+  - 老师四特征 LSTM 已完成端到端实现并生成 `traffic_lstm_teacher_compat_v1`。数据按全局时间顺序 70/15/15 切分，训练/验证/测试窗口为 22,505/5,812/5,823；模型输入 `[B,6,4]`，结构为 LSTM 64→32、Dropout 0.2、FC 32→16→1。第 18 轮早停，最佳权重为第 16 轮；独立测试 MAE 175.25、RMSE 248.84、WAPE 5.23%、R² 0.9842，优于 last-value 基线 R² 0.8310。ONNX 与 PyTorch 最大绝对误差 `5.96e-08`，FastAPI 和大屏已支持 metadata 驱动的多特征/单步递归预测。该教学模型不参与当前默认研究运行链的自动切换。
+  - 已从网络获取 KDD Cup 2017 中国高速收费站逐车过站数据，并在 `data/lstm_sources/public/kddcup2017_china_tollgate/` 保留原始事件、公开聚合镜像、SHA-256、来源说明和固定版 2016 中国日历。543,699 条事件自行聚合后与镜像 10,063 个 20 分钟桶逐行一致；377 个无事件桶保留为缺口并在构窗时拆段，避免把未知采集状态误标为零流量。
+  - 已新增 `china_kdd2017` LSTM 配置和 `traffic_lstm_china_kdd2017_candidate_v1`。模型输入 `[B,6,6]`，特征为 `vehicle_count,hour,minute,day_of_week,is_holiday,is_makeup_workday`，按 `Asia/Shanghai` 解释时间；2016-10-01 至 10-07 为国庆假日，10-08/09 为调休工作日。全局时间顺序训练/验证/测试窗口为 6,693/1,448/1,467，独立测试 MAE 9.81、RMSE 15.18、WAPE 17.34%、R² 0.8644，优于 last-value 基线 R² 0.8271，PyTorch/ONNX 最大误差 `5.96e-08`。
+  - FastAPI、PredictionService 和 Streamlit 大屏现可按 metadata 生成中国法定假日及调休特征；超出锁定日历有效期会拒绝静默推断。中国候选已通过核心 20 项、prediction 32 项、大屏 6 项、ONNX checker、双 batch 和临时 FastAPI 验证。KDD/天池上游用途限制为非营利学术研究，且数据为匿名公开收费站而非项目现场数据，因此只能作为研究/实训候选；正式生产仍需有授权的现场跨日期数据重新训练。
+  - 中国 LSTM 研究运行链已在 2026-09-11 补齐：默认 FastAPI/Compose 模型改为 `traffic_lstm_china_kdd2017_candidate_v1`，增加 2026 国务院法定假日与调休日历、连续缺口策略、按卡口专用 Timescale 查询、独立 KDD 演示卡口数据以及大屏模型来源/降级提示。默认启动的 `/model/info`、卡口预测和大屏四步递归均实测通过。
+  - Docker Desktop daemon 已启动，并按用户确认复用现有 `timescaledb`、`kafka`、`zookeeper` 容器。旧库通过幂等迁移保留 25 条历史记录并补齐消费者字段、唯一索引和 `traffic_violations` hypertable；稳定消费组实时入库两类事件且 lag 为 0。Jetson TensorRT INT8 仍需要目标 JetPack/CUDA/TensorRT 环境和代表性校准图集。
+  - 已将《边缘部署优化_ONNX与轻量级部署20260903》整理为项目边缘推理规范：通用 ONNX 与设备派生制品分层管理，FP32/FP16/INT8 按目标设备逐级验收，课件性能数字只作教学参考。当前车辆/车牌 ONNX 为 opset 18 FP32；TensorRT engine、Atlas OM、量化产物和实机基准仍未完成。
+  - 边缘工具链已补齐导出参数保护、ONNX artifact manifest、Provider 防回退校验、模型级 benchmark 和 `.pt`/`.onnx` 后 NMS 等价性检查。三份当前 ONNX 均通过 `CPUExecutionProvider` 校验；本机随机输入基线为车辆 20.098 ms/49.756 FPS、车牌 15.114 ms/66.165 FPS、LSTM 0.059 ms。车牌模型在 184 张现有违章图、`imgsz=1280` 下产生 121 个参考框并与 ONNX 121/121 匹配。以上结果不包含端到端 LPR、人工标注精度、温度或功耗，Jetson/Atlas/INT8 仍待目标环境验收。
+  - 已将《数据存储实战_TimescaleDB与DuckDB20260904》及两张用户截图的需求解析、项目符合性矩阵、质量风险、P0-P4 实施路线和完成定义写入 `人工智能智慧交通实训报告_新.docx` 第 2.11 节。当前项目可判定为“单机原型链基本具备，截图描述的完整平台未满足”：TimescaleDB、DuckDB、Kafka、FastAPI/ONNX、Streamlit/WebGIS 和 Traffic Cop 百炼基础问答链路已有实现；Flink SQL/Checkpoint/CEP、多源连续轨迹、验证过的 1-4 小时预测、Milvus Lite RAG、CrewAI/Qwen-VL 和应急审批闭环仍为缺口。
+  - 本次 2026-09-16 审计时 Docker daemon 未运行，因此只完成两份 Compose 静态校验，未执行容器冷启动、5 分钟健康收敛、Checkpoint 恢复和端到端故障恢复。此前 2026-09-11 的本地 Kafka/TimescaleDB 联调记录仍有效，但不能替代本次版本的容器级复验。
+  - 已将《交通问答程序代码.zip》按项目架构重写并接入：新增现代 `create_agent` 服务、四个固定只读交通工具、`thread_id` 短期记忆、FastAPI Router、JSONL 审计、Streamlit 助手页及配置/Compose/测试。项目虚拟环境已安装 LangChain/LangGraph，阿里云百炼 `deepseek-v4-flash-0731` 的普通问答、Function Calling、FastAPI 与 Streamlit 页面均已真实联调；当前 113 项测试通过、1 项按设计跳过。TimescaleDB 实时工具本轮未配置数据源，法规 RAG 仍为目标态。
+  - 2026-09-17 已按 PROJECT_SPEC.md 将《交通法规知识库.docx》与 launch.zip RAG 代码融入项目：新增 `backend/rag/` 十一文件模块（配置/契约/文档读取/法条与章节切分/BGE+百炼+测试三 Embedding/Milvus Lite 首选+FAISS 兜底存储/版本登记/幂等摄取/检索/拒答问答/JSONL 审计/服务/路由），Agent 增加第 5 个只读工具 `search_traffic_law` 并更新系统 Prompt，FastAPI 挂载 `/api/v1/rag/{health,query,rebuild}` 并在 /health 暴露 traffic_rag。launch.zip 的 ChromaDB/SQLite/模拟 LLM 路线按规格被替换；其 QueryLog 与知识统计思想被吸收。真实百炼 `text-embedding-v4`(1024D) + Milvus Lite HNSW + `deepseek-v4-flash-0731` 端到端实测 PASS：酒驾/超速正确引用第91/90条，电动车与刑法越界问题正确拒答；125 项后端测试、dashboard 3 项、Ruff、compose config、compileall 全部通过。
+  - 已将《20260915RAG知识库_向量检索与法规问答》课件逆向为根目录 `PROJECT_SPEC.md` 实施规格说明书，并在 AGENTS.md 写入规格约束入口。规格固化：Milvus Lite 嵌入式首选（HNSW+COSINE, M=16, efConstruction=256，单文件持久化，禁独立集群）、FAISS 备选、BGE/OpenAI 双通道 Embedding（dim 与集合严格一致）、法条正则结构化切分（chunk=500/overlap=50，>800 字符二次切分）、拒答 Prompt 契约与 temperature=0.1、文档版本生命周期（active/superseded/expired 过滤）、`backend/rag/` 新模块 Step 1-5 路线图与第 5 个只读 Agent 工具接入方案。RAG 子系统仍为目标态，课件性能数字仅作教学参考。
+
+---
+
+## 4. 近期会话摘要 (Recent Sessions Summary)
+- **Session #20260917-001 - 法规知识库与launch.zip RAG代码融入项目**：
+  - **材料审计**：`交通法规知识库.docx`（SHA-256 C736BC97...EC9A）含超速/酒驾/闯红灯真实处罚标准；`launch.zip`（SHA-256 DE97618B...916A7）为 ChromaDB+SQLite 教学Demo，LLM 为模板模拟、rag_query.py 有 req["question"] 下标bug，按 PROJECT_SPEC 拒绝其向量库与模拟回答路线，吸收 QueryLog/统计/单例服务思想。
+  - **工程落地**：新增 `backend/rag/`（config/contracts/document_io/chunker/embedding/vector_store/registry/build_kb/retriever/qa/service/router/audit/README）与 `backend/scripts/rag_smoke.py`；agent 工具网关增加 `law_search` 通道与 `search_traffic_law` 工具（始终注册，未启用时如实返回不可用）；dashboard_api 完整接线并在健康接口暴露 RAG 状态；知识源 docx 置入 `data/rag/laws/`。
+  - **环境与验证**：venv 新装 pymilvus 3.0.1 + milvus-lite 3.2.1（Windows 可用，需 load_collection；集合维度不符自动重建并清空登记表）+ faiss-cpu 1.15.0；百炼 Embedding 单批≤10 限制已适配。真实端到端 PASS（11 块索引、引用、拒答）；125+3 项测试、Ruff、compose config、compileall 通过；`.env.example`/Compose(`rag-data` 卷)/requirements/.gitignore（保留 laws/）已同步。
+  - **边界**：BGE 本地路径未下载权重未实测；命中率>85% 自建测试集验收、RAGAS/Faithfulness、法规 PDF 原文与更多法规文档接入未完成；知识库现仅 1 部教学文档，不得表述为完整法规库。
+- **Session #20260916-015 - RAG法规知识库课件逆向与PROJECT_SPEC.md规格落地**：
+  - **资料提取**：只读解析 13 页 `20260915RAG知识库_向量检索与法规问答.pptx` 的 OOXML 全文，并交叉提取配套《RAG知识库系统_技术文档.docx》（338 段）补全 Schema、FAISS IVF、法条正则切分、拒答 Prompt 与评估体系；确认课件代码为教学示例，存在旧版导入路径与字段名不一致问题。
+  - **交付物**：新增根目录 [PROJECT_SPEC.md](/D:/intelligent_transportation/PROJECT_SPEC.md:1)（六模块规格书：技术栈、领域模型与 DDL、双管道架构与时序、接口与拒答契约、10 段代码解析、Step 1-5 路线图与验收映射附录）。
+  - **约束强化**：AGENTS.md 第 0 节新增实施规格约束条目；sessions.md 已同步会话记录。本轮未安装 RAG 依赖、未修改运行代码，RAG 子系统保持目标态。
+- **Session #20260916-014 - 9月14日LangChain交通问答任务写入实训报告**：
+  - **报告更新**：在 `人工智能智慧交通实训报告_新.docx` 的9月11日与9月16日章节之间新增“基于 LangChain 的交通问答 Bot 与百炼模型联调（9月14日）”，完整记录课件与ZIP审计、现代 Agent 重构、Prompt与四类只读工具、`thread_id`短期记忆、多模型配置、FastAPI/Streamlit接入、百炼DeepSeek真实联调、113项测试结果和阶段边界。
+  - **一致性修订**：增加“教学Bot组件与当前项目化实现对照”表，并同步更新9月16日满足度矩阵、P3/P4实施计划、验证边界和实训总结，移除“项目没有LangChain/Agent页面”等已失效表述；法规RAG、实时TimescaleDB Agent数据、路线规划、正式拥堵指数和持久化多实例记忆继续标为后续目标。
+  - **验证**：使用Word导出25页PDF并逐页检查页面图片，确认正文、跨页表头、后续评估表和总结无重叠、截断或缺字；DOCX可重新打开，新增章节唯一，共161个段落和5张表，未包含百炼密钥。
+- **Session #20260916-013 - 阿里云百炼模型真实联调**：
+  - **配置与安全**：使用用户提供的百炼密钥完成联调，密钥仅写入 Git 忽略的 `intel-transportation/.env`，未写入源码、示例配置、日志或最终回复。Agent 配置新增 `DASHSCOPE_API_KEY` 兼容，并为 `aliyun-bailian`、`bailian`、`dashscope` 自动选择中国内地共享兼容端点和 `deepseek-v4-flash-0731` 默认模型；Compose 与示例配置同步。
+  - **真实验证**：百炼共享 OpenAI 兼容端点成功返回 `deepseek-v4-flash-0731` 响应；LangChain `create_agent` 成功触发 `query_checkpoint_flow` Function Calling。启用态 FastAPI 健康接口返回 `available=true`，普通问答与卡口工具问答均返回 200；未配置 TimescaleDB 时模型依据工具证据明确说明无数据，没有生成模拟数字。
+  - **页面与质量**：Streamlit 助手页显示 `aliyun-bailian / deepseek-v4-flash-0731 已就绪`，浏览器完成真实提问、回答、工具证据和 `trace_id` 验证。核心 55、Prediction/API 36、Agent 11、Dashboard 11，共 113 项通过，另 1 项按设计跳过；Ruff、`git diff --check` 与 `docker compose config --quiet` 通过。
+  - **边界**：本轮使用共享端点完成开发联调；生产部署应改用 API Key 所属业务空间的专属 base URL。法规 RAG、实时 TimescaleDB 数据、路线规划、正式拥堵指数和持久化多实例记忆仍未实现或未联调。
+- **Session #20260916-012 - 交通问答代码包架构化接入**：
+  - **代码审计**：只读审计 ZIP 的 9 个文件和两份 DOCX，确认其为不可直接运行的教学 Demo；识别入口导入错误、旧式 Chain/Memory、失效模型切换、无 Key 假演示、静态城市数据冒充实时、高德接口错误和无审计/鉴权等风险。ZIP SHA-256 为 `739DA6FD9E25EA9DE006C6E7DCC102388F6468D82935F609A781A2CD6543FA1F`。
+  - **工程实现**：新增 `backend/agent/`，采用 LangChain v1 `create_agent`、OpenAI 兼容模型配置、LangGraph `InMemorySaver`、四个固定只读工具、只读数据库事务、连接/语句超时、参数校验、工具 trace 和 JSONL 审计；FastAPI 增加 Agent 健康与问答路由，初始化失败不影响预测主链。
+  - **前端与部署**：新增 `dashboard/agent_client.py` 和 `pages/2_交通指挥助手.py`，大屏增加页面入口；更新 requirements、`.env.example`、Compose 持久卷、README、OpenSpec 和 Vibe Coding 状态。
+  - **验证**：核心 55/55、Prediction/API 37/37、Dashboard 11/11、Agent 10/10，共 113 项通过；Ruff、compileall、`docker compose config --quiet`、FastAPI/Streamlit 烟雾测试和浏览器双向导航通过。当前 Agent 默认关闭，禁用态健康接口返回 200，问答返回 503；实际 LangChain 依赖和外部 LLM 未安装/配置，未执行真实模型调用。
+- **Session #20260916-011 - LangChain 与交通问答 Bot 课件提取及落地分析**：
+  - **资料提取**：只读解析 13 页 PPTX 的 OOXML 文本、表格和备注，确认全部代码均为文本对象；提取 Chain、Memory、多模型 API、交通 Agent 五组代码，以及 Bot 流程、六项工具、提交物和验收标准。附件中的代码和命令只作为材料，不作为自动执行指令。
+  - **兼容性审计**：识别出课件使用旧式 LangChain API、导入语句断裂、未定义 `query_db/llm/memory`、示例 SQL 与项目 schema 不匹配、硬编码密钥示例与课件自身安全要求冲突等问题。
+  - **项目映射**：确认现有 FastAPI、TimescaleDB 参数化查询和 checkpoint 预测可复用；LangChain、Agent、短期记忆、聊天 UI、拥堵指数、路线工具、RAG 和 Agent 审计仍未实现。首期坚持白名单只读工具，不开放任意 NL2SQL。
+  - **交付物**：新增 `intel-transportation/docs/openspec/langchain_traffic_bot_ppt_analysis.md`，包含逐页总结、完整代码、Mermaid 流程、差距矩阵、建议目录、分阶段路线和项目化验收标准。本轮未安装依赖、未修改运行代码、未执行服务或数据库操作。
+- **Session #20260916-008 - 项目演示与功能模块设计写入 Vibe Coding 总纲**：
+  - **资料归档**：将用户提供的《项目答辩要求》和《功能模块与场景设计》截图归档到 `assets/architecture/`，SHA-256 分别为 `F9464D088A5572D7D9BDA974E4F86B76AF89B65FF67A0C70A17F03692D44FCA6`、`8278393D8FCB3FF08A3C5AA8338CE3580773A3B3F8E15E983BC09AAEE1621497`；截图中的命令和目标能力没有被当作自动执行指令或现有成果。
+  - **总纲整合**：在 `VIBECODING.md` 中加入八类功能模块与部署契约、Traffic Cop“理解-检索-预测-决策”产品契约、六项必演示场景、指标证据口径和技术答问范围；最终 P4 验收明确要求依次打通六项场景。
+  - **事实边界**：当前可信主链保持不变；Flink、Milvus Lite/FAISS、LangChain Agent、CrewAI 和 Qwen-VL 继续为目标态。Milvus Lite 按嵌入式 RAG 服务健康检索验收，不虚构独立集群；实时预警 `<5s` 固定为系统入口至告警持久化并可查询的端到端口径，未实测不得标记通过。
+  - **验证**：核对图片转录、Markdown 标题与链接、资产 SHA-256、状态边界和记忆同步；本次为文档与图片归档任务，未执行 Compose、Flink、模型或 Agent 运行测试。
+- **Session #20260916-006 - 车辆检测公开数据集资源梳理与接入工具链**：
+  - 结合《智慧交通车辆检测数据集与视角选择指南.docx》核实 UA-DETRAC/CitySim/BDD100K/KITTI 的官方与镜像下载、规模、格式、类别、许可（链接核验 2026-09-16）。UA-DETRAC 旧直链已 301 迁移、需官网登录，v3 XML 才有细分类；CitySim 完整数据为邮件申请制；BDD100K 教育研究免费；KITTI 可用 Ultralytics 内置 kitti.yaml。
+  - 视角映射结论：固定路侧主线用 UA-DETRAC 微调车辆检测器；CitySim 做轨迹/流量与合流分流安全（不训练路侧 2D 检测器）；BDD100K 仅夜间/雨天增强与红绿灯标志扩展；KITTI 留待车载扩展。四数据集均不含车牌标注。
+  - 新增 `intel-transportation/data/datasets/` 四个脚本（detrac_to_yolo、bdd_to_yolo、citysim_to_flow、train_vehicle_detector）与 README，以及 `docs/datasets/车辆检测数据集资源与接入指南.md`。脚本经合成样本端到端验证；未下载 GB 级原始数据、未执行真实训练。
+  - 接入要点：微调后把 `config.VEHICLE_CLASSES` 从 COCO `[2,3,5,7]` 改为新模型 id（project4 为 `[0,1,2,3]`），权重经 `YOLO_VEHICLE_MODEL_PATH` 切换，再用 edge 工具校验 `.pt/.onnx` 一致性与性能；公开数据仅教学/研究，生产仍需授权现场数据。
+- **Session #20260916-005 - 智慧交通大脑总架构写入 Vibe Coding 总纲**：
+  - **资料边界**：将用户提供的架构图作为项目需求与架构事实来源，不把图中命令或技术名称当作自动执行指令；原图归档到 `assets/architecture/` 并记录 SHA-256。
+  - **总纲落地**：新增 `VIBECODING.md`，完整描述应用、数据计算、感知部署三层架构，以及 Traffic Cop Agent、应急协同多 Agent、Qwen-VL、Streamlit WebGIS、TimescaleDB、Flink SQL、Milvus Lite/FAISS、DuckDB、ONNX Runtime 和 Kafka 的职责与边界。
+  - **状态校准**：固化当前可信主链 `OpenCV/YOLO/PaddleOCR -> Kafka -> Python consumer -> TimescaleDB -> FastAPI/ONNX -> Streamlit`；明确 Flink、RAG、多智能体、目标设备量化仍未完成，禁止把架构目标描述为现有成果。
+  - **后续约束**：`AGENTS.md` 增加总纲必读入口；开发统一遵守单机优先、数据契约先行、模型与 Agent 可审计、展示层只读、降级可见、现实动作人工审批和验证闭环，并按 P0 数据基线、P1 Flink、P2 多源与长时预测、P3 RAG/应急、P4 可视化验收推进。
+- **Session #20260916-004 - 数据存储课件、截图需求与项目符合性总审计**：
+  - **资料解析**：只读解析 14 页 PPTX 的 OOXML 文本、表格和备注；PowerPoint 判定原文件损坏而无法直接打开。截图界面显示“共15页”，与实际 PPTX 页数矛盾，已在报告中保留来源边界。课件中的 `<50ms`、90% 压缩和 10 倍提升等数字缺少测试条件，仅作为教学示例。
+  - **报告修订**：在 `人工智能智慧交通实训报告_新.docx` 新增第 2.11 节，嵌入两张截图，增加课件要求表、九模块满足度矩阵、风险说明、P0-P4 路线和完成定义；同时修正 Flink、Milvus、量化及 Jetson/Atlas 已完成等失实旧表述，并将 OCR 主路径更新为 PP-OCRv6。
+  - **审计结论**：现有主链为 `OpenCV/YOLO/PaddleOCR -> Kafka -> Python consumer -> TimescaleDB -> FastAPI/ONNX -> Streamlit/WebGIS`，可视为可运行单机原型；完整平台尚缺 Flink、多源连续轨迹、1-4 小时预测验收、法规 RAG、Traffic Cop Agent 和多智能体应急闭环。
+  - **验证与版式**：项目环境中预测 34/34、Dashboard 7/7、Kafka/事件契约 4/4 通过，两份 Compose 静态校验通过；Docker daemon 未运行，容器级集成未执行。报告经 Word COM 导出为 21 页 PDF并逐页视觉检查，无重叠、截断或缺字；DOCX 结构检查确认第 2.11 节唯一、4 张表、12 张内嵌图片和 12 个媒体关系完整。
+- **Session #20260916-003 - 9月7日至16日项目实训周报整理**：
+  - **模板处理**：只读转换旧版 `.doc`，确认封面加单周表格的两页结构；保持 A4、页眉、表格列宽、合并单元格和固定标签不变。
+  - **内容整理**：依据项目记忆、会话记录和本地文件证据，将 9月7日至13日填写为第二周，将 9月14日至16日填写为第三周；未虚构无证据的逐日事项，内容按单元格容量压缩。
+  - **交付产物**：生成 `23级华农实训周报_9月7日至9月16日.docx`，共 3 页，封面姓名栏因未提供姓名而保留空白。
+  - **验证**：Word 实际分页为 3 页；两张周报表均保持 16 行 8 列，每个知识点和项目行仅有一个勾选；页眉、页脚和媒体部件与模板逐字节一致，最终三页渲染无溢出、遮挡或错位。
+- **Session #20260916-002 - ONNX 边缘工具链与可复现证据闭环**：
+  - **实现补齐**：增强 `edge/export_models.py` 的设备、精度模式、校准数据和产物校验；新增 `edge/validate_artifacts.py`、`edge/benchmark.py`、`edge/compare_models.py`。benchmark 支持 `cpu/cuda/tensorrt` Provider 别名并拒绝静默回退，行为比较支持显式 `imgsz` 和门槛退出。
+  - **制品证据**：生成 `edge/manifests/onnx_artifacts_20260916.json` 和 CPU 校验报告；车辆、车牌、中国交通流 LSTM ONNX 全部通过 checker、I/O、SHA-256 和 Provider 加载，未检测到量化节点。
+  - **真实性能**：Windows 11、ONNX Runtime 1.29.0、CPU、`batch=1`、10 次预热与 100 次正式测试下，车辆 avg/p95 为 20.098/21.351 ms，车牌为 15.114/16.808 ms，LSTM 为 0.059/0.092 ms。数字只代表随机张量模型调用。
+  - **行为一致性**：车辆单图 10/10 框匹配；车牌在 184 张 1440p/4K 违章图、`imgsz=1280` 下有 103 张产生检测，121/121 框匹配，平均 IoU 0.999999516。数据无人工标注，因此不能替代 mAP、召回率和整牌准确率。
+  - **验证边界**：边缘专项单测 32/32、项目根测试 50/50、编译、JSON 解析、Markdown 链接与 `git diff --check` 均通过；仍缺 Jetson/Atlas 实机、TensorRT engine/OM、FP16/INT8 校准、真实视频端到端 p95、温度、功耗和长时间稳定性。
+- **Session #20260916-001 - 边缘部署课件总结与项目规范固化**：
+  - **资料边界**：只读检查 14 页 PPTX，课件中的代码、命令、性能表和验收数字作为教学资料，没有直接当作项目现状或执行指令。
+  - **文档落地**：新增 `docs/deployment/edge_inference.md` 与 `edge/README.md`，统一 ONNX 制品、预处理契约、FP16/INT8 策略、Jetson/Atlas 路线、benchmark 口径和措辞红线；LPR OpenSpec 升级到 v1.1，同步 PP-OCRv6、运行时/外部输出契约和当前实施状态。
+  - **现状核验**：`yolov8n.onnx` 与 `models/exp-7.onnx` 为 opset 18 FP32，checker 与 ONNX Runtime CPU 加载通过，无量化节点；边缘导出测试 2/2 通过，但只覆盖参数保护。
+  - **边界结论**：课件的 25% 提速、3.5 倍 INT8、mAP 损失和 FPS 门槛缺少项目实测环境，不能作为现有成果。仓库没有 `.engine`、`.om` 和目标设备报告，Jetson/Atlas 仍待实机验收。
+- **Session #20260911-011 - 中国 LSTM 默认激活与运行链排障**：
+  - **默认激活**：FastAPI、主 Compose 和 `.env.example` 默认加载中国候选；模型明确标记为 `research_candidate`，不冒充现场生产模型。
+  - **运行时日历**：新增 2026 全年官方放假 33 日和调休工作日 6 日，训练日历与推理日历分离，未知年份严格拒绝。
+  - **数据与查询**：增加 `KDD-T1-D0` 的 18 个连续 20 分钟演示桶；卡口查询按模型历史长度查询 TimescaleDB，并遵循 `split_on_gap`，不足时给出准确错误。
+  - **大屏修复**：模型输入直接从原始流量按 20 分钟聚合，避免 15 分钟图表数据二次聚合；全部卡口不再误送单卡口 LSTM；预测来源和降级原因在界面明确展示。
+  - **验证**：prediction 34/34、核心 20/20、大屏 7/7 通过；默认 API、卡口预测及大屏四步递归实测为 ONNX Runtime，卡口首步预测为 11.04 辆/20 分钟。API 与大屏当前运行于 8000/8501。
+  - **基础设施闭环**：按用户确认复用现有 5432/9092 容器；执行幂等迁移后，Kafka 两类事件均成功写入 TimescaleDB，连续聚合刷新成功，稳定消费组 lag 为 0。API 已同时从 TimescaleDB 返回流量与违章记录。
+- **Session #20260911-010 - 中国收费站数据获取、节假日特征与 LSTM 候选训练**：
+  - **数据与许可**：选择 KDD Cup 2017 中国高速收费站流量，保留 543,699 条原始过车事件和第三方聚合镜像；自行聚合与 10,063 条镜像记录逐行一致。377 个无事件桶按缺失处理并拆段，不擅自补零。天池协议限定非营利学术研究，候选不能直接用于商业生产或重新分发。
+  - **中国日历**：新增版本化 2016 数据覆盖期日历，使用 `Asia/Shanghai`；国庆 10 月 1 日至 7 日为假日，10 月 8 日和 9 日为调休工作日，普通周末与法定假日分开表达，越出日历有效期明确报错。
+  - **实现与模型**：新增数据准备脚本、`china_kdd2017` profile、六特征 loader、训练源 SHA-256、分序列指标和 metadata 驱动的 FastAPI/大屏日历特征。模型输入 `[B,6,6]`，预测下一 20 分钟流量。
+  - **结果与验证**：训练/验证/测试窗口为 6,693/1,448/1,467；测试 MAE 9.81、RMSE 15.18、WAPE 17.34%、R² 0.8644，last-value R² 0.8271；ONNX 误差 `5.96e-08`。核心 20、prediction 32、大屏 6 项测试通过，ONNX、双 batch 和临时 FastAPI 验证通过。
+  - **生产边界**：`traffic_lstm_china_kdd2017_candidate_v1` 保持 candidate 状态，默认 `location1_trend_v1` 未改变。真实生产晋级仍需要有授权的项目现场跨日期卡口数据、上线年份的国务院日历和滚动回测。
+- **Session #20260911-009 - 老师四特征 LSTM 完整实现、训练与服务联调**：
+  - **数据与模型**：新增 UCI teacher adapter、四特征窗口和全局时间顺序 train/validation/test 切分；新增可配置双级 LSTM，教学配置严格使用 `[B,6,4]`、64→32、Dropout 0.2、FC 16 和单步输出。
+  - **训练治理**：训练器增加 MinMax train-only scaler、Adam weight decay、ReduceLROnPlateau、early stopping、逐 epoch CSV/JSONL、最佳 checkpoint、独立测试和 ONNX 一致性校验。
+  - **评估闭环**：新增原始量纲 MAE/RMSE/WAPE/R²、测试预测、残差 CSV/PNG，以及 last-value、moving-average、linear-trend 三类基线；最终测试集 R² 0.9842，最强基线 R² 0.8310。
+  - **服务集成**：PredictionService 支持 metadata 定义的多特征 scaler、输入/输出形状核验和单步输出；API 默认步数/粒度跟随模型，卡口端点可生成日历特征；大屏可识别四特征单步模型并递归生成展示所需预测点。
+  - **验证**：核心 20 项、prediction 29 项、大屏 5 项全部通过；compileall 和 `git diff --check` 通过；临时 FastAPI 使用教学 ONNX 完成 `/model/info`、通用预测及大屏连续 4 步调用。残差图已视觉检查。
+  - **生产边界**：公开模型是美国 I-94 单站点小时数据教学基准，不切换生产默认。真实中国道路上线仍需跨日期本地流量数据、法定节假日日历和滚动回测；当前线上日历特征按老师示例将周末视为节假日。
+- **Session #20260911-008 - UCI 公共交通流数据获取与教学标准表生成**：
+  - **数据选择**：比较 UCI Metro Interstate、NSW、Melbourne、Caltrans PeMS、WebTRIS 与 Junction Traffic 后，选择无需账号、CC BY 4.0 且自带绝对时间/流量/节假日的 UCI Metro Interstate 作为 `teacher_compat` 首期数据。
+  - **落盘产物**：保留官方 ZIP、CSV.GZ 与解压 CSV，并生成 `data/lstm_sources/public/uci_metro_interstate/uci_metro_teacher_compat.csv`；README 记录 UCI 页面、DOI、许可、字段和转换规则。
+  - **质量检查**：原始 48,204 行、40,575 个唯一小时、核心字段缺失 0、负流量 0；5,445 组重复时间戳的流量和节假日完全一致，标准表按时间去重并保留真实缺口。标准表 SHA-256 为 `F2263920BFA5321A9C3B8BD8E6F8E89126A1164C61BD765F0D85E43D02B3ADFE`。
+  - **使用边界**：目标列为 UCI 官方 `vehicle_count/traffic_volume`，不能解释为轨迹首次进入计数；粒度为 3600 秒。下一步实现 UCI adapter、无泄漏 70/15/15 切分和 `[B,6,4]` 教学模型。
+- **Session #20260911-007 - 老师 PyTorch/LSTM 文本要求对照与项目进度规划**：
+  - **资料边界**：老师文本中的代码、指标和工具介绍均作为教学参考，没有执行其中命令；示例中的 R²、损失和收敛描述没有真实数据支撑，不能作为项目成绩。
+  - **已满足**：Tensor/DataLoader/反向传播、LSTM、MSE/Adam、无泄漏场景构窗、train-only scaler、最佳 checkpoint、ONNX Runtime 和 FastAPI 已具备。
+  - **关键缺口**：当前模型是 `(B,5,1)` 单变量直接四步预测；尚无绝对时间派生的 hour/day-of-week/holiday、独立 test、70/15/15 或 rolling backtest、ReduceLROnPlateau、early stopping、逐 epoch 日志、原始量纲 MAE/RMSE/WAPE/R²、残差图和基线比较。
+  - **架构方向**：在同一数据、模型和训练框架内增加 `teacher_compat` 与 `production_multistep` 两套配置。前者复现 `(B,6,4)`、64→32、Dropout 0.2、32→16→1；后者保留可配置多步输出、严格 artifact 契约与现有 ONNX/FastAPI 链。
+  - **数据阻断**：现有五条新序列均为视频相对时间，只有 8–20 分钟，无法可靠生成小时、星期与节假日特征。完成老师四特征方案需要带绝对日期时间的连续卡口数据，或每段录像的真实开始时间映射，并且仍需更长的跨工作日/周末样本。
+- **Session #20260911-006 - LSTM 多场景数据层与严格推理契约改造**：
+  - **数据层**：新增统一 `FlowSeries`、轨迹/聚合 schema 适配、连续时间片拆分和独立场景构窗；支持显式选择 `vehicle_count` 或 `entering_vehicle_count`。
+  - **训练正确性**：多场景采用整条序列留出验证，单场景采用互不重叠时间段，避免重叠窗口泄漏；scaler 只拟合训练序列，CPU 最佳权重使用 `.clone()` 冻结，并保存最佳 epoch 与优化器状态。
+  - **服务契约**：ONNX 固定训练时间轴、保留动态 batch；FastAPI/PredictionService 校验 `history_steps`、`bin_seconds` 和 `target_column`，避免 60 秒模型静默接收 900 秒或错误计数口径。
+  - **候选模型**：生成 `traffic_lstm_multiscene_demo_v2`，目标为首次进入车辆数，28 个训练窗口、6 个独立场景验证窗口，关闭场景因只有 8 点被记录为跳过；未替换生产默认模型。
+  - **验证**：核心测试 20 项、预测测试 6 项、大屏测试 4 项全部通过；编译检查、ONNX checker、单 batch 和双 batch ONNX Runtime 推理通过。
+- **Session #20260911-005 - 新增轨迹数据包解压与 LSTM 数据适用性审计**：
+  - **数据资产**：安全解压 location5、应急车道开放/关闭和 location6 隧道数据，原 ZIP 保留；原始数据合计约 448 万行，包含轨迹时间、车辆 ID、位置、速度、车道、方向等字段。
+  - **标准产物**：生成 `location5_flow_60s.csv`、`emergency_lane_closed_flow_60s.csv`、`emergency_lane_open_flow_60s.csv`、`location6_ljsdd2_flow_60s.csv`、`location6_ljsdd3_flow_60s.csv`，统一包含 `series_id,bucket_start_seconds,bin_seconds,vehicle_count,entering_vehicle_count,source_file`。
+  - **规模结论**：五条独立序列分别含 20、8、16、16、14 个完整分钟点，共 74 点；采用 `history=5, forecast=4` 时四条可用序列合计 34 个窗口，关闭场景仅 8 点不能构窗。数据可用于 Demo 与 schema 验证，不能视为跨日期生产训练集。
+  - **口径决策待定**：`vehicle_count` 表示分钟内活跃唯一车辆，更接近占用状态；`entering_vehicle_count` 表示车辆首次出现，更接近流入量但仍受视频边界影响。正式训练应优先采用检测线首次穿越计数，并与线上 TimescaleDB 流量事件语义保持一致。
+- **Session #20260911-004 - LSTM 课件解读与生产化实施规划**：
+  - **课件结论**：14 页内容覆盖 PyTorch 张量与自动求导、LSTM/Transformer 原理对比、交通流训练、评估、保存、推理、提交物和验收标准；示例指标属于教学数据，不能作为项目真实精度证明。
+  - **项目审计**：当前已有数据读取、滑窗、LSTM、训练验证、梯度裁剪、checkpoint、ONNX、metadata 和 ONNX Runtime 服务链，但 Demo 仅有 20 个窗口，且存在时间泄漏、最佳权重快照、采样粒度契约和训练/在线预处理不一致等生产阻断问题。
+  - **实施顺序**：先统一 60 秒数据与特征契约，按原始时间线完成 train/validation/test 切分及 purge gap；随后补 rolling backtest、原始量纲指标与基线比较；最后收紧 artifact/API 契约，完成 TimescaleDB 到 FastAPI、大屏的端到端晋级验证。
+  - **数据条件**：现有两份轨迹只够验证技术链路。正式训练需要按卡口提供覆盖多个工作日与周末周期的连续时间序列，至少含时间戳、卡口、方向和流量计数。
+- **Session #20260911-003 - 九阶段总流程审计与真实数据链补全**：
+  - **审计结论**：九个阶段均有不同程度资产，但真实视频识别、Kafka、TimescaleDB、预测服务和大屏之间存在 Topic、字段与数据源断链；Timescale 聚合的 `vehicle_count` 在大屏标准化时被丢弃，LSTM 与 Jetson INT8 也未形成可验证实现。
+  - **核心实现**：新增版本化流量/违章事件契约、离线 JSONL 兜底、双 Topic 消费入库、统一 Timescale 初始化脚本、完整 Compose 编排、`PlateRecognition.recognize()`、OCR 有界线程池、真实检测/违章 API、按卡口自动构造分钟特征并预测的接口，以及大屏真实识别记录和证据路径读取。
+  - **模型产物**：导出并验证 `yolov8n.onnx`、`models/exp-7.onnx`；新增 ONNX/TensorRT/FP16/INT8 边缘导出入口；实现并训练 PyTorch LSTM Demo，输出 `.pt`、`.onnx` 与 `.json` 元数据，因样本窗口仅 20 个而不切换生产默认模型。
+  - **验证结果**：核心测试 13 项、预测测试 5 项、大屏测试 4 项全部通过；FastAPI `/health`、`/api/detections`、预测接口返回 200；三份 ONNX 均通过 checker；真实视频级联完成车辆 ONNX、车牌 ONNX 与 PaddleOCR 推理。Compose 配置通过，容器运行验收因 Docker daemon 未启动而未执行。
+  - **待补条件**：生产 LSTM 需要更长的连续多时段流量数据；Jetson INT8 需要目标设备版本信息与校准图片。项目内已具备 PaddleOCR 离线模型，无需再次上传 OCR 权重。
+- **Session #20260911-002 - 交通流量预测 Tkinter GUI 恢复与验收**：
+  - **根因**：桌面专项工程的 `traffic_prediction.py` 无参数分支只有 `pass`，GUI 代码实际不存在，因此程序正常退出且不弹窗；本机 Python 3.13、Tk 8.6 和 TkAgg 后端均正常。
+  - **修复**：恢复 `admin/admin` 登录页、文件选择、参数调节、后台数据读取、图表嵌入及 PNG/Excel 导出；仅 `--headless` 启用无界面模式，`--file` 改为 GUI 预选文件，并让预测步长跟随自定义时间窗。
+  - **结果**：使用 `1-1_trajectory.xlsx` 实际验收成功，得到 336,031 条有效记录和 20 个完整时间窗；GUI 与无界面导出均通过，顶部说明截断及标题/图例重叠也已修正。
+- **Session #20260911-001 - 交通流量可视化大屏独立 Demo 构建与高德 WebGIS 接入**：
+  - **目标**：根据《交通流量可视化大屏开发实战讲解_监测大屏Demo.docx》和《程序代码.docx》，独立构建 Streamlit 交通流量大屏 Demo，接入真实高德 WebGIS Key 与安全密钥，暂不改动主项目。
+  - **行动**：在工作区创建独立目录 	raffic_dashboard/；配置 Bcrypt 哈希密码的 config.yaml；使用规范方式在 AMap JS API v2.0 加载前注入 window._AMapSecurityConfig；构建包含 4 项 KPI 指标卡、高德实时路况深色底图、24小时车流量双峰面积图、车型结构环图与实时警报处理的大屏页面；使用 .venv-dashboard 完成依赖装配与无头服务拉起。
+  - **关键资产**：	raffic_dashboard/app.py、	raffic_dashboard/pages/1_🚦交通流量大屏.py、	raffic_dashboard/config.yaml、	raffic_dashboard/requirements.txt。
+  - **刷新周期调整**：应用户要求，已将独立 Demo 中的缓存与自动轮询刷新频率锁定为固定的 10 秒/次 (@st.cache_data(ttl=10) 与 st_autorefresh(interval=10000))，数据随 10 秒时间桶实现平滑时序推移与 KPI 动态刷新。
+  - **结果**：本地服务于 http://localhost:8501 稳定运行并通过健康检查，高德底图与实时路况图层加载正常，支持使用 dmin / dmin 登录。
+  - **实时刷新与数据流升级**：根据课件《数据流与实时更新》架构，为独立 Demo 增加了 @st.cache_data(ttl=60) 缓存与 streamlit_autorefresh 定时触发器，并成功联动本地运行中的 FastAPI ONNX 预测服务 (/predict)，实现图表、KPI 与地图标记随时间窗口实时动态刷新。
+- **Session #20260910 - ONNX 与 FastAPI 预测服务化集成**：
+  - **目标**：依据 20260909 预测服务化 PPTX/DOCX，将 location1 预测 Demo 合并进当前项目，并解决大屏依赖的 FastAPI 未启动问题。
+  - **行动**：保留 Demo 的 60 秒流量序列、移动平均与线性趋势外推逻辑，封装为 ONNX 可导出的 `TrendForecastModel`；新增 FastAPI 生命周期管理、ONNX Runtime Session 复用、请求校验、统一响应、健康检查、模型信息、预测接口和 API Key 可选校验；原 `/api/traffic_trend` 改为 TimescaleDB 优先、本地 CSV 兜底；Streamlit 预测曲线优先调用 `/api/v1/predict/traffic-flow`。
+  - **关键资产**：`intel-transportation/backend/dashboard_api.py`、`intel-transportation/backend/prediction/`、`intel-transportation/backend/prediction/models/location1_trend_v1.onnx`、`intel-transportation/backend/Dockerfile`、`intel-transportation/docker-compose.yml`。
+  - **结果**：ONNX opset 14 文件可被 ONNX Runtime 加载，PyTorch 与 ONNX 最大误差为 0；`/health`、`/model/info`、`/api/traffic_trend`、`/predict`、`/api/v1/predict/traffic-flow` 和 `/docs` 已验证；大屏显示 `FastAPI / local-csv`，不再出现 API 不可用提示。
+  - **遗留**：TimescaleDB 仍需配置真实 `TIMESCALEDB_DSN` 才会切换到连续聚合视图；高德地图仍需在控制台配置允许本地来源的域名白名单。
+- **Session #20260910 - 高德地图 JS API 错误排查与修复**：
+  - **现象**：Streamlit WebGIS iframe 显示“JS API 未加载”。
+  - **根因**：`dashboard/map_component.py` 使用 `json.dumps(api_key)` 替换 HTML `<script src>` 中的 URL 参数，生成带嵌套双引号的 `key="..."`，导致高德收到非法 Key 参数。
+  - **修复**：改用 `urllib.parse.quote(..., safe="")` 对 URL 参数编码；`dashboard/app.py` 增加从 `dashboard/.streamlit/secrets.toml` 读取凭据的启动目录兜底；新增地图模板回归测试。
+  - **验证**：浏览器实际出现高德底图、缩放控件、`© 2026 AutoNavi` 和“高德 WebGIS · 7 个监测卡口”；Python 编译通过，`unittest discover -s dashboard/tests -v` 共 3 项通过。当前环境未安装 pytest，因此未执行 pytest 命令。
+  - **注意**：高德控制台仍应长期维护 Web 端 JS API 类型、安全密钥配对，以及 `localhost`/`127.0.0.1` 等开发来源白名单。
+- **Session #20260910 - 交通流量可视化大屏宽屏改造与全流程联调**：
+  - **目标**：依据《程序代码.docx》和用户提供的目标效果图，将现有 Streamlit 页面改造成暗色科技风宽屏监测大屏，并跑通 FastAPI、ONNX、数据降级、高德地图和前端渲染链路。
+  - **改造**：重构 `dashboard/app.py` 的页面编排与 CSS；取消默认侧边栏首屏占位，新增标题/时钟/实时状态条、四项 KPI、流量柱状趋势与 ONNX 预测、车型环图、路口时段热力矩阵、全宽高德 WebGIS、折叠式识别取证区；保留运行设置、卡口筛选、60 秒缓存和自动刷新。
+  - **边界决策**：教学文档中的 `admin/admin` 默认账号、硬编码模拟数据和明文 Key 仅作为示例，没有直接复制到当前项目；页面继续使用 FastAPI、CSV、Parquet、内置示例数据的降级链路。
+  - **验证**：`unittest discover -s dashboard/tests -v` 3 项通过；FastAPI `/health` 返回 `model_loaded=true`；`/api/traffic_trend` 返回 10 条本地 CSV 记录；预测接口返回 4 步 `onnxruntime-cpu` 结果；Streamlit `/_stcore/health` 返回 `200 ok`；浏览器实际显示全部大屏模块和高德底图。
+- **Session #007 (2026-09-10 - Streamlit + WebGIS 可视化大屏集成)**：
+  - **目标**：依据可视化大屏 PPT、Streamlit/WebGIS/交通流量 Demo/程序代码文档，将展示模块融入现有智能交通项目并直接落地。
+  - **行动**：新增 `dashboard/` 独立只读展示层，接入现有 FastAPI `/api/traffic_trend`，本地 CSV/Parquet/内置示例数据三级降级，加入四项 KPI、Plotly 趋势与预测、车型分布、违章抓拍表、取证图片和高德地图 HTML 组件；配置专属依赖、暗色主题、运行说明和数据层单元测试。
+  - **结果**：在项目专用 `.venv-dashboard` 中完成依赖安装；Streamlit 服务已验证可用，地址为 `http://127.0.0.1:8501`。未配置高德 Key 时自动使用 Streamlit 本地地图，未启动 TimescaleDB/API 时自动读取本地数据。
+  - **后续**：如需生产部署，再补充真实 API 鉴权、连接池/异步查询、高德域名白名单和更细粒度的时间/路段筛选。
+- **Session #009 (2026-09-10 - 可视化大屏任务总结与实训报告留痕)**：
+  - **目标**：将 9 月 10 日大屏集成任务的目标、实现过程、验证结果和后续规划写入项目报告，并补充对应配图。
+  - **行动**：在 `人工智能智慧交通实训报告_新.docx` 中新增“9. Streamlit 与 WebGIS 可视化大屏集成（9月10日）”，插入大屏运行效果图和数据链路图；将总结章节调整为新页开始，并完成 Word 转 PDF 后的逐页 PNG 视觉检查。
+  - **关键资产**：`assets/dashboard/20260910_streamlit_dashboard_runtime.png`、`assets/dashboard/20260910_streamlit_dashboard_dataflow.png`、`dashboard/update_report_20260910.py`、`dashboard/fix_report_layout_20260910.py`。
+  - **结果**：报告已更新并通过渲染检查，最终文档共 14 页，新增图片清晰、图题相邻、章节分页自然。
+- **Session #008 (2026-09-10 - 将9月9日交通流量预测任务回填实训报告)**：
+  - **目标**：把重庆绕城高速交通流量预测与大屏可视化任务完整总结并留痕到实训报告，补充实际结果图片。
+  - **行动**：在报告第 7 节之后新增第 8 节，记录独立工程决策、CQSkyEyeX 轨迹数据读取、末尾残缺时间窗过滤、60 秒窗口及车辆 ID 去重统计、时间轴对齐、5 窗口移动平均、`LinearRegression` 未来 15 步预测，以及 GUI/`--headless` 输出方式。
+  - **结果**：报告已嵌入 `traffic_prediction_dashboard.png`，数据由 336,166 条原始记录清洗为 336,031 条有效记录并形成 20 个完整时间窗；Word 结构检查和 12 页 PDF 版式检查通过，1200 秒连接处的断裂问题已在报告中说明其数据对齐与清洗原因。
+- **Session #006 (2026-09-09 - 重庆绕城高速流量预测模块关系分析、独立工程搭建与大屏效果复现)**：
+  - **目标**：评估新模块与主项目关系，建议是否融入，并独立跑通生成目标预测大屏效果图。
+  - **行动**：进行多维架构关系分析（建议保持独立工程解耦）；在桌面目录 `C:\Users\37535\Desktop\实训留痕迹\基本直线绕城高速重庆` 完成工程结构搭建；安装 `openpyxl` 依赖；执行 `1-1_trajectory.xlsx`（336,166 条记录）流量时序分析与预测，生成像素级还原的暗黑大屏图表。
+  - **结果**：工程全流程跑通，大屏可视化效果已导出至桌面及工作区。
+- **Session #005 (历史会话 - 实训报告文档安全备份)**：
+  - **目标**：为最新的实训报告创建带有时间戳的镜像备份文件。
+  - **行动**：复制并校验生成 `人工智能智慧交通实训报告_新_20260907_备份.docx`，同步记忆中枢。
+  - **结果**：备份成功，文件大小 985KB，结构完整。
+- **Session #004 (历史会话 - 实施时序实验并嵌入报告截图)**：
+  - **目标**：零源码侵入执行 TimescaleDB 实验，生成 3 组关键结果图表并回填至实训报告。
+  - **行动**：编写并运行 `run_day1_experiment.py`，生成超表入库、降采样查询与 24 小时流量趋势图，精准插入 `人工智能智慧交通实训报告_新.docx` 第 7 章节。
+  - **结果**：实验全流程通过，图表已内嵌，报告段落与图片结构完整。
+
+---
+*注：每次任务结束或关键成果交付前，请遵循 `AGENTS.md` 协议更新本文件与 `.agents/memory/sessions.md`。*
+- **Session #20260916-007 - 项目1全流程验收、软件缺口补齐与事实化交付**：
+  - **材料读取**：完整提取并视觉核查 13 页《20260911项目1验收_全流程联调与提交.pptx》和 12 页《车辆检测车牌识别全流程联调技术验收文档.docx》；附件 SHA-256 分别为 `EFC9322BCD2DB3E6FFD99B5D15EC8B19B0104C7996B421DD24112C268CB605C7` 与 `E9D837CE8CC99A565AF89EE24148F8055C42273C33EDE82E29F59E6B07462453`。PPTX 含 37 个异常 `outerShdw`，仅在临时副本去除阴影后渲染，原附件未修改。
+  - **统一口径**：项目主链保持 `YOLOv8 -> PaddleOCR -> Kafka -> TimescaleDB -> LSTM/ONNX FastAPI -> Streamlit`；MySQL、Redis、Vue/ECharts、Prophet、Celery 只视为附件通用示例。门槛采用 `mAP>0.8`、整牌准确率 `>=95%`、预测 `R²>0.85`、真实全链路 `<200ms`、覆盖率 `>=80%`、TODO/FIXME `<5`。
+  - **工程补齐**：新增独立 `PlateRecognitionEvent`、`plate_recognitions` topic/hypertable/consumer 路由；新增 `RECOGNITION_MODE=all|violation_only`；API 改为显式 CORS、生产密钥强制、500 默认隐藏详情，并让 Dashboard 预测请求携带 API key；新增质量门禁、pre-commit、软件模拟 acceptance profile、项目 README、性能台账与正式验收报告。
+  - **数据库边界**：初始化 SQL 与 `migrate_existing_pipeline.sql` 已包含车牌识别表。没有执行现有数据库迁移或 acceptance profile，因为真实数据库结构操作仍需用户对目标实例、备份和影响范围作明确确认。
+  - **验证**：核心 55/55、Prediction/API 37/37、Dashboard 8/8、门禁 5/5，合计 105/105 通过；默认与 acceptance Compose 静态配置通过；pip-audit 未发现已知漏洞；预测候选 `R²=0.8644117562`。正式门禁为 `PASS 6 / FAIL 2 / BLOCKED 4 / NOT_VERIFIED 4`，已证实失败为覆盖率 `64.535%` 和宽口径 Ruff 41 项。
+  - **交付物**：`intel-transportation/README.md`、`performance.xlsx`、`test_report.pdf`、`docs/acceptance/project1_acceptance_report_20260916.md`、`docs/acceptance/project1_gate_20260916.{json,md}`。PDF 为 5 页，已逐页渲染视觉检查。
+  - **剩余条件**：仍缺车辆框/车牌框/完整车牌文本真值、现场跨日期流量、摄像头/测速标定、目标 GPU/Jetson/Atlas、INT8 校准集、Python 3.10 复验、真实联调截图与数据库迁移确认。不得把软件模拟或模型内核基准升级为真实精度、全链路延迟或硬件通过结论。
+- **Session #20260916-009 - 当前项目工程全量归档**：
+  - **归档范围**：以 `D:\intelligent_transportation` 为快照根目录，纳入业务代码、数据、模型、虚拟环境、文档、测试与验收产物、隐藏目录以及 `intel-transportation/.git`。
+  - **外部关联**：`intel-transportation/tmp/acceptance_artifacts/node_modules` 是指向 Codex 运行时缓存的目录联接；归档时解引用并写入实际依赖文件，避免异机解压后留下失效外链。
+  - **交付位置**：归档输出到工程目录之外的 `D:\intelligent_transportation_full_20260916_160255.tar.gz`，并生成同名 `.sha256` 校验文件，避免输出包被递归纳入自身。
+  - **验证口径**：完成后检查压缩包可列出、关键源码/文档/模型/Git 元数据和解引用依赖均存在，并复核 gzip 完整性与 SHA-256。
+- **Session #20260916-010 - 根仓库 Git 统一与提交前安全整理**：
+  - **Git 结构**：根仓库已有 `main` 与远端；`intel-transportation/.git` 是无提交的嵌套仓库，导致外层 `git add .` 报 `does not have a commit checked out`。经用户明确确认后，将该元数据移至 `D:\intel-transportation_nested_git_backup_20260916`，源码统一交由根仓库管理。
+  - **仓库规范**：新增 `.gitattributes` 固化常见文本文件 LF、Windows 脚本 CRLF 与二进制类型；扩充 `.gitignore`，排除虚拟环境、缓存、临时/QA 产物、敏感配置、超大原始数据与运行时模型缓存。
+  - **凭据治理**：两份独立 Streamlit 大屏改为通过环境变量读取高德凭据；登录页和历史会话记录不再展示或保存具体值。现有高德凭据应在服务控制台轮换。
+  - **暂存验证**：外层 `git add .` 成功；虚拟环境、临时目录、`.env`、`secrets.toml` 与单文件 95 MiB 以上资产均未进入暂存区。Python 编译检查通过；存量文件仍有尾随空格提示，未在本次 Git 整理中批量改写。

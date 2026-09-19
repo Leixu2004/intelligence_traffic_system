@@ -1,0 +1,91 @@
+# 多 Agent 应急处置系统配置（CrewAI）
+# 对应课件《20260917 多 Agent 协作：CrewAI 与应急处置》提交物 config.yaml。
+# 环境变量优先于本文件；本文件承载模型参数、流程模式、角色画像、任务产出与演示路网拓扑。
+# 注意：LLM 与高德密钥只能由环境变量提供（TRAFFIC_CREW_LLM_API_KEY / DASHSCOPE_API_KEY / AMAP_KEY），
+# 不要写进本文件，以免随仓库泄露。
+
+llm:
+  # provider 为 aliyun-bailian/bailian/dashscope 时默认 base_url 指向百炼兼容模式
+  provider: openai-compatible
+  model: deepseek-v4-flash-0731
+  temperature: 0.3
+  timeout_seconds: 60
+  max_retries: 1
+  # 层级模式需要一个 manager LLM；留空则复用上面的模型
+  manager_model: ""
+
+crew:
+  # hierarchical：Manager 动态分配任务（课件验收要求）
+  # sequential：固定顺序，调用次数少，适合课堂快速演示
+  process: hierarchical
+  memory: false
+  verbose: false
+
+roles:
+  commander:
+    role: 应急处置指挥官
+    goal: 快速评估事件严重级，分配任务并整合决策
+    backstory: |
+      你是有 20 年现场经验的交通应急指挥专家。
+      擅长事件分级（I/II/III/IV 级）、跨部门资源协调与快速决策下达。
+      你只依据工具返回的真实数据下结论；数据缺失时必须显式说明缺口，不得编造流量、里程或资源数量。
+  analyst:
+    role: 交通数据分析师
+    goal: 分析事故影响范围，预测流量变化趋势
+    backstory: |
+      你是交通数据分析专家，精通 TimescaleDB 历史流量查询、LSTM 流量预测模型与法规条文检索。
+      输出必须区分“实测”“预测”“模拟”三类来源，预测值不等于实测值。
+  dispatcher:
+    role: 资源调度员
+    goal: 调度救援资源并规划绕行路线
+    backstory: |
+      你熟悉城市路网与高德路径规划，负责把指挥官的指令落成可执行方案。
+      给出路线时必须同时说明路线数据的来源与可信度标记。
+
+tasks:
+  analysis:
+    expected_output: 事件分析报告（含事件类型、严重程度、影响范围、流量趋势预测，并标注每项结论的数据来源）
+  command:
+    expected_output: 处置指令清单（编号列出，含分级结论、需调动的资源类别、是否需人工审批）
+  dispatch:
+    expected_output: 调度方案（资源数量与到位顺序、具体绕行路线及其数据来源标记、公众通告文本）
+
+# 演示路网拓扑：仅在无 AMAP_KEY 或高德调用失败时用于生成具体绕行路线。
+# 坐标为近似值，route.source 会标记 demonstration_topology、verified=false，
+# 不得作为真实导航依据，也不得写入验收指标。
+route_fallback:
+  source: demonstration_topology
+  corridors:
+    - id: G2_K128_TO_G15
+      name: G2 京沪高速 K128 事故段 → G15 沈海高速 备用通道
+      waypoints:
+        - [116.4074, 39.9042]
+        - [116.5120, 39.7880]
+        - [116.6390, 39.6710]
+      distance_km: 31.6
+      eta_minutes: 27
+      note: 分流至 G15，避开 K128+200 双向中断点
+    - id: NORTH_RING
+      name: 北环城市快速路绕行通道
+      waypoints:
+        - [116.4074, 39.9042]
+        - [116.3810, 39.9620]
+        - [116.4930, 39.9750]
+      distance_km: 14.2
+      eta_minutes: 22
+      note: 适用于短途过境车辆分流
+    - id: TIANHE_DETOUR
+      name: 广州天河科韵路 — 黄埔大道备选走廊
+      waypoints:
+        - [113.3610, 23.1570]
+        - [113.3980, 23.1230]
+        - [113.4420, 23.1180]
+      distance_km: 11.8
+      eta_minutes: 19
+      note: 期末演示场景（天河区）备用走廊
+
+notify:
+  # 通告只落地为本地 JSONL 文件，不调用任何真实短信/APP 通道。
+  channel_mode: local_file
+  simulation: true
+  channels: [短信, APP推送, 交通广播]

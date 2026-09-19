@@ -1,0 +1,44 @@
+# Local credentials and runtime artifacts
+dashboard/.streamlit/secrets.toml
+.env
+*.env.local
+.venv*/
+**/.venv*/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+**/.pytest_cache/
+.ruff_cache/
+**/.ruff_cache/
+.coverage
+**/.coverage
+.idea/
+**/.idea/
+
+# Generated QA, review, and temporary workspaces
+.codex_docx_qa/
+.pptx_review*/
+.tmp/
+.tmp_*/
+qa_report_*/
+intel-transportation/tmp/
+
+# Large local datasets and downloaded/runtime model caches
+data/lstm_sources/
+intel-transportation/data/paddlex_cache/
+intel-transportation/data/violations/
+intel-transportation/data/agent/
+
+# Logs and local runtime outputs
+*.log
+.venv-dashboard/
+intel-transportation/backend/*.log
+dashboard/*.log
+
+# 法规 RAG 运行时产物（向量索引/登记表/审计），保留 laws/ 知识源
+intel-transportation/data/rag/*
+!intel-transportation/data/rag/laws/
+!intel-transportation/data/rag/laws/**
+
+# 会话级临时审计/渲染工作区（不入库）
+.agents/tmp/

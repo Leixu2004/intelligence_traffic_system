@@ -1,0 +1,16 @@
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+numpy>=1.24.0
+pandas>=2.0.0
+psycopg2-binary>=2.9.0
+onnx>=1.16.0
+onnxruntime>=1.18.0
+onnxscript>=0.3.0
+kafka-python>=2.0.2
+langchain>=1.0.0,<2.0.0
+langchain-openai>=1.0.0,<2.0.0
+langgraph>=1.0.0,<2.0.0
+# 多 Agent 应急处置（backend/crew，9/17 课件）：CrewAI 自带 LLM 客户端，
+# 模型走百炼 OpenAI 兼容端点，因此不需要 langchain_openai.ChatOpenAI。
+crewai>=1.15,<2.0
+PyYAML>=6.0

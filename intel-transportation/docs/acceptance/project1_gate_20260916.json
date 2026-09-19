@@ -1,0 +1,161 @@
+{
+  "schema_version": "project1-quality-gate/v1",
+  "generated_at_utc": "2026-09-16T06:47:49.626914+00:00",
+  "project_root": "D:\\intelligent_transportation\\intel-transportation",
+  "profile": "full",
+  "summary": {
+    "counts": {
+      "PASS": 6,
+      "FAIL": 2,
+      "BLOCKED": 4,
+      "NOT_VERIFIED": 4
+    },
+    "exit_code": 1
+  },
+  "checks": [
+    {
+      "check_id": "ENV-001",
+      "title": "Python 运行环境",
+      "status": "NOT_VERIFIED",
+      "criterion": "技术验收文档要求 Python 3.10.x；工程支持范围为 3.10 至 3.13。",
+      "evidence": "当前解释器：Python 3.13.2。",
+      "detail": "工程配置支持该版本，但原验收材料指定 Python 3.10.x，仍需在 3.10 环境复跑。",
+      "duration_seconds": null
+    },
+    {
+      "check_id": "ART-001",
+      "title": "核心源码、SQL、部署配置与模型制品",
+      "status": "PASS",
+      "criterion": "PPT 第8页要求源码、SQL、模型、部署与配置文件齐全。",
+      "evidence": "已核验 15 个代表性源码、SQL、部署配置和模型文件。",
+      "detail": "",
+      "duration_seconds": null
+    },
+    {
+      "check_id": "DOC-001",
+      "title": "可独立部署的提交文档与验收附件",
+      "status": "BLOCKED",
+      "criterion": "PPT 第8、10页要求 README、部署说明、测试报告、截图和性能材料可独立支撑部署与验收。",
+      "evidence": "未发现：screenshots",
+      "detail": "本门禁不会生成或伪造人工截图、性能表或最终验收报告。",
+      "duration_seconds": null
+    },
+    {
+      "check_id": "CODE-001",
+      "title": "Python 语法检查",
+      "status": "PASS",
+      "criterion": "全部 Python 源文件可编译。",
+      "evidence": "已编译检查 55 个 Python 文件。",
+      "detail": "",
+      "duration_seconds": null
+    },
+    {
+      "check_id": "TEST-001",
+      "title": "自动化单元测试",
+      "status": "PASS",
+      "criterion": "核心、预测和门禁测试全部通过。",
+      "evidence": "三个 unittest 测试集均返回退出码 0。",
+      "detail": "...（前文省略 1710 字符）\nracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!\n  if hx.size() != expected_hidden_size:\nD:\\intelligent_transportation\\intel-transportation\\.venv\\Lib\\site-packages\\torch\\onnx\\_internal\\torchscript_exporter\\symbolic_opset9.py:4462: UserWarning: Exporting a model to ONNX with a batch_size other than 1, with a variable length with LSTM can cause an error when running the ONNX model with a different batch size. Make sure to save the model with a batch size of 1, or define the initial states (h0/c0) as inputs of the model. \n  return _generic_rnn(\nok\n\n----------------------------------------------------------------------\nRan 37 tests in 2.709s\n\nOK\n\n$ -X utf8 -m unittest discover -s acceptance/tests -t . -p test_*.py -v\ntest_exit_code_prioritises_failure_over_missing_evidence (acceptance.tests.test_gate.GateModelTests.test_exit_code_prioritises_failure_over_missing_evidence) ... ok\ntest_prediction_r2_requires_traceable_metrics (acceptance.tests.test_gate.GateModelTests.test_prediction_r2_requires_traceable_metrics) ... ok\ntest_required_files_reports_missing_artifacts (acceptance.tests.test_gate.GateModelTests.test_required_files_reports_missing_artifacts) ... ok\ntest_serialization_keeps_explicit_status_and_markdown (acceptance.tests.test_gate.GateModelTests.test_serialization_keeps_explicit_status_and_markdown) ... ok\ntest_source_tree_does_not_count_as_runtime_evidence (acceptance.tests.test_gate.GateModelTests.test_source_tree_does_not_count_as_runtime_evidence) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.005s\n\nOK",
+      "duration_seconds": 12.40076659999977
+    },
+    {
+      "check_id": "CODE-002",
+      "title": "Ruff 静态检查",
+      "status": "FAIL",
+      "criterion": "PEP 8/Lint 门禁不允许存在阻断问题。",
+      "evidence": "...（前文省略 22249 字符）\nedge\\export_models.py:3:1\n  |\n1 |   \"\"\"Export YOLO perception weights for ONNX Runtime or TensorRT edge inference.\"\"\"\n2 |\n3 | / from __future__ import annotations\n4 | |\n5 | | import argparse\n6 | | from pathlib import Path\n7 | | from typing import Any, Iterable\n  | |________________________________^\nhelp: Organize imports\n  |\n8 |\n  -\n9 | SUPPORTED_IMAGE_SUFFIXES = {\".jpg\", \".jpeg\", \".png\", \".bmp\", \".webp\"}\n  |\n\nI001 [*] Import block is un-sorted or un-formatted\n  --> edge\\validate_artifacts.py:9:1\n   |\n 7 |   \"\"\"\n 8 |\n 9 | / from __future__ import annotations\n10 | |\n11 | | import argparse\n12 | | import hashlib\n13 | | import json\n14 | | import sys\n15 | | from datetime import datetime, timezone\n16 | | from pathlib import Path\n17 | | from typing import Any, Iterable, Mapping, Sequence\n   | |___________________________________________________^\nhelp: Organize imports\n   |\n18 |\n   -\n19 | SCHEMA_VERSION = \"edge-artifact-report/v1\"\n   |\n\nI001 [*] Import block is un-sorted or un-formatted\n  --> main.py:1:1\n   |\n 1 | / from __future__ import annotations\n 2 | |\n 3 | | import argparse\n 4 | | from concurrent.futures import Future, ThreadPoolExecutor\n 5 | | import os\n 6 | | from threading import Lock\n 7 | | import time\n 8 | |\n 9 | | import cv2\n10 | |\n11 | | import config\n12 | | from backend.events import PlateRecognitionEvent, TrafficObservation, ViolationEvent, utc_now_iso\n13 | | from core.detector import VehicleDetector\n14 | | from core.pipeline import PlateRecognition\n15 | | from core.violation import IllegalParkingChecker, LineCrossingChecker\n16 | | from db.kafka_client import KafkaClient\n   | |_______________________________________^\nhelp: Organize imports\n  |\n3 | import argparse\n4 + import os\n5 + import time\n6 | from concurrent.futures import Future, ThreadPoolExecutor\n  - import os\n7 | from threading import Lock\n  - import time\n8 |\n  |\n\nF401 `onnx` imported but unused; consider using `importlib.util.find_spec` to test for availability\n  --> tests\\test_edge_artifact_validation.py:21:20\n   |\n19 |     def setUpClass(cls):\n20 |         try:\n21 |             import onnx\n   |                    ^^^^\n22 |             from onnx import TensorProto, helper\n23 |         except ImportError:\n   |\nhelp: Remove unused import: `onnx`\n\nI001 [*] Import block is un-sorted or un-formatted\n  --> tests\\test_edge_benchmark.py:1:1\n   |\n 1 | / import math\n 2 | | import json\n 3 | | import tempfile\n 4 | | import unittest\n 5 | | from pathlib import Path\n 6 | |\n 7 | | import numpy as np\n 8 | |\n 9 | | from edge.benchmark import (\n10 | |     benchmark_session,\n11 | |     build_random_inputs,\n12 | |     normalize_provider_names,\n13 | |     parse_shape_overrides,\n14 | |     resolve_input_shape,\n15 | |     run_benchmark,\n16 | |     summarize_latencies,\n17 | | )\n   | |_^\nhelp: Organize imports\n  |\n1 + import json\n2 | import math\n  - import json\n3 | import tempfile\n  |\n\nFound 41 errors.\n[*] 37 fixable with the `--fix` option (2 hidden fixes can be enabled with the `--unsafe-fixes` option).",
+      "detail": "",
+      "duration_seconds": 0.10674039999867091
+    },
+    {
+      "check_id": "TEST-002",
+      "title": "业务代码测试覆盖率",
+      "status": "FAIL",
+      "criterion": "核心、backend、db 与 edge 业务代码覆盖率不低于 80%。",
+      "evidence": "业务代码覆盖率 64.53%。",
+      "detail": "............................................................................................\n----------------------------------------------------------------------\nRan 92 tests in 4.366s\n\nOK",
+      "duration_seconds": 12.819480499998463
+    },
+    {
+      "check_id": "CODE-003",
+      "title": "显式待办数量",
+      "status": "PASS",
+      "criterion": "PPT 第6页要求 TODO 数量少于 5。",
+      "evidence": "发现 0 处 TODO/FIXME。",
+      "detail": "",
+      "duration_seconds": null
+    },
+    {
+      "check_id": "DEPLOY-001",
+      "title": "Docker Compose 静态配置",
+      "status": "PASS",
+      "criterion": "Compose 文件可解析，服务依赖与变量展开有效。",
+      "evidence": "docker compose config --quiet 返回退出码 0。",
+      "detail": "该检查不启动容器，不能证明 compose up 后服务健康。",
+      "duration_seconds": 0.333196699999462
+    },
+    {
+      "check_id": "MODEL-002",
+      "title": "交通流预测 R²",
+      "status": "PASS",
+      "criterion": "独立测试集预测 R² > 0.85。",
+      "evidence": "候选模型 R²=0.864412，sample_count=1467，来源 backend\\prediction\\models\\traffic_lstm_china_kdd2017_candidate_v1_artifacts\\metrics_summary.json。",
+      "detail": "该证据只覆盖材料所述中国收费站研究候选，不代表现场生产数据精度。",
+      "duration_seconds": null
+    },
+    {
+      "check_id": "FUNC-001",
+      "title": "检测到可视化的真实端到端链路",
+      "status": "NOT_VERIFIED",
+      "criterion": "检测→识别→TimescaleDB→预测→可视化端到端无断点。",
+      "evidence": "缺少同一次真实运行产生的关联事件、数据库记录、预测响应和大屏截图/录屏。",
+      "detail": "单元测试与源码存在只能证明局部能力，不能替代真实链路证据。",
+      "duration_seconds": null
+    },
+    {
+      "check_id": "MODEL-001",
+      "title": "车辆检测 mAP",
+      "status": "BLOCKED",
+      "criterion": "PPT 第10页要求独立标注验证集 mAP > 0.8。",
+      "evidence": "未发现包含验证集身份、样本数、类别和 mAP 的可追溯评估报告。",
+      "detail": "PT/ONNX 输出一致性报告不能替代对人工真值的 mAP 评估。",
+      "duration_seconds": null
+    },
+    {
+      "check_id": "MODEL-003",
+      "title": "整牌识别准确率",
+      "status": "BLOCKED",
+      "criterion": "取两份材料较严格门槛：独立标注集整牌准确率 >= 95%。",
+      "evidence": "未发现车牌真值清单及逐样本 OCR 评估结果。",
+      "detail": "",
+      "duration_seconds": null
+    },
+    {
+      "check_id": "PERF-001",
+      "title": "真实全链路延迟",
+      "status": "BLOCKED",
+      "criterion": "采用 PPT 第10页较严格门槛：端到端延迟 < 200ms。",
+      "evidence": "现有 edge 报告只测模型 Session.run，不含解码、NMS、OCR、消息、数据库、API 和大屏渲染。",
+      "detail": "",
+      "duration_seconds": null
+    },
+    {
+      "check_id": "PERF-002",
+      "title": "检测、OCR、数据库、API 与大屏分段性能",
+      "status": "NOT_VERIFIED",
+      "criterion": "检测 <20ms、OCR <80ms、DB 读P99 <20ms、写P99 <100ms、API <50ms、大屏首渲 <1s。",
+      "evidence": "缺少统一环境、预热策略、样本规模和分位数口径下的分段基准报告。",
+      "detail": "",
+      "duration_seconds": null
+    },
+    {
+      "check_id": "DEPLOY-002",
+      "title": "Docker 一键启动与服务健康",
+      "status": "NOT_VERIFIED",
+      "criterion": "docker compose up 后 TimescaleDB、Kafka、消费者、预测 API 与大屏均健康。",
+      "evidence": "本门禁按任务边界只做静态配置检查，不启动或修改容器。",
+      "detail": "",
+      "duration_seconds": null
+    }
+  ]
+}

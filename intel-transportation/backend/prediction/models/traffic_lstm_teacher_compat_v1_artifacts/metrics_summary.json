@@ -1,0 +1,48 @@
+{
+  "model": {
+    "mae": 175.25488870323636,
+    "rmse": 248.84269535867526,
+    "wape": 5.225363016945002,
+    "r2": 0.9842081216569635,
+    "valid_count": 5823,
+    "excluded_count": 0,
+    "model_name": "traffic_lstm_teacher_compat_v1",
+    "sample_count": 5823,
+    "forecast_steps": 1
+  },
+  "baselines": {
+    "last_value": {
+      "mae": 589.2294349991413,
+      "rmse": 814.1014806818373,
+      "wape": 17.56834129376874,
+      "r2": 0.8309788371347752,
+      "valid_count": 5823,
+      "excluded_count": 0,
+      "model_name": "last_value",
+      "sample_count": 5823,
+      "forecast_steps": 1
+    },
+    "moving_average": {
+      "mae": 1341.4220161428818,
+      "rmse": 1700.1532280228905,
+      "wape": 39.995557585489344,
+      "r2": 0.26284277786979393,
+      "valid_count": 5823,
+      "excluded_count": 0,
+      "model_name": "moving_average",
+      "sample_count": 5823,
+      "forecast_steps": 1
+    },
+    "linear_trend": {
+      "mae": 1014.5808460701815,
+      "rmse": 1339.8107000211485,
+      "wape": 30.2505297854096,
+      "r2": 0.5422051742460745,
+      "valid_count": 5823,
+      "excluded_count": 0,
+      "model_name": "linear_trend",
+      "sample_count": 5823,
+      "forecast_steps": 1
+    }
+  }
+}

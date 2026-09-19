@@ -1,0 +1,140 @@
+[
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment5",
+    "partition": "train",
+    "actual_points": 2,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment8",
+    "partition": "train",
+    "actual_points": 6,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment9",
+    "partition": "train",
+    "actual_points": 2,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment12",
+    "partition": "train",
+    "actual_points": 2,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment20",
+    "partition": "train",
+    "actual_points": 2,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment26",
+    "partition": "train",
+    "actual_points": 6,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment30",
+    "partition": "train",
+    "actual_points": 2,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment32",
+    "partition": "train",
+    "actual_points": 4,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment33",
+    "partition": "train",
+    "actual_points": 5,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment36",
+    "partition": "train",
+    "actual_points": 2,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment40",
+    "partition": "train",
+    "actual_points": 4,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment45",
+    "partition": "train",
+    "actual_points": 4,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment46",
+    "partition": "train",
+    "actual_points": 3,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment47",
+    "partition": "train",
+    "actual_points": 3,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment48",
+    "partition": "train",
+    "actual_points": 2,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment55",
+    "partition": "train",
+    "actual_points": 4,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment61",
+    "partition": "train",
+    "actual_points": 4,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment62",
+    "partition": "train",
+    "actual_points": 2,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment66",
+    "partition": "validation",
+    "actual_points": 5,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment69",
+    "partition": "validation",
+    "actual_points": 2,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment74",
+    "partition": "test",
+    "actual_points": 3,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t2_d0#segment80",
+    "partition": "test",
+    "actual_points": 3,
+    "required_points": 7
+  },
+  {
+    "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\kddcup2017_china_tollgate\\kdd2017_china_tollgate_20min.csv:kdd2017_t3_d1#segment3",
+    "partition": "train",
+    "actual_points": 4,
+    "required_points": 7
+  }
+]

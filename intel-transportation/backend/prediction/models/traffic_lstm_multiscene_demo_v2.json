@@ -1,0 +1,43 @@
+{
+  "model": "traffic_lstm_multiscene_demo_v2",
+  "model_type": "lstm",
+  "mean": 128.11538696289062,
+  "std": 59.22306442260742,
+  "history_steps": 5,
+  "forecast_steps": 4,
+  "bin_seconds": 60,
+  "target_column": "entering_vehicle_count",
+  "feature_columns": [
+    "entering_vehicle_count"
+  ],
+  "split_strategy": "series_holdout",
+  "purge_steps": 0,
+  "missing_bucket_policy": "split_on_gap",
+  "min_bucket_coverage_ratio": 0.95,
+  "validation_mse_normalized": 0.03165001422166824,
+  "best_epoch": 97,
+  "training_windows": 28,
+  "validation_windows": 6,
+  "training_series": [
+    "D:\\intelligent_transportation\\data\\lstm_sources\\processed\\emergency_lane_open_flow_60s.csv:emergency_lane_open",
+    "D:\\intelligent_transportation\\data\\lstm_sources\\processed\\location5_flow_60s.csv:location5",
+    "D:\\intelligent_transportation\\data\\lstm_sources\\processed\\location6_ljsdd2_flow_60s.csv:location6_ljsdd2"
+  ],
+  "validation_series": [
+    "D:\\intelligent_transportation\\data\\lstm_sources\\processed\\location6_ljsdd3_flow_60s.csv:location6_ljsdd3"
+  ],
+  "skipped_series": [
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\processed\\emergency_lane_closed_flow_60s.csv:emergency_lane_closed",
+      "actual_points": 8,
+      "required_points": 9
+    }
+  ],
+  "sources": [
+    "D:\\intelligent_transportation\\data\\lstm_sources\\processed\\emergency_lane_closed_flow_60s.csv",
+    "D:\\intelligent_transportation\\data\\lstm_sources\\processed\\emergency_lane_open_flow_60s.csv",
+    "D:\\intelligent_transportation\\data\\lstm_sources\\processed\\location5_flow_60s.csv",
+    "D:\\intelligent_transportation\\data\\lstm_sources\\processed\\location6_ljsdd2_flow_60s.csv",
+    "D:\\intelligent_transportation\\data\\lstm_sources\\processed\\location6_ljsdd3_flow_60s.csv"
+  ]
+}

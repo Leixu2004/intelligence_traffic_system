@@ -1,0 +1,11 @@
+{
+  "mae": 12.253033401499657,
+  "rmse": 19.96069469551124,
+  "wape": 21.653215120341144,
+  "r2": 0.7655658346690073,
+  "valid_count": 1467,
+  "excluded_count": 0,
+  "model_name": "linear_trend",
+  "sample_count": 1467,
+  "forecast_steps": 1
+}

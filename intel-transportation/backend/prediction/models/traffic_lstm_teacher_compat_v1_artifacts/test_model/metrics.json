@@ -1,0 +1,11 @@
+{
+  "mae": 175.25488870323636,
+  "rmse": 248.84269535867526,
+  "wape": 5.225363016945002,
+  "r2": 0.9842081216569635,
+  "valid_count": 5823,
+  "excluded_count": 0,
+  "model_name": "traffic_lstm_teacher_compat_v1",
+  "sample_count": 5823,
+  "forecast_steps": 1
+}

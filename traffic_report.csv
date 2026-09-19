@@ -1,0 +1,4 @@
+﻿camera_id,vehicle_type,cnt,avg_conf
+CAM-02,truck,1,0.88
+CAM-01,car,1,0.95
+CAM-01,bus,1,0.99

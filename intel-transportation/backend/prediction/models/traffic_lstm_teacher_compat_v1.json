@@ -1,0 +1,278 @@
+{
+  "model": "traffic_lstm_teacher_compat_v1",
+  "model_type": "lstm",
+  "profile": "teacher_compat",
+  "history_steps": 6,
+  "forecast_steps": 1,
+  "bin_seconds": 3600,
+  "target_column": "vehicle_count",
+  "feature_columns": [
+    "vehicle_count",
+    "hour",
+    "day_of_week",
+    "is_holiday"
+  ],
+  "scaler_type": "minmax",
+  "feature_offsets": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "feature_scales": [
+    7280.0,
+    23.0,
+    6.0,
+    1.0
+  ],
+  "target_offset": 0.0,
+  "target_scale": 7280.0,
+  "output_includes_current": false,
+  "split_strategy": "global_chronological",
+  "validation_ratio": 0.15,
+  "test_ratio": 0.15,
+  "purge_steps": 0,
+  "missing_bucket_policy": "split_on_gap",
+  "timezone": "America/Chicago",
+  "holiday_policy": "source_holiday_or_weekend",
+  "best_epoch": 16,
+  "stopped_epoch": 18,
+  "early_stopped": true,
+  "validation_mse_normalized": 0.0015564127825200558,
+  "training_windows": 22505,
+  "validation_windows": 5812,
+  "test_windows": 5823,
+  "skipped_series_count": 866,
+  "skipped_series_preview": [
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment2",
+      "partition": "train",
+      "actual_points": 2,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment3",
+      "partition": "train",
+      "actual_points": 5,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment11",
+      "partition": "train",
+      "actual_points": 6,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment17",
+      "partition": "train",
+      "actual_points": 2,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment22",
+      "partition": "train",
+      "actual_points": 3,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment36",
+      "partition": "train",
+      "actual_points": 5,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment46",
+      "partition": "train",
+      "actual_points": 2,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment47",
+      "partition": "train",
+      "actual_points": 4,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment49",
+      "partition": "train",
+      "actual_points": 2,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment52",
+      "partition": "train",
+      "actual_points": 2,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment54",
+      "partition": "train",
+      "actual_points": 2,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment56",
+      "partition": "train",
+      "actual_points": 5,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment58",
+      "partition": "train",
+      "actual_points": 2,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment60",
+      "partition": "train",
+      "actual_points": 6,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment61",
+      "partition": "train",
+      "actual_points": 2,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment62",
+      "partition": "train",
+      "actual_points": 2,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment63",
+      "partition": "train",
+      "actual_points": 2,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment65",
+      "partition": "train",
+      "actual_points": 2,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment70",
+      "partition": "train",
+      "actual_points": 2,
+      "required_points": 7
+    },
+    {
+      "series": "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv:uci_metro_i94_wb_atr301#segment71",
+      "partition": "train",
+      "actual_points": 2,
+      "required_points": 7
+    }
+  ],
+  "split_time_boundaries": {
+    "train_end": "2017-05-26T04:00:00",
+    "validation_start": "2017-05-26T05:00:00",
+    "validation_end": "2018-01-27T14:00:00",
+    "test_start": "2018-01-27T15:00:00"
+  },
+  "test_metrics": {
+    "mae": 175.25488870323636,
+    "rmse": 248.84269535867526,
+    "wape": 5.225363016945002,
+    "r2": 0.9842081216569635,
+    "valid_count": 5823,
+    "excluded_count": 0,
+    "model_name": "traffic_lstm_teacher_compat_v1",
+    "sample_count": 5823,
+    "forecast_steps": 1
+  },
+  "baseline_metrics": {
+    "last_value": {
+      "mae": 589.2294349991413,
+      "rmse": 814.1014806818373,
+      "wape": 17.56834129376874,
+      "r2": 0.8309788371347752,
+      "valid_count": 5823,
+      "excluded_count": 0,
+      "model_name": "last_value",
+      "sample_count": 5823,
+      "forecast_steps": 1
+    },
+    "moving_average": {
+      "mae": 1341.4220161428818,
+      "rmse": 1700.1532280228905,
+      "wape": 39.995557585489344,
+      "r2": 0.26284277786979393,
+      "valid_count": 5823,
+      "excluded_count": 0,
+      "model_name": "moving_average",
+      "sample_count": 5823,
+      "forecast_steps": 1
+    },
+    "linear_trend": {
+      "mae": 1014.5808460701815,
+      "rmse": 1339.8107000211485,
+      "wape": 30.2505297854096,
+      "r2": 0.5422051742460745,
+      "valid_count": 5823,
+      "excluded_count": 0,
+      "model_name": "linear_trend",
+      "sample_count": 5823,
+      "forecast_steps": 1
+    }
+  },
+  "onnx_max_abs_error": 5.960464477539063e-08,
+  "checkpoint": "D:\\intelligent_transportation\\intel-transportation\\backend\\prediction\\models\\traffic_lstm_teacher_compat_v1.pt",
+  "scaler": "D:\\intelligent_transportation\\intel-transportation\\backend\\prediction\\models\\traffic_lstm_teacher_compat_v1_scaler.json",
+  "artifacts": {
+    "directory": "D:\\intelligent_transportation\\intel-transportation\\backend\\prediction\\models\\traffic_lstm_teacher_compat_v1_artifacts",
+    "training_logs": {
+      "csv": "D:\\intelligent_transportation\\intel-transportation\\backend\\prediction\\models\\traffic_lstm_teacher_compat_v1_artifacts\\training_log.csv",
+      "jsonl": "D:\\intelligent_transportation\\intel-transportation\\backend\\prediction\\models\\traffic_lstm_teacher_compat_v1_artifacts\\training_log.jsonl"
+    },
+    "metrics_summary": "D:\\intelligent_transportation\\intel-transportation\\backend\\prediction\\models\\traffic_lstm_teacher_compat_v1_artifacts\\metrics_summary.json",
+    "skipped_series": "D:\\intelligent_transportation\\intel-transportation\\backend\\prediction\\models\\traffic_lstm_teacher_compat_v1_artifacts\\skipped_series.json",
+    "model_evaluation": {
+      "predictions": "D:\\intelligent_transportation\\intel-transportation\\backend\\prediction\\models\\traffic_lstm_teacher_compat_v1_artifacts\\test_model\\predictions.csv",
+      "residuals": "D:\\intelligent_transportation\\intel-transportation\\backend\\prediction\\models\\traffic_lstm_teacher_compat_v1_artifacts\\test_model\\residuals.csv",
+      "metrics": "D:\\intelligent_transportation\\intel-transportation\\backend\\prediction\\models\\traffic_lstm_teacher_compat_v1_artifacts\\test_model\\metrics.json",
+      "residual_distribution": "D:\\intelligent_transportation\\intel-transportation\\backend\\prediction\\models\\traffic_lstm_teacher_compat_v1_artifacts\\test_model\\residual_distribution.png"
+    }
+  },
+  "sources": [
+    "D:\\intelligent_transportation\\data\\lstm_sources\\public\\uci_metro_interstate\\uci_metro_teacher_compat.csv"
+  ],
+  "config": {
+    "profile": "teacher_compat",
+    "history_steps": 6,
+    "forecast_steps": 1,
+    "bin_seconds": 3600,
+    "hidden_size": 32,
+    "num_layers": 2,
+    "hidden_sizes": [
+      64,
+      32
+    ],
+    "dropout": 0.2,
+    "fc_hidden_size": 16,
+    "epochs": 100,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05,
+    "validation_ratio": 0.15,
+    "test_ratio": 0.15,
+    "purge_steps": 0,
+    "target_column": "vehicle_count",
+    "feature_columns": [
+      "vehicle_count",
+      "hour",
+      "day_of_week",
+      "is_holiday"
+    ],
+    "scaler_type": "minmax",
+    "min_bucket_coverage_ratio": 0.95,
+    "minimum_training_windows": 20,
+    "scheduler_factor": 0.5,
+    "scheduler_patience": 3,
+    "early_stopping_patience": 10,
+    "early_stopping_min_delta": 0.001,
+    "gradient_clip_norm": 1.0,
+    "seed": 20260911
+  }
+}

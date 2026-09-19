@@ -1,0 +1,11 @@
+dashboard/.streamlit/secrets.toml
+**/__pycache__/
+**/*.pyc
+**/*.log
+**/.venv*/
+**/qa_report*/
+**/*.docx
+**/*.pdf
+assets/
+intel-transportation/data/violations/
+intel-transportation/data/paddlex_cache/

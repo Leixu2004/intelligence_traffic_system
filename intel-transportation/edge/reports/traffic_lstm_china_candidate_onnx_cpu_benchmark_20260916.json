@@ -1,0 +1,99 @@
+{
+  "schema_version": "edge-onnx-benchmark-v1",
+  "generated_at_utc": "2026-09-16T04:11:54.822517+00:00",
+  "scope": "model_only_onnxruntime_session_run",
+  "model": {
+    "path": "D:\\intelligent_transportation\\intel-transportation\\backend\\prediction\\models\\traffic_lstm_china_kdd2017_candidate_v1.onnx",
+    "size_bytes": 130598,
+    "sha256": "7af33dccb4dc1ff7191dd55277161b886d980ae3467c394c42b5fc803a720aa4"
+  },
+  "configuration": {
+    "warmup_iterations": 10,
+    "measured_iterations": 100,
+    "batch_size": 1,
+    "image_size_for_dynamic_rank4_inputs": 640,
+    "seed": 20260916,
+    "intra_op_threads": 0,
+    "requested_providers": [
+      "CPUExecutionProvider"
+    ]
+  },
+  "runtime": {
+    "onnxruntime_version": "1.29.0",
+    "available_providers": [
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "active_providers": [
+      "CPUExecutionProvider"
+    ],
+    "provider_options": {
+      "CPUExecutionProvider": {}
+    },
+    "model_load_time_ms": 230.56160000032833
+  },
+  "inputs": [
+    {
+      "name": "features",
+      "onnx_type": "tensor(float)",
+      "model_shape": [
+        "batch",
+        6,
+        6
+      ],
+      "benchmark_shape": [
+        1,
+        6,
+        6
+      ],
+      "numpy_dtype": "float32"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "forecast",
+      "onnx_type": "tensor(float)",
+      "model_shape": [
+        "batch",
+        1
+      ]
+    }
+  ],
+  "metrics": {
+    "iterations": 100,
+    "batch_size": 1,
+    "total_time_ms": 5.936899993685074,
+    "avg_ms": 0.05936899993685074,
+    "p50_ms": 0.055949999932636274,
+    "p95_ms": 0.09190499959004224,
+    "min_ms": 0.04090000038559083,
+    "max_ms": 0.2122999994753627,
+    "runs_per_second": 16843.807392135186,
+    "samples_per_second": 16843.807392135186,
+    "fps": 16843.807392135186
+  },
+  "memory": {
+    "process_rss_before_bytes": 31932416,
+    "process_rss_after_bytes": 63221760,
+    "process_rss_delta_bytes": 31289344,
+    "native_peak_rss_bytes": null
+  },
+  "environment": {
+    "hostname": "healwounds",
+    "os": "Windows-11-10.0.22631-SP0",
+    "system": "Windows",
+    "release": "11",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+    "logical_cpu_count": 24,
+    "python_version": "3.13.2",
+    "numpy_version": "2.3.5",
+    "physical_cpu_count": 16,
+    "memory_total_bytes": 16898142208
+  },
+  "limitations": [
+    "Synthetic random tensors measure model execution only; they do not validate accuracy.",
+    "Preprocessing, decoding, postprocessing, I/O, temperature, and power are not measured.",
+    "Process RSS snapshots are not native peak memory measurements."
+  ]
+}

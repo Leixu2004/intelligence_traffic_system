@@ -1,0 +1,8 @@
+.venv/
+**/__pycache__/
+**/*.pyc
+**/*.log
+data/violations/
+data/paddlex_cache/
+models/*.pt
+yolov8n.pt

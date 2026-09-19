@@ -1,0 +1,11 @@
+{
+  "mae": 10.526244035446489,
+  "rmse": 17.144201752052055,
+  "wape": 18.60168164406004,
+  "r2": 0.8270565423533475,
+  "valid_count": 1467,
+  "excluded_count": 0,
+  "model_name": "last_value",
+  "sample_count": 1467,
+  "forecast_steps": 1
+}

@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "9/17 · CrewAI 应急处置 CLI（真实模型，需 DASHSCOPE_API_KEY）",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "backend.crew.crew_system",
+      "args": ["--process", "hierarchical", "--verbose"],
+      "cwd": "${workspaceFolder}/intel-transportation",
+      "envFile": "${workspaceFolder}/intel-transportation/.env",
+      "env": {
+        "PYTHONUTF8": "1",
+        "TRAFFIC_CREW_ENABLED": "true"
+      },
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "9/17 · CrewAI 演示脚本（Mock 模型，无需密钥）",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/intel-transportation/backend/scripts/crew_smoke.py",
+      "cwd": "${workspaceFolder}/intel-transportation",
+      "env": {
+        "PYTHONUTF8": "1"
+      },
+      "console": "integratedTerminal",
+      "justMyCode": false
+    }
+  ]
+}

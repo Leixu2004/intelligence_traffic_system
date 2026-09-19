@@ -1,0 +1,159 @@
+services:
+  timescaledb:
+    image: timescale/timescaledb:2.19.3-pg16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-traffic}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      - timescale-data:/var/lib/postgresql/data
+      - ./backend/sql/init_pipeline.sql:/docker-entrypoint-initdb.d/001-init-pipeline.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  kafka:
+    image: apache/kafka:3.9.1
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: INTERNAL://:29092,CONTROLLER://:29093,EXTERNAL://:9092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+    restart: unless-stopped
+
+  prediction-api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      TIMESCALEDB_DSN: host=timescaledb port=5432 dbname=${POSTGRES_DB:-traffic} user=${POSTGRES_USER:-postgres} password=${POSTGRES_PASSWORD:-postgres}
+      PREDICTION_API_KEY: ${PREDICTION_API_KEY:-}
+      APP_ENV: ${APP_ENV:-development}
+      API_CORS_ORIGINS: ${API_CORS_ORIGINS:-http://localhost:8501,http://127.0.0.1:8501}
+      API_EXPOSE_INTERNAL_ERRORS: ${API_EXPOSE_INTERNAL_ERRORS:-false}
+      TRAFFIC_MODEL_PATH: ${TRAFFIC_MODEL_PATH:-/app/backend/prediction/models/traffic_lstm_china_kdd2017_candidate_v1.onnx}
+      TRAFFIC_RECORDS_PATH: ${TRAFFIC_RECORDS_PATH:-/app/data/china_lstm_demo_records.csv}
+      TRAFFIC_AGENT_ENABLED: ${TRAFFIC_AGENT_ENABLED:-false}
+      TRAFFIC_AGENT_PROVIDER: ${TRAFFIC_AGENT_PROVIDER:-aliyun-bailian}
+      TRAFFIC_AGENT_MODEL: ${TRAFFIC_AGENT_MODEL:-deepseek-v4-flash-0731}
+      TRAFFIC_AGENT_API_KEY: ${TRAFFIC_AGENT_API_KEY:-}
+      DASHSCOPE_API_KEY: ${DASHSCOPE_API_KEY:-}
+      TRAFFIC_AGENT_BASE_URL: ${TRAFFIC_AGENT_BASE_URL:-https://dashscope.aliyuncs.com/compatible-mode/v1}
+      TRAFFIC_AGENT_TEMPERATURE: ${TRAFFIC_AGENT_TEMPERATURE:-0.1}
+      TRAFFIC_AGENT_TIMEOUT_SECONDS: ${TRAFFIC_AGENT_TIMEOUT_SECONDS:-30}
+      TRAFFIC_AGENT_MAX_RETRIES: ${TRAFFIC_AGENT_MAX_RETRIES:-2}
+      TRAFFIC_AGENT_MAX_ITERATIONS: ${TRAFFIC_AGENT_MAX_ITERATIONS:-6}
+      TRAFFIC_AGENT_AUDIT_PATH: /app/data/agent/agent_runs.jsonl
+      TRAFFIC_RAG_ENABLED: ${TRAFFIC_RAG_ENABLED:-false}
+      TRAFFIC_RAG_EMBEDDING_PROVIDER: ${TRAFFIC_RAG_EMBEDDING_PROVIDER:-openai-compatible}
+      TRAFFIC_RAG_EMBEDDING_MODEL: ${TRAFFIC_RAG_EMBEDDING_MODEL:-text-embedding-v4}
+      TRAFFIC_RAG_EMBEDDING_DIM: ${TRAFFIC_RAG_EMBEDDING_DIM:-1024}
+      TRAFFIC_RAG_VECTOR_BACKEND: ${TRAFFIC_RAG_VECTOR_BACKEND:-auto}
+      TRAFFIC_RAG_MILVUS_URI: /app/data/rag/traffic_law.db
+      TRAFFIC_RAG_COLLECTION: ${TRAFFIC_RAG_COLLECTION:-traffic_law}
+      TRAFFIC_RAG_DOCS_DIR: /app/data/rag/laws
+      TRAFFIC_RAG_REGISTRY_PATH: /app/data/rag/law_documents.json
+      TRAFFIC_RAG_AUDIT_PATH: /app/data/rag/rag_runs.jsonl
+      TRAFFIC_RAG_TOP_K: ${TRAFFIC_RAG_TOP_K:-3}
+      TRAFFIC_RAG_MIN_SCORE: ${TRAFFIC_RAG_MIN_SCORE:-0.3}
+      TRAFFIC_RAG_LLM_MODEL: ${TRAFFIC_RAG_LLM_MODEL:-}
+      TRAFFIC_RAG_LLM_BASE_URL: ${TRAFFIC_RAG_LLM_BASE_URL:-}
+      TRAFFIC_RAG_TEMPERATURE: ${TRAFFIC_RAG_TEMPERATURE:-0.1}
+    volumes:
+      - agent-data:/app/data/agent
+      - rag-data:/app/data/rag
+    depends_on:
+      timescaledb:
+        condition: service_healthy
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+
+  traffic-consumer:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    command: ["python", "-m", "backend.traffic_consumer"]
+    environment:
+      TIMESCALEDB_DSN: host=timescaledb port=5432 dbname=${POSTGRES_DB:-traffic} user=${POSTGRES_USER:-postgres} password=${POSTGRES_PASSWORD:-postgres}
+      KAFKA_BROKER: kafka:29092
+      KAFKA_TOPIC_TRAFFIC: ${KAFKA_TOPIC_TRAFFIC:-traffic_stream}
+      KAFKA_TOPIC_PLATES: ${KAFKA_TOPIC_PLATES:-plate_recognitions}
+      KAFKA_TOPIC_VIOLATIONS: ${KAFKA_TOPIC_VIOLATIONS:-traffic_violations}
+      KAFKA_AUTO_OFFSET_RESET: ${KAFKA_AUTO_OFFSET_RESET:-earliest}
+    depends_on:
+      timescaledb:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    restart: unless-stopped
+
+  dashboard:
+    build:
+      context: ..
+      dockerfile: dashboard/Dockerfile
+    environment:
+      DASHBOARD_API_URL: http://prediction-api:8000
+      PREDICTION_API_KEY: ${PREDICTION_API_KEY:-}
+      AMAP_KEY: ${AMAP_KEY:-}
+      AMAP_SECURITY_CODE: ${AMAP_SECURITY_CODE:-}
+    ports:
+      - "8501:8501"
+    depends_on:
+      - prediction-api
+    restart: unless-stopped
+
+  acceptance-simulator:
+    profiles: ["acceptance"]
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    command: ["python", "-m", "acceptance.simulate_pipeline_events"]
+    environment:
+      TIMESCALEDB_DSN: host=timescaledb port=5432 dbname=${POSTGRES_DB:-traffic} user=${POSTGRES_USER:-postgres} password=${POSTGRES_PASSWORD:-postgres}
+      KAFKA_BROKER: kafka:29092
+      KAFKA_TOPIC_TRAFFIC: ${KAFKA_TOPIC_TRAFFIC:-traffic_stream}
+      KAFKA_TOPIC_PLATES: ${KAFKA_TOPIC_PLATES:-plate_recognitions}
+      KAFKA_TOPIC_VIOLATIONS: ${KAFKA_TOPIC_VIOLATIONS:-traffic_violations}
+      PREDICTION_API_URL: http://prediction-api:8000
+      PREDICTION_API_KEY: ${PREDICTION_API_KEY:-}
+      ACCEPTANCE_TIMEOUT_SECONDS: ${ACCEPTANCE_TIMEOUT_SECONDS:-45}
+    depends_on:
+      timescaledb:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      traffic-consumer:
+        condition: service_started
+      prediction-api:
+        condition: service_started
+    restart: "no"
+
+volumes:
+  timescale-data:
+  agent-data:
+  rag-data:
