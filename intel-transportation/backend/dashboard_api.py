@@ -42,6 +42,8 @@ try:
     from .prediction.service import PredictionService
     from .rag import RagService, load_rag_settings
     from .rag.router import router as rag_router
+    from .vision import VisionService, load_vision_settings
+    from .vision.router import router as vision_router
 except ImportError:  # Supports `python backend/dashboard_api.py`.
     from agent import (
         TrafficAgentService,
@@ -56,6 +58,8 @@ except ImportError:  # Supports `python backend/dashboard_api.py`.
     from prediction.service import PredictionService
     from rag import RagService, load_rag_settings
     from rag.router import router as rag_router
+    from vision import VisionService, load_vision_settings
+    from vision.router import router as vision_router
 
 
 BACKEND_ROOT = Path(__file__).resolve().parent
@@ -440,6 +444,7 @@ async def lifespan(app: FastAPI):
     )
     app.state.traffic_agent_service = TrafficAgentService(load_agent_settings(), tool_gateway)
     app.state.crew_service = CrewService.build(load_crew_settings(), gateway=tool_gateway)
+    app.state.vision_service = VisionService.build(load_vision_settings())
     try:
         yield
     finally:
@@ -463,6 +468,7 @@ app.add_middleware(
 app.include_router(agent_router)
 app.include_router(rag_router)
 app.include_router(crew_router)
+app.include_router(vision_router)
 
 
 @app.exception_handler(Exception)
@@ -491,6 +497,7 @@ def health(request: Request) -> dict[str, Any]:
     agent_service: TrafficAgentService = request.app.state.traffic_agent_service
     rag_service = getattr(request.app.state, "rag_service", None)
     crew_service = getattr(request.app.state, "crew_service", None)
+    vision_service = getattr(request.app.state, "vision_service", None)
     records, source, warning = _traffic_records()
     detections, detection_source, detection_warning = _detection_records()
     return {
@@ -510,6 +517,7 @@ def health(request: Request) -> dict[str, Any]:
             "traffic_agent": agent_service.health(),
             "traffic_rag": rag_service.health() if rag_service is not None else {"enabled": False, "available": False, "error": "not initialised"},
             "crew": crew_service.health() if crew_service is not None else {"enabled": False, "available": False, "error": "not initialised"},
+            "vision": vision_service.health() if vision_service is not None else {"enabled": False, "available": False, "error": "not initialised"},
             "traffic_source": source,
             "traffic_records": len(records),
             "warning": warning,

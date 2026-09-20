@@ -42,3 +42,10 @@ intel-transportation/data/rag/*
 
 # 会话级临时审计/渲染工作区（不入库）
 .agents/tmp/
+
+# 9/21 实时计算：submit.sh 渲染出的含口令 SQL、窗口复算结果
+intel-transportation/data/flink/
+# Flink 连接器 jar 由本机下载，仓库只保留 flink-lib/README.md
+intel-transportation/flink-lib/*.jar
+# 9/18 多模态：抽帧缓存、合成演示视频、解说与告警输出
+intel-transportation/data/vision/

@@ -6,10 +6,13 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
     ports:
-      - "5432:5432"
+      # 宿主机端口可换（容器内始终是 5432，Flink 走 docker 网络不受影响）。
+      # 本机已跑着 Postgres / 另一套 timescaledb 时设 TIMESCALEDB_HOST_PORT=55432 即可。
+      - "${TIMESCALEDB_HOST_PORT:-5432}:5432"
     volumes:
       - timescale-data:/var/lib/postgresql/data
       - ./backend/sql/init_pipeline.sql:/docker-entrypoint-initdb.d/001-init-pipeline.sql:ro
+      - ./backend/sql/flink_speed_stats.sql:/docker-entrypoint-initdb.d/002-flink-speed-stats.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
@@ -127,6 +130,71 @@ services:
       - prediction-api
     restart: unless-stopped
 
+  # ---------- 9/21 实时计算：Flink Standalone 单机伪分布式 ----------
+  # 只在 --profile flink 时启动，避免影响既有 9/11 之前的验收流程。
+  # 官方镜像不含 Kafka / JDBC / PostgreSQL 连接器 jar，需先放入 ./flink-lib/（见 backend/flink/README.md）。
+  flink-jobmanager:
+    profiles: ["flink"]
+    build:
+      context: .
+      dockerfile: backend/flink/Dockerfile
+    image: intel-transportation/flink:1.19-connector
+    # 不写 container_name：容器名交给 compose 按项目加前缀，避免与本机另一套 Flink 冲突。
+    # 服务间寻址用 service 名（flink-jobmanager），docker DNS 自动解析。
+    command: jobmanager
+    ports:
+      # 本机 8081 已被占用时设 FLINK_WEB_UI_HOST_PORT=8181，并把 FLINK_WEB_UI_URL 一起改掉。
+      - "${FLINK_WEB_UI_HOST_PORT:-8081}:8081"
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: flink-jobmanager
+        rest.bind-address: 0.0.0.0
+        table.local-time-zone: UTC
+    volumes:
+      - ./backend/flink/conf/flink-conf.yaml:/opt/flink/conf/flink-conf.yaml:ro
+      - ./backend/flink/sql:/opt/flink/sql:ro
+      - flink-checkpoints:/opt/flink/checkpoints
+    depends_on:
+      kafka:
+        condition: service_healthy
+      timescaledb:
+        condition: service_healthy
+    restart: unless-stopped
+
+  flink-taskmanager:
+    profiles: ["flink"]
+    build:
+      context: .
+      dockerfile: backend/flink/Dockerfile
+    image: intel-transportation/flink:1.19-connector
+    command: taskmanager
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: flink-jobmanager
+        taskmanager.numberOfTaskSlots: 4
+        table.local-time-zone: UTC
+    volumes:
+      - ./backend/flink/conf/flink-conf.yaml:/opt/flink/conf/flink-conf.yaml:ro
+      - flink-checkpoints:/opt/flink/checkpoints
+    depends_on:
+      - flink-jobmanager
+    restart: unless-stopped
+
+  # 演示数据源：向 traffic_stream 持续灌卡口过车事件（车速为模拟值）
+  flink-traffic-feed:
+    profiles: ["flink"]
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    command: ["python", "-m", "backend.flink.feed_traffic_stream", "--duration", "1800", "--broker", "kafka:29092"]
+    environment:
+      KAFKA_BROKER: kafka:29092
+      KAFKA_TOPIC_TRAFFIC: ${KAFKA_TOPIC_TRAFFIC:-traffic_stream}
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart: "no"
+
   acceptance-simulator:
     profiles: ["acceptance"]
     build:
@@ -157,3 +225,5 @@ volumes:
   timescale-data:
   agent-data:
   rag-data:
+  flink-checkpoints:
+

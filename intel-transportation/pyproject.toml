@@ -24,8 +24,12 @@ ignore = ["E501"]
 [tool.ruff.lint.isort]
 known-first-party = ["acceptance", "backend", "core", "db", "edge"]
 
+[tool.ruff.lint.flake8-bugbear]
+# FastAPI 的依赖声明本身就写在参数默认值里，B008 在这里是误报
+extend-immutable-calls = ["fastapi.Depends", "fastapi.File", "fastapi.Form"]
+
 [tool.pytest.ini_options]
-testpaths = ["tests", "backend/prediction/tests", "backend/crew/tests", "acceptance/tests"]
+testpaths = ["tests", "backend/prediction/tests", "backend/crew/tests", "backend/flink/tests", "backend/vision/tests", "acceptance/tests"]
 pythonpath = ["."]
 addopts = "-ra --strict-markers"
 

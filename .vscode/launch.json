@@ -27,6 +27,45 @@
       },
       "console": "integratedTerminal",
       "justMyCode": false
+    },
+    {
+      "name": "9/18 · 多模态视频解说独立服务（需 DASHSCOPE_API_KEY）",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "backend.vision.api_server",
+      "cwd": "${workspaceFolder}/intel-transportation",
+      "envFile": "${workspaceFolder}/intel-transportation/.env",
+      "env": {
+        "PYTHONUTF8": "1",
+        "TRAFFIC_VISION_ENABLED": "true"
+      },
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "9/18 · 多模态视频解说演示脚本（Mock 端点，无需密钥）",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/intel-transportation/backend/scripts/vision_smoke.py",
+      "cwd": "${workspaceFolder}/intel-transportation",
+      "env": {
+        "PYTHONUTF8": "1"
+      },
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "9/21 · Flink SQL 作业自检",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/intel-transportation/backend/scripts/flink_smoke.py",
+      "args": ["--json", "data/flink/smoke.json"],
+      "cwd": "${workspaceFolder}/intel-transportation",
+      "env": {
+        "PYTHONUTF8": "1"
+      },
+      "console": "integratedTerminal",
+      "justMyCode": false
     }
   ]
 }

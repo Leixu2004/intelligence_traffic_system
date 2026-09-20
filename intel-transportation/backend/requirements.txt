@@ -14,3 +14,11 @@ langgraph>=1.0.0,<2.0.0
 # 模型走百炼 OpenAI 兼容端点，因此不需要 langchain_openai.ChatOpenAI。
 crewai>=1.15,<2.0
 PyYAML>=6.0
+# 多模态理解（backend/vision，9/18 课件）：抽帧 + 调用 Qwen-VL 的 OpenAI 兼容端点
+opencv-python-headless>=4.9
+Pillow>=10.0
+httpx>=0.27
+# /api/v1/vision 的图片与视频上传接口需要 multipart 解析（FastAPI UploadFile）
+python-multipart>=0.0.9
+# 可选：本机推理 Qwen2-VL（课件第 4 页路径，需 ≥16GB 显存）与 YOLOv8 车辆计数
+# torch / transformers / ultralytics 体积大，默认不装，缺失时相应能力诚实降级

@@ -1,0 +1,70 @@
+################################################################################
+# 9/21 实时计算 · Flink Standalone 配置（单机伪分布式）
+#
+# 位置：本文件挂载到容器里的 /opt/flink/conf/flink-conf.yaml
+#       （见 docker-compose.yml 的 flink-jobmanager / flink-taskmanager 服务）
+# 本机手工部署时：cp backend/flink/conf/flink-conf.yaml $FLINK_HOME/conf/flink-conf.yaml
+#
+# 键名以 Flink 1.18+ 为准；课件里的旧键（state.backend / restart-strategy）在注释中标出，
+# 老版本 Flink 用旧键，1.20 会用旧键会打 deprecation 警告但仍然可用。
+################################################################################
+
+# ---------- JobManager ----------
+# 容器网络里的服务名；裸机单机部署改成 localhost
+jobmanager.rpc.address: flink-jobmanager
+jobmanager.rpc.port: 6123
+jobmanager.memory.process.size: 1600m
+jobmanager.bind-host: 0.0.0.0
+
+# ---------- TaskManager ----------
+# 单机 4 slot：Source / Window Aggregate / Sink 各占一个还能余一个
+taskmanager.numberOfTaskSlots: 4
+taskmanager.memory.process.size: 1728m
+taskmanager.bind-host: 0.0.0.0
+
+# ---------- 并行度 ----------
+# 课件默认 1；接真实卡口流时按 Kafka 分区数上调
+parallelism.default: 1
+
+# ---------- REST / Web UI ----------
+rest.address: 0.0.0.0
+rest.bind-address: 0.0.0.0
+rest.port: 8081
+
+# ---------- Checkpoint（验收项：EXACTLY_ONCE）----------
+execution.checkpointing.interval: 15s
+execution.checkpointing.mode: EXACTLY_ONCE
+execution.checkpointing.timeout: 5min
+execution.checkpointing.min-pause: 5s
+execution.checkpointing.externalized-checkpoint-retention: RETAIN_ON_CANCELLATION
+state.backend.type: rocksdb
+state.backend.incremental: true
+state.checkpoints.dir: file:///opt/flink/checkpoints
+state.savepoints.dir: file:///opt/flink/savepoints
+# 旧键：state.backend: rocksdb
+
+# ---------- 失败重启 ----------
+restart-strategy.type: exponential-delay
+restart-strategy.exponential-delay.initial-backoff: 1s
+restart-strategy.exponential-delay.max-backoff: 30s
+# 旧键：restart-strategy: exponential-delay
+
+# ---------- SQL 语义 ----------
+# 事件时间按 UTC 解析，避免写入 TIMESTAMPTZ 结果表时整体偏移时区。
+# 时间语义本身由 source_ddl.sql 里的 WATERMARK 声明决定（声明即事件时间），无需额外开关。
+table.local-time-zone: UTC
+# 空闲分区不阻塞 Watermark 推进（单分区时也可及早触发窗口）
+table.exec.source.idle-timeout: 3s
+
+# ---------- 性能（课件「常见问题与优化」页）----------
+table.exec.mini-batch.enabled: true
+table.exec.mini-batch.allow-latency: 2s
+table.exec.mini-batch.size: 1000
+table.optimizer.agg-phase-strategy: TWO_PHASE
+
+# 说明：
+#   1. 提交前需把连接器放进 $FLINK_HOME/lib/：
+#      flink-connector-kafka-*.jar、flink-connector-jdbc-*.jar、postgresql-*.jar
+#      （1.20 镜像默认自带 table planner，但不含这三个连接器）
+#   2. docker-compose 里用 FLINK_PROPERTIES 环境变量可覆盖本文件的任意键，
+#      例如 JobManager 主机名在容器网络里必须叫 jobmanager。
