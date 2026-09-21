@@ -36,6 +36,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from dashboard.data_loader import (  # noqa: E402
+    AREA_LABEL,
     aggregate_traffic,
     build_prediction_frame,
     calculate_metrics,
@@ -415,7 +416,10 @@ def _render_road_heatmap(traffic: pd.DataFrame) -> None:
 def _render_map(traffic: pd.DataFrame, checkpoint: str) -> None:
     with st.container(border=True):
         points = checkpoint_points(filter_traffic(traffic, checkpoint))
-        _panel_heading("实时路况地图（高德地图）", f"{len(points)} 个监测卡口")
+        _panel_heading(
+            f"实时路况地图 · {AREA_LABEL}",
+            f"{len(points)} 个监测卡口｜车流与速度沿用数据源原值，卡口坐标按天河地标演示化落点",
+        )
         amap_key = _dashboard_secret("AMAP_KEY")
         security_code = _dashboard_secret("AMAP_SECURITY_CODE")
         if amap_key:
@@ -431,8 +435,11 @@ def _render_map(traffic: pd.DataFrame, checkpoint: str) -> None:
         if map_df.empty:
             st.info("暂无可用经纬度数据")
         else:
-            st.map(map_df, zoom=11, width="stretch")
-            st.caption("未配置 AMAP_KEY，当前使用 Streamlit 本地地图兜底。")
+            st.map(map_df, zoom=12, width="stretch")
+            st.caption(
+                "未配置 AMAP_KEY，当前使用 Streamlit 本地地图兜底，"
+                "因此没有高德实时路况图层（红黄绿路网着色）。"
+            )
 
 
 def _render_evidence(detections: pd.DataFrame) -> None:
@@ -481,7 +488,7 @@ def render_dashboard(page_title: str = "智慧交通流量监测大屏") -> None
     checkpoint_options = ["全部卡口"] + sorted(
         bundle.traffic["checkpoint_id"].dropna().astype(str).unique().tolist()
     )
-    with st.expander("监测范围", expanded=False):
+    with st.expander(f"监测范围 · {AREA_LABEL}", expanded=False):
         checkpoint = st.selectbox("选择监测卡口", checkpoint_options, label_visibility="collapsed")
     traffic = filter_traffic(bundle.traffic, checkpoint)
 

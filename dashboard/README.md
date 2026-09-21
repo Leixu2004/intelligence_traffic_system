@@ -23,6 +23,18 @@ streamlit run dashboard\app.py --server.port 8501
 3. CSV 不可用时尝试 `intel-transportation/data/traffic_archive.parquet`。
 4. 所有外部数据都不可用时，展示固定随机种子的内置示例数据，页面不会白屏。
 
+## 监测区域（当前：广州天河）
+
+地图范围由卡口经纬度决定。`data_loader.py` 在数据规范化阶段把各数据源的卡口重定位到
+天河区地标（天河路·体育西路、珠江新城、天河北路、岗顶、棠下、科韵路、华南快速、瘦狗岭、
+京溪、龙洞），因此无论数据来自 FastAPI、本地 CSV、Parquet 还是内置示例，地图都落在天河一带。
+
+- 只重映射经纬度，车流量与速度沿用数据源原值。页面副标题已写明「卡口坐标按天河地标演示化落点」，
+  不要把这张图当作天河区真实现场采集结果。
+- 未登记的卡口 ID 按排序轮转分配地标，同一次运行内位置稳定。
+- 关掉区域化、回到数据源原始坐标：`$env:DASHBOARD_MAP_AREA = "source"`。
+- 换其他城区：改 `CP_TIANHE_COORDS` / `TIANHE_LANDMARKS` 两张表即可，无需动数据文件。
+
 ## 高德地图
 
 未配置 Key 时，页面使用 Streamlit 本地地图展示经纬度点位。应用优先读取本地 `dashboard/.streamlit/secrets.toml`，从项目根目录或 `dashboard` 目录启动都可以读取，也支持通过环境变量注入高德地图 JS API 2.0：
@@ -31,6 +43,9 @@ streamlit run dashboard\app.py --server.port 8501
 $env:AMAP_KEY = "你的 Web 端 JS API Key"
 $env:AMAP_SECURITY_CODE = "你的 Security Code"
 ```
+
+配置 Key 后，地图除自建卡口热力图层外，还会叠加高德官方实时路况图层
+（`AMap.TileLayer.Traffic`，60 秒自动刷新），这是页面上唯一反映真实路网拥堵的图层。
 
 生产环境不要把 Key 和 Security Code 写入 Python 源码，并应在高德控制台配置域名白名单。
 

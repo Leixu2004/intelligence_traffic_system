@@ -147,19 +147,26 @@ def show_dependencies() -> dict[str, Any]:
     return report
 
 
-def show_extraction(settings) -> dict[str, Any]:
+def show_extraction(settings, clip: Path | None = None) -> dict[str, Any]:
     _section("[3/5] 视频抽帧与关键帧筛选")
     if not opencv_available():
         print("  [待办] 未安装 OpenCV，无法抽帧：pip install opencv-python-headless")
         return {"ok": False}
-    try:
-        clip = generate_demo_video(DEMO_CLIP, seconds=40, fps=10)
-    except RuntimeError as exc:  # 编码器不可用
-        print(f"  [待办] 演示片段生成失败：{exc}")
-        return {"ok": False}
-    print(f"  演示片段: {clip.relative_to(ROOT)}（合成画面，非真实事故影像）")
-    for row in scene_ground_truth():
-        print(f"    脚本 {row['at_seconds']:>5.1f}s  {row['scripted_scene']}")
+    custom = clip is not None
+    if custom:
+        if not clip.is_file():
+            print(f"  [待办] 指定的素材不存在：{clip}")
+            return {"ok": False}
+        print(f"  自定义素材: {clip}（{clip.stat().st_size // (1024 * 1024)} MB，真实影像）")
+    else:
+        try:
+            clip = generate_demo_video(DEMO_CLIP, seconds=40, fps=10)
+        except RuntimeError as exc:  # 编码器不可用
+            print(f"  [待办] 演示片段生成失败：{exc}")
+            return {"ok": False}
+        print(f"  演示片段: {clip.relative_to(ROOT)}（合成画面，非真实事故影像）")
+        for row in scene_ground_truth():
+            print(f"    脚本 {row['at_seconds']:>5.1f}s  {row['scripted_scene']}")
     try:
         frames = extract_frames(clip, interval=settings.frame_interval_seconds, max_frames=settings.max_frames_per_video)
     except VideoDecodeUnavailable as exc:
@@ -173,7 +180,7 @@ def show_extraction(settings) -> dict[str, Any]:
         print(f"  送模型比例: {ratio:.0%}（课件优化项「减少 80% 无效分析」的本地实测口径）")
     saved = []
     if keyframes:
-        directory = settings.frames_dir / "demo"
+        directory = settings.frames_dir / (clip.stem if custom else "demo")
         directory.mkdir(parents=True, exist_ok=True)
         for frame in keyframes[:3]:
             path = directory / f"frame_{frame.index:05d}_{frame.time_label.replace(':', 'm')}.jpg"
@@ -330,12 +337,15 @@ def main() -> int:
     args = parser.parse_args()
 
     settings = load_vision_settings()
+    clip = Path(args.source) if args.source else None
+    if clip is not None and not clip.is_absolute():
+        clip = ROOT / clip
     deliverables_ok = show_deliverables()
     dependencies = show_dependencies()
-    extraction = show_extraction(settings)
+    extraction = show_extraction(settings, clip)
 
     _section("[4/5] 端到端视觉链路")
-    clip = Path(args.source) if args.source else DEMO_CLIP
+    clip = clip or DEMO_CLIP
     server = None
     stats: dict[str, int] = {}
     if args.live:
@@ -380,7 +390,10 @@ def main() -> int:
         print(f"  Mock 端点调用次数: {stats['calls']}（描述 {stats['describe']} / 分析 {stats['analysis']} "
               f"/ 解说 {stats['narration']} / 告警 {stats['alert']}）")
         print("  真实模型效果: python backend/scripts/vision_smoke.py --live")
-    print("  提示: 演示片段为合成画面，输出仅作链路验证，不作为识别准确率证据。")
+    if clip == DEMO_CLIP:
+        print("  提示: 演示片段为合成画面，输出仅作链路验证，不作为识别准确率证据。")
+    else:
+        print(f"  提示: 本次分析外部素材 {clip}；画面是真实影像，但事故判定未经人工标注核对，仍不作准确率证据。")
 
     if args.json_path:
         target = Path(args.json_path)
@@ -434,7 +447,7 @@ def check_api(system: VideoAnalysisSystem) -> list[dict[str, str]]:
                 "detail": f"status={video.status_code} 帧数={len(data.get('timeline') or [])} 告警={len(data.get('alerts') or [])}",
             }
         )
-        image_frame = next((path for path in (system.settings.frames_dir / "demo").glob("*.jpg")), None)
+        image_frame = next(iter(sorted(system.settings.frames_dir.rglob("*.jpg"))), None)
         if image_frame is None:
             rows.append({"name": "POST /analyze", "ok": False, "detail": "缺少样例帧，先跑第 3 段"})
         else:

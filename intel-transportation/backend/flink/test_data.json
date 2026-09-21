@@ -1,0 +1,711 @@
+{
+  "description": "9/21 复杂事件处理 · CEP 测试数据集（模拟数据，不作为真实测速或检测精度证据）。CAM-01 正常→连续低速→恢复，应出红级；CAM-02 全程 <10 km/h，应同时出红级与紫级；CAM-03 20~40 km/h 轻度拥堵且含一条缺失测速，应只出黄级/绿级。",
+  "source": "simulation",
+  "timezone": "UTC",
+  "events": [
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:00:00+00:00",
+      "vehicle_id": "TEST-0001",
+      "speed_kmh": 62.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:00:00+00:00",
+      "vehicle_id": "TEST-0002",
+      "speed_kmh": 8.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:00:00+00:00",
+      "vehicle_id": "TEST-0003",
+      "speed_kmh": 22.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:01:00+00:00",
+      "vehicle_id": "TEST-0004",
+      "speed_kmh": 55.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:01:00+00:00",
+      "vehicle_id": "TEST-0005",
+      "speed_kmh": 9.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:02:00+00:00",
+      "vehicle_id": "TEST-0006",
+      "speed_kmh": 48.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:02:00+00:00",
+      "vehicle_id": "TEST-0007",
+      "speed_kmh": 7.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:02:00+00:00",
+      "vehicle_id": "TEST-0008",
+      "speed_kmh": 26.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:03:00+00:00",
+      "vehicle_id": "TEST-0009",
+      "speed_kmh": 41.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:03:00+00:00",
+      "vehicle_id": "TEST-0010",
+      "speed_kmh": 6.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:04:00+00:00",
+      "vehicle_id": "TEST-0011",
+      "speed_kmh": 35.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:04:00+00:00",
+      "vehicle_id": "TEST-0012",
+      "speed_kmh": 9.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:04:00+00:00",
+      "vehicle_id": "TEST-0013",
+      "speed_kmh": 31.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:05:00+00:00",
+      "vehicle_id": "TEST-0014",
+      "speed_kmh": 30.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:05:00+00:00",
+      "vehicle_id": "TEST-0015",
+      "speed_kmh": 8.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:06:00+00:00",
+      "vehicle_id": "TEST-0016",
+      "speed_kmh": 24.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:06:00+00:00",
+      "vehicle_id": "TEST-0017",
+      "speed_kmh": 5.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:06:00+00:00",
+      "vehicle_id": "TEST-0018",
+      "speed_kmh": 35.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:07:00+00:00",
+      "vehicle_id": "TEST-0019",
+      "speed_kmh": 8.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:08:00+00:00",
+      "vehicle_id": "TEST-0020",
+      "speed_kmh": 9.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:08:00+00:00",
+      "vehicle_id": "TEST-0021",
+      "speed_kmh": null,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:09:00+00:00",
+      "vehicle_id": "TEST-0022",
+      "speed_kmh": 7.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:10:00+00:00",
+      "vehicle_id": "TEST-0023",
+      "speed_kmh": 6.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:10:00+00:00",
+      "vehicle_id": "TEST-0024",
+      "speed_kmh": 24.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:11:00+00:00",
+      "vehicle_id": "TEST-0025",
+      "speed_kmh": 8.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:12:00+00:00",
+      "vehicle_id": "TEST-0026",
+      "speed_kmh": 8.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:12:00+00:00",
+      "vehicle_id": "TEST-0027",
+      "speed_kmh": 33.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:13:00+00:00",
+      "vehicle_id": "TEST-0028",
+      "speed_kmh": 9.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:14:00+00:00",
+      "vehicle_id": "TEST-0029",
+      "speed_kmh": 7.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:14:00+00:00",
+      "vehicle_id": "TEST-0030",
+      "speed_kmh": 38.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:15:00+00:00",
+      "vehicle_id": "TEST-0031",
+      "speed_kmh": 18.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:15:00+00:00",
+      "vehicle_id": "TEST-0032",
+      "speed_kmh": 6.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:16:00+00:00",
+      "vehicle_id": "TEST-0033",
+      "speed_kmh": 16.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:16:00+00:00",
+      "vehicle_id": "TEST-0034",
+      "speed_kmh": 9.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:16:00+00:00",
+      "vehicle_id": "TEST-0035",
+      "speed_kmh": 27.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:17:00+00:00",
+      "vehicle_id": "TEST-0036",
+      "speed_kmh": 17.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:17:00+00:00",
+      "vehicle_id": "TEST-0037",
+      "speed_kmh": 8.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:18:00+00:00",
+      "vehicle_id": "TEST-0038",
+      "speed_kmh": 15.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:18:00+00:00",
+      "vehicle_id": "TEST-0039",
+      "speed_kmh": 5.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:18:00+00:00",
+      "vehicle_id": "TEST-0040",
+      "speed_kmh": 30.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:19:00+00:00",
+      "vehicle_id": "TEST-0041",
+      "speed_kmh": 19.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:19:00+00:00",
+      "vehicle_id": "TEST-0042",
+      "speed_kmh": 8.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:20:00+00:00",
+      "vehicle_id": "TEST-0043",
+      "speed_kmh": 14.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:20:00+00:00",
+      "vehicle_id": "TEST-0044",
+      "speed_kmh": 9.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:20:00+00:00",
+      "vehicle_id": "TEST-0045",
+      "speed_kmh": 34.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:21:00+00:00",
+      "vehicle_id": "TEST-0046",
+      "speed_kmh": 18.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:21:00+00:00",
+      "vehicle_id": "TEST-0047",
+      "speed_kmh": 7.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:22:00+00:00",
+      "vehicle_id": "TEST-0048",
+      "speed_kmh": 16.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:22:00+00:00",
+      "vehicle_id": "TEST-0049",
+      "speed_kmh": 6.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:23:00+00:00",
+      "vehicle_id": "TEST-0050",
+      "speed_kmh": 13.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:23:00+00:00",
+      "vehicle_id": "TEST-0051",
+      "speed_kmh": 8.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:24:00+00:00",
+      "vehicle_id": "TEST-0052",
+      "speed_kmh": 17.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:24:00+00:00",
+      "vehicle_id": "TEST-0053",
+      "speed_kmh": 8.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:24:00+00:00",
+      "vehicle_id": "TEST-0054",
+      "speed_kmh": 58.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:25:00+00:00",
+      "vehicle_id": "TEST-0055",
+      "speed_kmh": 15.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:25:00+00:00",
+      "vehicle_id": "TEST-0056",
+      "speed_kmh": 9.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:26:00+00:00",
+      "vehicle_id": "TEST-0057",
+      "speed_kmh": 18.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:26:00+00:00",
+      "vehicle_id": "TEST-0058",
+      "speed_kmh": 64.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:27:00+00:00",
+      "vehicle_id": "TEST-0059",
+      "speed_kmh": 18.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:27:00+00:00",
+      "vehicle_id": "TEST-0060",
+      "speed_kmh": 25.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:28:00+00:00",
+      "vehicle_id": "TEST-0061",
+      "speed_kmh": 16.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:28:00+00:00",
+      "vehicle_id": "TEST-0062",
+      "speed_kmh": 30.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:28:00+00:00",
+      "vehicle_id": "TEST-0063",
+      "speed_kmh": 72.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:29:00+00:00",
+      "vehicle_id": "TEST-0064",
+      "speed_kmh": 17.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:29:00+00:00",
+      "vehicle_id": "TEST-0065",
+      "speed_kmh": 28.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:30:00+00:00",
+      "vehicle_id": "TEST-0066",
+      "speed_kmh": 15.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:30:00+00:00",
+      "vehicle_id": "TEST-0067",
+      "speed_kmh": 33.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:30:00+00:00",
+      "vehicle_id": "TEST-0068",
+      "speed_kmh": 66.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:31:00+00:00",
+      "vehicle_id": "TEST-0069",
+      "speed_kmh": 19.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:31:00+00:00",
+      "vehicle_id": "TEST-0070",
+      "speed_kmh": 27.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:32:00+00:00",
+      "vehicle_id": "TEST-0071",
+      "speed_kmh": 14.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-02",
+      "checkpoint_id": "CP-SOUTH-02",
+      "time": "2026-09-21T14:32:00+00:00",
+      "vehicle_id": "TEST-0072",
+      "speed_kmh": 36.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:32:00+00:00",
+      "vehicle_id": "TEST-0073",
+      "speed_kmh": 61.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:33:00+00:00",
+      "vehicle_id": "TEST-0074",
+      "speed_kmh": 18.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:34:00+00:00",
+      "vehicle_id": "TEST-0075",
+      "speed_kmh": 16.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:34:00+00:00",
+      "vehicle_id": "TEST-0076",
+      "speed_kmh": 70.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:35:00+00:00",
+      "vehicle_id": "TEST-0077",
+      "speed_kmh": 13.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:36:00+00:00",
+      "vehicle_id": "TEST-0078",
+      "speed_kmh": 17.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-03",
+      "checkpoint_id": "CP-EAST-03",
+      "time": "2026-09-21T14:36:00+00:00",
+      "vehicle_id": "TEST-0079",
+      "speed_kmh": 68.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:37:00+00:00",
+      "vehicle_id": "TEST-0080",
+      "speed_kmh": 15.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:38:00+00:00",
+      "vehicle_id": "TEST-0081",
+      "speed_kmh": 18.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:39:00+00:00",
+      "vehicle_id": "TEST-0082",
+      "speed_kmh": 18.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:40:00+00:00",
+      "vehicle_id": "TEST-0083",
+      "speed_kmh": 16.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:41:00+00:00",
+      "vehicle_id": "TEST-0084",
+      "speed_kmh": 45.0,
+      "vehicle_type": "car"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:43:00+00:00",
+      "vehicle_id": "TEST-0085",
+      "speed_kmh": 52.0,
+      "vehicle_type": "bus"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:45:00+00:00",
+      "vehicle_id": "TEST-0086",
+      "speed_kmh": 60.0,
+      "vehicle_type": "truck"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:47:00+00:00",
+      "vehicle_id": "TEST-0087",
+      "speed_kmh": 66.0,
+      "vehicle_type": "van"
+    },
+    {
+      "camera_id": "CAM-01",
+      "checkpoint_id": "CP-NORTH-01",
+      "time": "2026-09-21T14:49:00+00:00",
+      "vehicle_id": "TEST-0088",
+      "speed_kmh": 58.0,
+      "vehicle_type": "car"
+    }
+  ]
+}

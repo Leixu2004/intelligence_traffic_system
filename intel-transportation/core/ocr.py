@@ -3,9 +3,12 @@ from pathlib import Path
 from threading import Lock
 
 
-# 将 PaddleX/PaddleOCR 缓存固定在项目内，避免服务账号读取个人目录时出现权限错误。
+# 将 PaddleX/PaddleOCR 缓存固定在项目内，避免服务账号读取个人目录时出现权限错误；
+# 模型源固定为 BOS 且 modelscope 缓存也指到项目内，保证所有下载只写项目 data/ 目录。
 DEFAULT_CACHE_DIR = Path(__file__).resolve().parents[1] / "data" / "paddlex_cache"
 os.environ.setdefault("PADDLE_PDX_CACHE_HOME", str(DEFAULT_CACHE_DIR))
+os.environ.setdefault("PADDLE_PDX_MODEL_SOURCE", "bos")
+os.environ.setdefault("MODELSCOPE_CACHE", str(DEFAULT_CACHE_DIR / "modelscope"))
 
 from paddleocr import PaddleOCR
 
@@ -34,6 +37,8 @@ class PlateOCR:
                     use_doc_unwarping=False,
                     use_textline_orientation=False,
                     enable_mkldnn=False,
+                    # 用 onnxruntime 引擎，避免依赖体积巨大的 paddlepaddle（CPU 推理）。
+                    engine="onnxruntime",
                     **model_options,
                 )
             except TypeError:

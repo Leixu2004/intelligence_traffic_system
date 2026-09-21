@@ -55,6 +55,9 @@ restart-strategy.exponential-delay.max-backoff: 30s
 table.local-time-zone: UTC
 # 空闲分区不阻塞 Watermark 推进（单分区时也可及早触发窗口）
 table.exec.source.idle-timeout: 3s
+# CEP 尚未闭合的低速段存在算子状态里，TTL 必须大于 congestion_cep.sql 的 WITHIN（60 分钟），
+# 取 2 小时；窗口聚合只保留 10 分钟数据，不受这个 TTL 影响。
+table.exec.state.ttl: 7200000
 
 # ---------- 性能（课件「常见问题与优化」页）----------
 table.exec.mini-batch.enabled: true

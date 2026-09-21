@@ -1,0 +1,59 @@
+################################################################################
+# 9/21 复杂事件处理 · CEP 作业配置（状态 TTL + 并行度）
+#
+# 这份文件是 conf/flink-conf.yaml 的**增量覆盖**，不重复列 9/21 已给过的集群参数。
+# 两种生效方式（选一种，别同时用）：
+#   1) 容器：把下面的键逐行拼进 docker-compose.yml 里 flink-jobmanager 的 FLINK_PROPERTIES；
+#   2) 裸机：追加到 $FLINK_HOME/conf/flink-conf.yaml，或提交时用 -D 传单个键，例如
+#        ./bin/sql-client.sh -D table.exec.state.ttl=7200000 -f backend/flink/sql/alert_level.sql
+#
+# 值以 Flink 1.19 为准；标注「旧键」的写法在 1.13 以前需要换名，1.20 仍然可用但会打警告。
+################################################################################
+
+# ---------- 状态 ----------
+# CEP 的状态里存着每个 camera_id 尚未闭合的模式序列（NFA 的当前状态集），
+# 比窗口聚合大得多，所以后端固定用 RocksDB（增量 checkpoint， spill 到本地盘）。
+state.backend.type: rocksdb
+state.backend.incremental: true
+state.checkpoints.dir: file:///opt/flink/checkpoints
+state.savepoints.dir: file:///opt/flink/savepoints
+
+# 状态 TTL：必须大于最长的 WITHIN（sql/congestion_cep.sql 用 60 分钟），否则尚未闭合的低速段
+# 会被提前清掉，表现为「低速持续很久却一条紫级都不出」。取 2 小时 = 7200000 ms。
+# 注意这是「无更新即过期」的兜底，不是模式匹配的时间约束（那是 WITHIN 的职责），两者不要混用。
+table.exec.state.ttl: 7200000
+
+# ---------- 并行度 ----------
+# 单机 4 slot；CEP 按 camera_id 分区，分区内必须串行，所以上限取决于 Kafka 分区数：
+# 并行度超过 traffic_stream 的分区数不会更快，只会让多余的 subtask 空转。
+parallelism.default: 1
+taskmanager.numberOfTaskSlots: 4
+# 摄像头规模上来后：parallelism.default 调到与 Kafka 分区数一致，并配 key.group 数。
+
+# ---------- Watermark（CEP 的 WITHIN 靠它推进）----------
+# 空闲分区不推进 watermark 时，低速段会一直「等待闭合」而不产出预警。
+table.exec.source.idle-timeout: 3s
+pipeline.auto-watermark-interval: 200ms
+
+# ---------- Checkpoint ----------
+# 与 9/21 一致，验收项「EXACTLY_ONCE」由这里保证：预警漏报/重报都不可接受。
+execution.checkpointing.interval: 15s
+execution.checkpointing.mode: EXACTLY_ONCE
+execution.checkpointing.min-pause: 5s
+execution.checkpointing.timeout: 5min
+execution.checkpointing.externalized-checkpoint-retention: RETAIN_ON_CANCELLATION
+
+# ---------- 容错 ----------
+restart-strategy.type: exponential-delay
+restart-strategy.exponential-delay.initial-backoff: 1s
+restart-strategy.exponential-delay.max-backoff: 30s
+
+# ---------- 吞吐优化（课件「CEP 调试与优化」页）----------
+# MiniBatch 只对聚合/join 有效：alert_level.sql 的黄绿分支是窗口聚合，能吃到；
+# MATCH_RECOGNIZE 本身不受 MiniBatch 影响，别指望它降低 CEP 延迟。
+table.exec.mini-batch.enabled: true
+table.exec.mini-batch.allow-latency: 2s
+table.exec.mini-batch.size: 1000
+table.optimizer.agg-phase-strategy: TWO_PHASE
+# 本地时区与事件时间解析口径同 9/21，写 TIMESTAMPTZ 不偏移。
+table.local-time-zone: UTC

@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 """Flink SQL 作业演示脚本（9/21 课件交付）。
 
-四段输出：
-  [1/4] 交付物清单        —— 课件要求的 6 份文件是否齐备
-  [2/4] SQL 静态校验      —— 连接器参数 / Watermark / 窗口 / 列顺序 / 口令泄漏
-  [3/4] 窗口语义复算      —— 纯 Python 参考实现，给出「作业应输出什么」的对照表
-  [4/4] 集群连通性        —— 探测 Flink Web UI，未启动只报待办不算失败
+五段输出：
+  [1/5] 交付物清单        —— 课件要求的文件是否齐备（含 9/21 CEP 那一份）
+  [2/5] SQL 静态校验      —— 连接器参数 / Watermark / 窗口 / PATTERN / 列顺序 / 口令泄漏
+  [3/5] 窗口语义复算      —— 纯 Python 参考实现，给出「作业应输出什么」的对照表
+  [4/5] CEP 预警复算      —— MATCH_RECOGNIZE 语义 + 四级判定 + 消费端升降级
+  [5/5] 集群连通性        —— 探测 Flink Web UI，未启动只报待办不算失败
 
-第 3 段用的是本仓库自己生成的确定性合成车流（simulation=true），
-只用于演示窗口语义，不是实测车速；第 4 段才需要 Docker。
+第 3、4 段用的是本仓库自己生成的确定性合成车流（simulation=true），
+只用于演示窗口与 CEP 语义，不是实测车速；第 5 段才需要 Docker。
 
 用法：
     python backend/scripts/flink_smoke.py
@@ -23,6 +24,7 @@ import random
 import sys
 import urllib.error
 import urllib.request
+from dataclasses import asdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -44,7 +46,9 @@ def _load_env() -> None:
 
 _load_env()
 
-from backend.flink.config import load_flink_settings  # noqa: E402
+from backend.flink.alert_consumer import consume as consume_alerts  # noqa: E402
+from backend.flink.cep_reference import expected_alerts, load_events  # noqa: E402
+from backend.flink.config import ALERT_LEVELS, load_flink_settings  # noqa: E402
 from backend.flink.sql_checks import run_sql_checks  # noqa: E402
 from backend.flink.window_semantics import (  # noqa: E402
     aggregate_speed_stats,
@@ -98,9 +102,9 @@ def _section(title: str) -> None:
 
 
 def show_artifacts(settings) -> list[dict[str, object]]:
-    _section("[1/4] 交付物清单（课件《Flink SQL实时作业》）")
+    _section("[1/5] 交付物清单（课件《Flink SQL实时作业》+《Flink-CEP与预警规则》）")
     rows = []
-    for path in (*settings.artifacts, settings.db_ddl):
+    for path in (*settings.artifacts, settings.db_ddl, settings.alerts_db_ddl):
         exists = path.is_file()
         size = path.stat().st_size if exists else 0
         rows.append({"path": str(path.relative_to(ROOT)), "exists": exists, "bytes": size})
@@ -109,7 +113,7 @@ def show_artifacts(settings) -> list[dict[str, object]]:
 
 
 def show_sql_checks(settings) -> bool:
-    _section("[2/4] SQL 静态校验")
+    _section("[2/5] SQL 静态校验")
     result = run_sql_checks(settings)
     for check in result["checks"]:
         print(f"  {'[OK ]' if check['passed'] else '[FAIL]'} {check['name']:<34} {check['message']}")
@@ -118,7 +122,7 @@ def show_sql_checks(settings) -> bool:
 
 
 def show_window_semantics(settings) -> dict[str, object]:
-    _section("[3/4] 窗口语义复算（本地参考实现，非集群实测）")
+    _section("[3/5] 窗口语义复算（本地参考实现，非集群实测）")
     events = synthetic_events()
     with_speed = [event for event in events if event.get("speed_kmh") is not None]
     groups = window_group_sizes(
@@ -173,8 +177,66 @@ def show_window_semantics(settings) -> dict[str, object]:
     }
 
 
+def show_cep_semantics(settings) -> dict[str, object]:
+    _section("[4/5] CEP 预警复算（MATCH_RECOGNIZE + 四级判定，本地参考实现）")
+    events, skipped = load_events(settings.cep_test_data)
+    alerts = expected_alerts(events)
+    by_level = {level: 0 for level in ALERT_LEVELS}
+    for alert in alerts:
+        by_level[alert.alert_level] += 1
+    by_source = {"cep": 0, "window": 0}
+    for alert in alerts:
+        by_source[alert.source] += 1
+
+    print(f"  模拟事件 {len(events)} 条（丢弃缺失测速 {skipped} 条）→ 期望预警 {len(alerts)} 条")
+    print(f"  来源划分: CEP 段 {by_source['cep']} 条（红/紫） / 1min 窗口 {by_source['window']} 条（黄/绿）")
+    print("  级别分布: " + "  ".join(f"{level}={by_level[level]}" for level in ALERT_LEVELS))
+    print("    camera_id  start→end   level   avg   min cnt  dur  source")
+    for alert in alerts[:8]:
+        print(
+            f"    {alert.camera_id:<9} {alert.start_time:%H:%M}→{alert.end_time:%H:%M} "
+            f"{alert.alert_level:<7} {alert.avg_speed:>5.1f} {alert.min_speed:>5.1f} "
+            f"{alert.low_cnt:>3} {alert.duration_min:>4.1f}  {alert.source}"
+        )
+    severe = [a for a in alerts if a.alert_level in {"RED", "PURPLE"}]
+    if severe:
+        top = severe[0]
+        print(f"  红/紫级样例: {top.camera_id} {top.start_time:%H:%M} 起 {top.alert_level}"
+              f"（均速 {top.avg_speed}，持续 {top.duration_min:.0f} 分钟）")
+
+    pushes = consume_alerts(alerts)
+    actions: dict[str, int] = {}
+    for push in pushes:
+        actions[push.action] = actions.get(push.action, 0) + 1
+    print(f"  消费端升降级: 落库 {len(alerts)} 条 → 实际推送 {len(pushes)} 条（{actions}）")
+    for push in pushes[:6]:
+        print(
+            f"    {push.camera_id:<9} {push.start_time:%H:%M} {push.action:<9} "
+            f"{push.previous_level}→{push.level}"
+        )
+    print("  注: 以上是 test_data.json 在本地参考实现上的结果，用于说明规则自洽；")
+    print("      集群跑通后应与 traffic_alerts 表逐行比对，差异即缺陷。")
+    return {
+        "events": len(events),
+        "skipped_null_speed": skipped,
+        "alerts": len(alerts),
+        "by_level": by_level,
+        "by_source": by_source,
+        "rows": [alert_to_dict(alert) for alert in alerts],
+        "pushes": [push.to_dict() for push in pushes],
+        "simulation": True,
+    }
+
+
+def alert_to_dict(alert) -> dict[str, object]:
+    row = asdict(alert)
+    for key in ("start_time", "end_time"):
+        row[key] = row[key].strftime("%Y-%m-%d %H:%M:%S")
+    return row
+
+
 def probe_cluster(settings) -> dict[str, object]:
-    _section("[4/4] Flink 集群连通性")
+    _section("[5/5] Flink 集群连通性")
     url = f"{settings.web_ui_url}/overview"
     try:
         with urllib.request.urlopen(url, timeout=3) as response:
@@ -198,13 +260,15 @@ def main() -> int:
     artifacts = show_artifacts(settings)
     sql_ok = show_sql_checks(settings)
     semantics = show_window_semantics(settings)
+    cep = show_cep_semantics(settings)
     cluster = probe_cluster(settings)
 
     _section("结论")
     print(f"  交付物齐备: {all(row['exists'] for row in artifacts)}")
     print(f"  SQL 静态校验: {'通过' if sql_ok else '未通过'}")
+    print(f"  CEP 规则自洽: 四级均能产出 {all(cep['by_level'][level] > 0 for level in ALERT_LEVELS)}")
     print(f"  集群实测: {'已完成' if cluster.get('reachable') else '待办（未检测到 Flink Web UI）'}")
-    print("  说明: 第 3 段是本仓库的合成车流 + 本地参考实现，只证明窗口语义，不作为实测车速证据。")
+    print("  说明: 第 3、4 段是本仓库的合成车流 + 本地参考实现，只证明窗口与 CEP 语义，不作为实测车速证据。")
 
     if args.json_path:
         target = Path(args.json_path)
@@ -219,10 +283,14 @@ def main() -> int:
                         "min_vehicle_count": settings.min_vehicle_count,
                         "kafka_topic": settings.kafka_topic,
                         "sink_table": settings.sink_table,
+                        "kafka_group_id": settings.kafka_group_id,
+                        "cep_kafka_group_id": settings.cep_kafka_group_id,
+                        "alert_sink_table": settings.alert_sink_table,
                     },
                     "artifacts": artifacts,
                     "sql_checks": run_sql_checks(settings),
                     "window_semantics": semantics,
+                    "cep_semantics": cep,
                     "cluster": cluster,
                 },
                 ensure_ascii=False,

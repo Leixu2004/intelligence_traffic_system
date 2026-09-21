@@ -31,15 +31,44 @@ PREDICTION_API_KEY = os.getenv("PREDICTION_API_KEY", "").strip()
 def _prediction_headers() -> dict[str, str]:
     return {"X-API-Key": PREDICTION_API_KEY} if PREDICTION_API_KEY else {}
 
-CHECKPOINT_DEFAULTS = {
-    "CP-NORTH-01": (116.4074, 39.9042),
-    "CP-NORTH-02": (116.4100, 39.9050),
-    "CP-NORTH-03": (116.4120, 39.9058),
-    "CP-EAST-05": (116.4150, 39.9060),
-    "CP-EAST-06": (116.4180, 39.9065),
-    "CP-SOUTH-03": (116.3950, 39.9000),
-    "CP-WEST-02": (116.3800, 39.8950),
+# --- 地图监测区域：广州天河 -------------------------------------------------
+# 大屏地图的范围完全由卡口经纬度决定，所以换区域就是换卡口坐标落点。
+# AREA=tianhe 时把所有数据源的卡口重映射到天河区真实地标；只改经纬度，
+# 车流量和速度沿用数据源原值——这是演示区域化，不等于天河区真实现场采集。
+# 需要看真实路网坐标时设 DASHBOARD_MAP_AREA=source。
+MAP_AREA = os.getenv("DASHBOARD_MAP_AREA", "tianhe").strip().lower()
+AREA_LABEL = "广州天河" if MAP_AREA == "tianhe" else "数据源原始坐标"
+# 天河区政府一带，作为无坐标数据时的地图兜底中心。
+AREA_CENTER = (113.3276, 23.1297)
+
+# 地标名 + 经纬度（近似值，用于大屏标注与卡口轮转分配）。
+TIANHE_LANDMARKS: tuple[tuple[str, float, float], ...] = (
+    ("天河路·体育西路", 113.3252, 23.1330),
+    ("珠江新城·花城广场", 113.3218, 23.1195),
+    ("天河北路·龙口西", 113.3312, 23.1412),
+    ("黄埔大道西·岗顶", 113.3352, 23.1268),
+    ("中山大道西·棠下", 113.3601, 23.1233),
+    ("科韵路·天河段", 113.3488, 23.1278),
+    ("华南快速·新塘立交", 113.3690, 23.1345),
+    ("广园快速·瘦狗岭", 113.3330, 23.1520),
+    ("燕岭路·京溪", 113.3435, 23.1635),
+    ("龙洞·华南植物园", 113.3905, 23.1880),
+)
+
+# 已知卡口的固定落点，保证每次刷新同一卡口画在同一位置。
+CP_TIANHE_COORDS: dict[str, tuple[float, float]] = {
+    "CP-NORTH-01": (113.3312, 23.1412),
+    "CP-NORTH-02": (113.3435, 23.1635),
+    "CP-NORTH-03": (113.3330, 23.1520),
+    "CP-EAST-05": (113.3690, 23.1345),
+    "CP-EAST-06": (113.3905, 23.1880),
+    "CP-SOUTH-02": (113.3218, 23.1195),
+    "CP-SOUTH-03": (113.3488, 23.1278),
+    "CP-WEST-02": (113.3352, 23.1268),
+    "KDD-T1-D0": (113.3252, 23.1330),
 }
+
+CHECKPOINT_DEFAULTS = dict(CP_TIANHE_COORDS)
 
 
 @dataclass(frozen=True)
@@ -57,6 +86,26 @@ class RemotePrediction:
     interval: pd.Timedelta
     model: str
     error: str = ""
+
+
+def _area_coordinates(checkpoint_ids: list[str]) -> dict[str, tuple[float, float]]:
+    """给每个卡口定一个天河坐标；未登记过的卡口按 ID 排序轮转分配地标。"""
+    known = {cid: CP_TIANHE_COORDS[cid] for cid in checkpoint_ids if cid in CP_TIANHE_COORDS}
+    unknown = sorted(cid for cid in checkpoint_ids if cid not in CP_TIANHE_COORDS)
+    spread = {
+        cid: TIANHE_LANDMARKS[(index + len(known)) % len(TIANHE_LANDMARKS)][1:3]
+        for index, cid in enumerate(unknown)
+    }
+    return {**known, **spread}
+
+
+def _remap_to_area(result: pd.DataFrame) -> pd.DataFrame:
+    if MAP_AREA != "tianhe" or result.empty:
+        return result
+    coords = _area_coordinates(sorted(result["checkpoint_id"].astype(str).unique()))
+    result["gps_lng"] = result["checkpoint_id"].map(lambda cid: coords[str(cid)][0])
+    result["gps_lat"] = result["checkpoint_id"].map(lambda cid: coords[str(cid)][1])
+    return result
 
 
 def _normalise_traffic(df: pd.DataFrame) -> pd.DataFrame:
@@ -98,6 +147,7 @@ def _normalise_traffic(df: pd.DataFrame) -> pd.DataFrame:
     result["vehicle_count"] = pd.to_numeric(result["vehicle_count"], errors="coerce").fillna(1).clip(lower=0)
 
     result = result.dropna(subset=["time"]).sort_values("time").reset_index(drop=True)
+    result = _remap_to_area(result)
     return result[
         ["time", "vehicle_id", "checkpoint_id", "gps_lng", "gps_lat", "speed_kmh", "vehicle_count"]
     ]

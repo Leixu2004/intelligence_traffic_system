@@ -6,13 +6,18 @@ Flink 官方镜像不带连接器，SQL Client 建 Kafka / JDBC 表前需要把�
 
 | jar | 用途 | 版本要求 |
 | --- | --- | --- |
-| `flink-connector-kafka-3.2.0-1.19.jar` | `'connector' = 'kafka'` | 尾号必须匹配 Flink 主版本 1.19 |
+| `flink-sql-connector-kafka-3.2.0-1.19.jar` | `'connector' = 'kafka'` | 尾号必须匹配 Flink 主版本 1.19；**必须是这个 shaded 包** |
 | `flink-connector-jdbc-3.2.0-1.19.jar` | `'connector' = 'jdbc'` | 同上 |
 | `postgresql-42.7.3.jar` | JDBC 驱动 `org.postgresql.Driver` | 与 Flink 版本无关 |
 
+踩过的坑：同目录下 `flink-connector-kafka-3.2.0-1.19.jar`（非 shaded）只差一个 `-sql-`，
+它不带 `kafka-clients`——`CREATE TABLE` 与提交都能过，运行时才在 TaskManager 上抛
+`ClassNotFoundException: org.apache.kafka.clients.consumer.OffsetResetStrategy`。
+别放它。
+
 下载地址（Maven Central，浏览器直接打开即可）：
 
-- https://repo1.maven.org/maven2/org/apache/flink/flink-connector-kafka/3.2.0-1.19/
+- https://repo1.maven.org/maven2/org/apache/flink/flink-sql-connector-kafka/3.2.0-1.19/
 - https://repo1.maven.org/maven2/org/apache/flink/flink-connector-jdbc/3.2.0-1.19/
 - https://repo1.maven.org/maven2/org/postgresql/postgresql/42.7.3/
 

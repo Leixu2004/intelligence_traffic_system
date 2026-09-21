@@ -38,6 +38,11 @@ try:
     from .agent.router import router as agent_router
     from .crew import CrewService, load_crew_settings
     from .crew.router import router as crew_router
+    from .integration.config import load_integration_settings
+    from .integration.flink_source import default_window_reader
+    from .integration.router import router as integration_router
+    from .integration.service import ForecastResult, IntegrationService, forecast_from_mapping
+    from .integration.vllm_client import VllmClient
     from .prediction.contracts import CheckpointPredictRequest, PredictionData, PredictionResponse, PredictRequest
     from .prediction.service import PredictionService
     from .rag import RagService, load_rag_settings
@@ -54,6 +59,11 @@ except ImportError:  # Supports `python backend/dashboard_api.py`.
     from agent.router import router as agent_router
     from crew import CrewService, load_crew_settings
     from crew.router import router as crew_router
+    from integration.config import load_integration_settings
+    from integration.flink_source import default_window_reader
+    from integration.router import router as integration_router
+    from integration.service import ForecastResult, IntegrationService, forecast_from_mapping
+    from integration.vllm_client import VllmClient
     from prediction.contracts import CheckpointPredictRequest, PredictionData, PredictionResponse, PredictRequest
     from prediction.service import PredictionService
     from rag import RagService, load_rag_settings
@@ -422,6 +432,12 @@ def _agent_checkpoint_prediction(
     }
 
 
+def _integration_forecast(service: PredictionService, checkpoint_id: str, future_steps: int) -> "ForecastResult":
+    """车路云集成第 2 段：把 dashboard 的预测 dict 适配成 `ForecastResult`。"""
+    payload = _agent_checkpoint_prediction(service, checkpoint_id, future_steps)
+    return forecast_from_mapping(checkpoint_id, payload, unit=payload.get("unit") or "")
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     _validate_runtime_security()
@@ -445,11 +461,20 @@ async def lifespan(app: FastAPI):
     app.state.traffic_agent_service = TrafficAgentService(load_agent_settings(), tool_gateway)
     app.state.crew_service = CrewService.build(load_crew_settings(), gateway=tool_gateway)
     app.state.vision_service = VisionService.build(load_vision_settings())
+    integration_settings = load_integration_settings()
+    integration_vllm = VllmClient(integration_settings)
+    app.state.integration_service = IntegrationService(
+        integration_settings,
+        windows=default_window_reader(integration_settings),
+        predict=lambda checkpoint_id, future_steps: _integration_forecast(service, checkpoint_id, future_steps),
+        vllm=integration_vllm,
+    )
     try:
         yield
     finally:
         service.close()
         rag_service.close()
+        integration_vllm.close()
 
 
 app = FastAPI(
@@ -469,6 +494,7 @@ app.include_router(agent_router)
 app.include_router(rag_router)
 app.include_router(crew_router)
 app.include_router(vision_router)
+app.include_router(integration_router)
 
 
 @app.exception_handler(Exception)
@@ -498,6 +524,7 @@ def health(request: Request) -> dict[str, Any]:
     rag_service = getattr(request.app.state, "rag_service", None)
     crew_service = getattr(request.app.state, "crew_service", None)
     vision_service = getattr(request.app.state, "vision_service", None)
+    integration_service = getattr(request.app.state, "integration_service", None)
     records, source, warning = _traffic_records()
     detections, detection_source, detection_warning = _detection_records()
     return {
@@ -518,6 +545,7 @@ def health(request: Request) -> dict[str, Any]:
             "traffic_rag": rag_service.health() if rag_service is not None else {"enabled": False, "available": False, "error": "not initialised"},
             "crew": crew_service.health() if crew_service is not None else {"enabled": False, "available": False, "error": "not initialised"},
             "vision": vision_service.health() if vision_service is not None else {"enabled": False, "available": False, "error": "not initialised"},
+            "integration": integration_service.health() if integration_service is not None else {"enabled": False, "available": False, "error": "not initialised"},
             "traffic_source": source,
             "traffic_records": len(records),
             "warning": warning,

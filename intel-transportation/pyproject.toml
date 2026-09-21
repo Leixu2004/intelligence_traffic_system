@@ -29,7 +29,7 @@ known-first-party = ["acceptance", "backend", "core", "db", "edge"]
 extend-immutable-calls = ["fastapi.Depends", "fastapi.File", "fastapi.Form"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests", "backend/prediction/tests", "backend/crew/tests", "backend/flink/tests", "backend/vision/tests", "acceptance/tests"]
+testpaths = ["tests", "backend/prediction/tests", "backend/crew/tests", "backend/flink/tests", "backend/vision/tests", "backend/integration/tests", "acceptance/tests"]
 pythonpath = ["."]
 addopts = "-ra --strict-markers"
 

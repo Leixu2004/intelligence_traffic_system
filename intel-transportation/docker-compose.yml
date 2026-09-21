@@ -7,12 +7,15 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
     ports:
       # 宿主机端口可换（容器内始终是 5432，Flink 走 docker 网络不受影响）。
-      # 本机已跑着 Postgres / 另一套 timescaledb 时设 TIMESCALEDB_HOST_PORT=55432 即可。
-      - "${TIMESCALEDB_HOST_PORT:-5432}:5432"
+      # 默认让开 5432：本机常驻着另一套 timescaledb/Postgres 占着它，
+      # 撞端口会让 `docker compose up` 在重建本栈容器时直接失败（实测踩过）。
+      # 需要 5432 时设 TIMESCALEDB_HOST_PORT=5432 覆盖即可。
+      - "${TIMESCALEDB_HOST_PORT:-55432}:5432"
     volumes:
       - timescale-data:/var/lib/postgresql/data
       - ./backend/sql/init_pipeline.sql:/docker-entrypoint-initdb.d/001-init-pipeline.sql:ro
       - ./backend/sql/flink_speed_stats.sql:/docker-entrypoint-initdb.d/002-flink-speed-stats.sql:ro
+      - ./backend/sql/flink_traffic_alerts.sql:/docker-entrypoint-initdb.d/003-flink-traffic-alerts.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
@@ -130,6 +133,42 @@ services:
       - prediction-api
     restart: unless-stopped
 
+  # ---------- 9/22 模型服务化：vLLM OpenAI 兼容端点（--profile vllm） ----------
+  # 起法：docker compose --profile vllm up -d vllm
+  # 需要 NVIDIA GPU + nvidia-container-toolkit；无 GPU 时删掉 deploy.resources 可退化为 CPU 推理（仅接线调试）。
+  # 宿主端口 8001（8000 已给 prediction-api），后端用 TRAFFIC_VLLM_BASE_URL=http://localhost:8001/v1 指过来。
+  vllm:
+    profiles: ["vllm"]
+    image: vllm/vllm-openai:latest
+    command:
+      - --model
+      - ${VLLM_MODEL:-Qwen/Qwen2.5-7B-Instruct}
+      - --served-model-name
+      - ${VLLM_SERVED_MODEL_NAME:-qwen-7b}
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8001"
+    environment:
+      VLLM_API_KEY: ${VLLM_API_KEY:-EMPTY}
+    ports:
+      - "${VLLM_HOST_PORT:-8001}:8001"
+    volumes:
+      - vllm-cache:/root/.cache/huggingface
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8001/v1/models || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
   # ---------- 9/21 实时计算：Flink Standalone 单机伪分布式 ----------
   # 只在 --profile flink 时启动，避免影响既有 9/11 之前的验收流程。
   # 官方镜像不含 Kafka / JDBC / PostgreSQL 连接器 jar，需先放入 ./flink-lib/（见 backend/flink/README.md）。
@@ -143,8 +182,10 @@ services:
     # 服务间寻址用 service 名（flink-jobmanager），docker DNS 自动解析。
     command: jobmanager
     ports:
-      # 本机 8081 已被占用时设 FLINK_WEB_UI_HOST_PORT=8181，并把 FLINK_WEB_UI_URL 一起改掉。
-      - "${FLINK_WEB_UI_HOST_PORT:-8081}:8081"
+      # 默认让开 8081：本机常驻着另一套 Flink（flink-jobmanager）占着它，
+      # 撞端口会让 compose 重建本栈 JM 时直接失败（实测踩过）。
+      # 要用回 8081 就设 FLINK_WEB_UI_HOST_PORT=8081，并把 FLINK_WEB_UI_URL 一起改掉。
+      - "${FLINK_WEB_UI_HOST_PORT:-8181}:8081"
     environment:
       FLINK_PROPERTIES: |
         jobmanager.rpc.address: flink-jobmanager
@@ -226,4 +267,5 @@ volumes:
   agent-data:
   rag-data:
   flink-checkpoints:
+  vllm-cache:
 

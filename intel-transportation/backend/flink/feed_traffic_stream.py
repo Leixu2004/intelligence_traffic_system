@@ -106,7 +106,13 @@ def main() -> int:
             if args.dry_run:
                 print(json.dumps(payload, ensure_ascii=False), flush=True)
             elif producer is not None:
-                producer.send(args.topic, payload)
+                # 按 camera_id 取 key：同一相机恒定落一个分区、分区内有序，
+                # 并行度 > 1 时这是 CEP 能把低速连成一段的前提（本机单分区并行下顺序不受影响）。
+                producer.send(
+                    args.topic,
+                    key=payload["camera_id"].encode("utf-8"),
+                    value=payload,
+                )
             sent += 1
             if args.interval:
                 time.sleep(args.interval)

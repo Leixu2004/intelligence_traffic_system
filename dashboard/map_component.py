@@ -8,6 +8,8 @@ from urllib.parse import quote
 
 import pandas as pd
 
+from .data_loader import AREA_CENTER, AREA_LABEL
+
 
 TEMPLATE_PATH = Path(__file__).with_name("map_component.html")
 
@@ -21,8 +23,8 @@ def render_amap_html(points: pd.DataFrame, api_key: str, security_code: str) -> 
         rows.append(
             {
                 "name": str(row.get("checkpoint_id", "卡口")),
-                "lng": float(row.get("gps_lng", 116.397428)),
-                "lat": float(row.get("gps_lat", 39.90923)),
+                "lng": float(row.get("gps_lng", AREA_CENTER[0])),
+                "lat": float(row.get("gps_lat", AREA_CENTER[1])),
                 "vehicleCount": int(row.get("vehicle_count", 0) or 0),
                 "averageSpeed": round(float(row.get("average_speed", 0) or 0), 1),
             }
@@ -31,7 +33,7 @@ def render_amap_html(points: pd.DataFrame, api_key: str, security_code: str) -> 
     if rows:
         center = [rows[0]["lng"], rows[0]["lat"]]
     else:
-        center = [116.397428, 39.90923]
+        center = [AREA_CENTER[0], AREA_CENTER[1]]
 
     html = TEMPLATE_PATH.read_text(encoding="utf-8")
     replacements = {
@@ -41,6 +43,7 @@ def render_amap_html(points: pd.DataFrame, api_key: str, security_code: str) -> 
         "__AMAP_SECURITY_CODE__": json.dumps(security_code or ""),
         "__MAP_CENTER__": json.dumps(center),
         "__MAP_POINTS__": json.dumps(rows, ensure_ascii=False),
+        "__AREA_LABEL__": AREA_LABEL,
     }
     for token, value in replacements.items():
         html = html.replace(token, value)

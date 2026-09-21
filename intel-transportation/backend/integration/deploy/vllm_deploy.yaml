@@ -1,0 +1,53 @@
+# 9/22 模型服务化 · vLLM 部署清单（课件 vllm_deploy）
+#
+# 两种用法：
+#   1) 仓库根目录整合版（推荐，与其他服务同一网络）：
+#        docker compose --profile vllm up -d vllm
+#      见仓库根 docker-compose.yml 的 vllm 服务；本文件是它的独立等价物，
+#      适合在只有 vLLM、没有整套 compose 的机器上单起。
+#   2) 独立起法：
+#        docker compose -f backend/integration/deploy/vllm_deploy.yaml up -d
+#      然后用 TRAFFIC_VLLM_BASE_URL=http://localhost:8001/v1 指过去。
+#
+# 前置条件：
+#   - NVIDIA GPU + nvidia-container-toolkit（无 GPU 时去掉 deploy.resources 即为 CPU 推理，
+#     吞吐差一个数量级，只用于接线调试）
+#   - 首次启动会从 Hugging Face 拉取权重（模型名用 VLLM_MODEL 环境变量覆盖）
+#   - 本仓库预测 API 已占用宿主机 8000 端口，故 vLLM 宿主端口用 8001
+
+services:
+  vllm:
+    image: vllm/vllm-openai:latest
+    command:
+      - --model
+      - ${VLLM_MODEL:-Qwen/Qwen2.5-7B-Instruct}
+      - --served-model-name
+      - ${VLLM_SERVED_MODEL_NAME:-qwen-7b}
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8001"
+      # 拉不下权重时（内网/离线）先 --download-dir 挂载本地权重目录，再配 HF_HUB_OFFLINE=1
+    environment:
+      VLLM_API_KEY: ${VLLM_API_KEY:-EMPTY}   # 服务端开启 API Key 校验时才需要；客户端未配置时也传 EMPTY
+      HF_HUB_ENABLE_HF_TRANSFER: "1"
+    ports:
+      - "${VLLM_HOST_PORT:-8001}:8001"
+    volumes:
+      - vllm-cache:/root/.cache/huggingface
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8001/v1/models || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  vllm-cache:

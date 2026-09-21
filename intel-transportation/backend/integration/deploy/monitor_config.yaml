@@ -1,0 +1,39 @@
+# 9/22 模型服务化 · 监控配置（Prometheus 抓取 + Grafana 指标约定）
+#
+# vLLM 在 OpenAI 兼容端口上同时暴露 Prometheus 格式的 /metrics
+# （吞吐、TTFT、排队时长、KV 缓存用量等）。本文件给出：
+#   1) Prometheus scrape 配置（静态 targets，容器内用服务名 vllm:8001）
+#   2) 车路云集成 API 的指标约定（Grafana 面板按这些指标名建）
+# 不生产课件里的性能数字（1.2s / QPS62 / 320ms / 680ms）——那些是
+# 特定 GPU + 模型下的实测值，本机无 GPU 时不复制，见 README「性能数字的边界」。
+
+# ---- Prometheus 抓取配置（合并进 prometheus.yml 的 scrape_configs）----
+scrape_configs:
+  - job_name: vllm
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["vllm:8001"]   # 独立起 vLLM 时改成宿主机 IP:8001
+    scrape_interval: 15s
+    # vLLM 指标前缀 vllm:；重点：
+    #   vllm:time_to_first_token_seconds        —— 首 token 延迟（课件里的 320ms 口径）
+    #   vllm:e2e_request_latency_seconds        —— 端到端请求延迟（680ms 口径）
+    #   vllm:num_requests_waiting / running     —— 排队与在途请求数
+    #   vllm:gpu_cache_usage_perc               —— KV 缓存占用
+    #   vllm:avg_prompt_throughput_toks_per_s   —— 吞吐（QPS 的上游口径）
+
+  - job_name: integration-api
+    metrics_path: /api/v1/integration/health   # 后端进程的集成健康面（JSON）
+    static_configs:
+      - targets: ["prediction-api:8000"]
+
+# ---- Grafana 面板约定（导入 dashboard JSON 时按这些 query 建）----
+grafana_queries:
+  ttft_p50: histogram_quantile(0.50, rate(vllm_time_to_first_token_seconds_bucket[5m]))
+  latency_p99: histogram_quantile(0.99, rate(vllm_e2e_request_latency_seconds_bucket[5m]))
+  running_requests: sum(vllm_num_requests_running)
+  gpu_cache_usage: vllm_gpu_cache_usage_perc
+  prompt_throughput: rate(vllm_avg_prompt_throughput_toks_per_s[5m])
+
+# ---- 无 GPU 环境的替代：只监控集成 API 的健康面与降级计数 ----
+# screen_push.jsonl 每行带 degradations/verified 字段，可用 Loki/Grafana 做
+# 「本次运行是否 verified」的趋势图，不需要任何 GPU 指标。

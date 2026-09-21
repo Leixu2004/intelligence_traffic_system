@@ -5,12 +5,14 @@ from unittest.mock import patch
 
 import pandas as pd
 
+from dashboard import data_loader
 from dashboard.data_loader import (
     _calendar_feature_row,
     _normalise_traffic,
     _remote_prediction,
     aggregate_traffic,
     calculate_metrics,
+    checkpoint_points,
     load_traffic_data,
 )
 
@@ -57,6 +59,39 @@ class DashboardDataLoaderTests(unittest.TestCase):
         self.assertFalse(bundle.traffic.empty)
         self.assertIn("checkpoint_id", bundle.traffic.columns)
         self.assertIn("speed_kmh", bundle.traffic.columns)
+
+    def test_map_area_regeo_puts_checkpoints_in_tianhe(self):
+        """区域化只改经纬度：卡口落在天河边界框内，车流与速度沿用数据源原值。"""
+        bundle = load_traffic_data(source_mode="local")
+        points = checkpoint_points(bundle.traffic)
+        self.assertFalse(points.empty)
+        self.assertTrue(points["gps_lng"].between(113.25, 113.45).all())
+        self.assertTrue(points["gps_lat"].between(23.05, 23.22).all())
+        self.assertEqual(
+            int(bundle.traffic.groupby("checkpoint_id")["vehicle_count"].sum().sum()),
+            int(points["vehicle_count"].sum()),
+        )
+
+    def test_map_area_handles_unlisted_checkpoint_and_can_be_disabled(self):
+        frame = pd.DataFrame(
+            [
+                {
+                    "time": "2026-09-10T00:00:00Z",
+                    "vehicle_id": "V-1",
+                    "checkpoint_id": "CP-UNLISTED-99",
+                    "gps_lng": 116.4074,
+                    "gps_lat": 39.9042,
+                    "speed_kmh": 50.0,
+                }
+            ]
+        )
+        moved = _normalise_traffic(frame)
+        self.assertAlmostEqual(float(moved["gps_lng"].iloc[0]), 113.3252, places=4)
+        self.assertAlmostEqual(float(moved["gps_lat"].iloc[0]), 23.1330, places=4)
+
+        with patch.object(data_loader, "MAP_AREA", "source"):
+            raw = _normalise_traffic(frame)
+        self.assertAlmostEqual(float(raw["gps_lng"].iloc[0]), 116.4074, places=4)
 
     def test_aggregation_and_metrics(self):
         traffic = pd.DataFrame(
