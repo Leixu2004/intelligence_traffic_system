@@ -29,6 +29,14 @@ intel-transportation/data/paddlex_cache/
 intel-transportation/data/violations/
 intel-transportation/data/agent/
 
+# data/ 运行产物与数据文件整体不入库（保留 datasets 工具代码与 rag/laws 法规库）
+intel-transportation/data/*
+!intel-transportation/data/datasets/
+!intel-transportation/data/rag/
+intel-transportation/data/datasets/*
+!intel-transportation/data/datasets/*.py
+!intel-transportation/data/datasets/README.md
+
 # Logs and local runtime outputs
 *.log
 .venv-dashboard/
