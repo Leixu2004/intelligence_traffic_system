@@ -18,6 +18,7 @@ from dashboard.agent_client import (
     get_agent_health,
     query_assistant,
 )
+from dashboard.nav import render_nav
 
 st.set_page_config(
     page_title="交通指挥助手",
@@ -30,23 +31,15 @@ st.markdown(
     """
     <style>
     [data-testid="stSidebar"] { display: none; }
-    .block-container { max-width: 1180px; padding-top: 1.4rem; }
+    .block-container { max-width: 1180px; padding-top: 4.6rem; }
     [data-testid="stChatMessage"] { border-radius: 6px; }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-header, nav = st.columns([5, 1])
-with header:
-    st.title("交通指挥助手")
-with nav:
-    st.page_link(
-        "app.py",
-        label="流量大屏",
-        icon=":material/monitoring:",
-        use_container_width=True,
-    )
+st.title("交通指挥助手")
+render_nav()
 
 if "traffic_agent_thread_id" not in st.session_state:
     st.session_state.traffic_agent_thread_id = f"dashboard-{uuid4().hex}"

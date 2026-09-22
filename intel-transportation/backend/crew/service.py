@@ -8,6 +8,7 @@ from __future__ import annotations
 import logging
 import os
 import time
+from dataclasses import replace
 from typing import Any
 
 from ..agent.audit import JsonlAuditLog
@@ -68,6 +69,9 @@ class CrewService:
             amap_key=resolved.amap_key,
             timeout_seconds=resolved.amap_timeout_seconds,
         )
+        # planner 必须先回填进网关再交给 toolbox：TrafficToolbox 持有的是构造时的网关引用，
+        # 装配完 CrewService 之后再 replace 一份新网关，plan_route 工具仍会看到 route_planner=None。
+        gateway = replace(gateway, route_planner=planner)
         return cls(resolved, profile, TrafficToolbox(gateway), planner, PublicNoticeSink(resolved.notify_path))
 
     @property

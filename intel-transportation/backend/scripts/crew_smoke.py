@@ -126,7 +126,7 @@ def main(argv: list[str] | None = None) -> int:
 
     from backend.crew.config import load_crew_settings
     from backend.crew.contracts import EmergencyEvent
-    from backend.crew.crew_system import SAMPLE_EVENT, _service_for_cli, run_crew
+    from backend.crew.crew_system import SAMPLE_EVENT, _service_for_cli
 
     settings = load_crew_settings()
     if not args.live:
@@ -158,7 +158,8 @@ def main(argv: list[str] | None = None) -> int:
                 ensure_ascii=False,
             )
         )
-        result = run_crew(EmergencyEvent.model_validate(SAMPLE_EVENT), service=service)
+        # 走 service.respond 而不是直接 run_crew：运行级审计只由服务层落一次盘。
+        result = service.respond(EmergencyEvent.model_validate(SAMPLE_EVENT))
         if server is not None:
             server.shutdown()
 

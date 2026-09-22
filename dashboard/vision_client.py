@@ -1,4 +1,5 @@
-"""HTTP client for the Qwen-VL multimodal vision API (9/18 courseware)."""
+"""HTTP client for the Qwen-VL multimodal vision API (9/18 courseware) and the
+single-image plate forensics endpoint."""
 
 from __future__ import annotations
 
@@ -123,4 +124,30 @@ def get_analysis_results(
         f"{api_url.rstrip('/')}/api/v1/vision/results",
         timeout=timeout,
         error_message="无法读取历史分析结果",
+    )
+
+
+def get_plate_health(api_url: str = DEFAULT_API_URL, timeout: float = 5.0) -> dict[str, Any]:
+    """车牌取证链路状态（available/model_loaded/error）。"""
+    return _get_json(
+        f"{api_url.rstrip('/')}/api/v1/vision/plate/health",
+        timeout=timeout,
+        error_message="无法读取车牌取证服务状态",
+    )
+
+
+def recognize_plate_upload(
+    *,
+    filename: str,
+    payload: bytes,
+    api_url: str = DEFAULT_API_URL,
+    timeout: float = IMAGE_TIMEOUT_SECONDS,
+) -> dict[str, Any]:
+    """单图车牌取证：走项目自己的 LPR 流水线，不调用多模态大模型。"""
+    return _post_upload(
+        endpoint="plate",
+        filename=filename,
+        payload=payload,
+        api_url=api_url,
+        timeout=timeout,
     )

@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import json
+import os
 import unittest
 from pathlib import Path
 from typing import Any
+from unittest import mock
 
 import httpx
 
@@ -129,6 +131,19 @@ class AccidentAnalysisTest(unittest.TestCase):
 
 class VLAnalyzerTest(unittest.TestCase):
     def setUp(self) -> None:
+        # 本类用例假设「进程里没有密钥」（client=None 必须构造失败）。同一次 pytest 进程里
+        # crew 侧用例 import crew_system 会 load_dotenv(.env)，密钥会泄漏过来，因此显式剥掉。
+        env = mock.patch.dict(
+            os.environ,
+            {
+                "TRAFFIC_VL_API_KEY": "",
+                "TRAFFIC_AGENT_API_KEY": "",
+                "DASHSCOPE_API_KEY": "",
+                "OPENAI_API_KEY": "",
+            },
+        )
+        env.start()
+        self.addCleanup(env.stop)
         self.settings = load_vision_settings()
         self.frame = solid_frame((30, 30, 30), index=180, timestamp=18.0)
 

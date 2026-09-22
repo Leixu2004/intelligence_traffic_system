@@ -43,6 +43,11 @@ intel-transportation/data/datasets/*
 intel-transportation/backend/*.log
 dashboard/*.log
 
+# Office 打开时产生的临时锁文件（~$ 前缀），不入库
+*~$*
+intel-transportation/docs/defense/*~$*
+**/~$*
+
 # 法规 RAG 运行时产物（向量索引/登记表/审计），保留 laws/ 知识源
 intel-transportation/data/rag/*
 !intel-transportation/data/rag/laws/

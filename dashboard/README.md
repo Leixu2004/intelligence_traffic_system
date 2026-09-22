@@ -4,6 +4,21 @@
 
 多页面入口还包含“交通指挥助手”。该页面调用统一 FastAPI 的 `/api/v1/assistant/query`，展示模型回答、只读工具证据和能力限制；Agent 未配置时只显示健康状态，不生成模拟回答。
 
+## 页面清单
+
+| 页面 | 作用 | 依赖接口 |
+| --- | --- | --- |
+| `1_交通流量大屏.py` | 态势大屏：KPI、趋势与 ONNX 预测、车型分布、热力图、卡口地图 | `/api/traffic_trend`、`/api/v1/predict/*` |
+| `2_交通指挥助手.py` | 多轮问答 + 工具证据 + 能力限制 | `/api/v1/agent/health`、`/api/v1/assistant/query` |
+| `3_视频智能解说.py` | 图片/视频上传 → 抽帧解说与事故告警、历史结果 | `/api/v1/vision/*` |
+| `4_车路云诱导与取证.py` | 诱导问答（含模型端点展示）、路径规划（起终点 + 地图）、车牌取证（上传 + 画框）三个页签 | `/api/v1/assistant/query`、`/api/v1/crew/route/plan`、`/api/v1/vision/plate` |
+
+第 4 页对应 9/22 的《大模型服务化与系统集成》补充材料，用来替代原始 PyQt 单文件 demo：模型端点不再
+写死某家厂商，而是显示统一后端当前生效的 provider/model（切 vLLM 只改 `TRAFFIC_AGENT_BASE_URL`）；
+车牌取证复用项目自己的 `core.pipeline.PlateRecognition`（推理发生在后端进程，大屏仍不加载 YOLO/OCR 权重），
+不再用 `yolov8n` 通用检测权重冒充车牌识别；路线规划复用 Crew 侧高德 v5 `RoutePlanner`，未配置
+「Web服务」Key 时返回演示走廊并显式标注「未经实时核验」。**本页只做只读展示与人工核对，不下发控制指令。**
+
 ## 运行
 
 ```powershell
@@ -48,6 +63,10 @@ $env:AMAP_SECURITY_CODE = "你的 Security Code"
 （`AMap.TileLayer.Traffic`，60 秒自动刷新），这是页面上唯一反映真实路网拥堵的图层。
 
 生产环境不要把 Key 和 Security Code 写入 Python 源码，并应在高德控制台配置域名白名单。
+
+注意 Key 类型：地图用的是高德「Web端(JS API)」Key，而第 4 页路径规划调 `restapi.amap.com/v5/direction/driving`
+要「Web服务」Key。后端按 `AMAP_WEB_SERVICE_KEY` → `AMAP_KEY` 顺序取值，因此只配 JS Key 时路线会退回
+演示走廊（或报 `USERKEY_PLAT_NOMATCH`），这不是地图坏了。
 
 ## 与现有服务协同
 

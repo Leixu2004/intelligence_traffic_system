@@ -71,18 +71,32 @@ TRAFFIC_CREW_ENABLED=true
 | 入口 | 命令 |
 | --- | --- |
 | 调试器 | 运行和调试 → `9/17 · CrewAI 应急处置 CLI`（自动带 `.env`、断点在 `run_crew`） |
-| 命令行 | `python -m backend.crew.crew_system --process hierarchical --verbose --output data/crew/last_run.json` |
+| 命令行 | `python -m backend.crew.crew_system --process hierarchical --output data/crew/last_run.json`（协作日志默认打印，`--quiet` 关闭） |
 | 演示脚本 | `python backend/scripts/crew_smoke.py`（无密钥时看效果）／`--live`（真实模型） |
-| HTTP | `POST /api/v1/crew/emergency/response`（`X-API-Key`），健康探针 `GET /api/v1/crew/health` |
+| HTTP | `POST /api/v1/crew/emergency/response`（`X-API-Key`），健康探针 `GET /api/v1/crew/health`，单次规划 `POST /api/v1/crew/route/plan` |
 
 `backend/scripts/crew_smoke.py` 用本机 Mock 端点顶替大模型，CrewAI 的 Agent、Task context、层级
-Manager、工具执行与证据链都走真实代码，约 480 行 verbose 日志能完整展示三 Agent 协作过程；
+Manager、工具执行与证据链都走真实代码，约 480 行 verbose 日志（默认开启，`--quiet` 关闭）能完整展示三 Agent 协作过程；
 数据工具仍接真实网关，因此会如实报 `source=unavailable`（TimescaleDB 未启动、RAG 未建库）。
 Mock 模式输出的正文带「非模型推理」前缀，**不作为验收 #3/#5 的证据**；那两条要 `--live`。
 
 命令行缺省事件即课件第 11 页的「高速 K128 处多车追尾」。换事件用 `--event-json path.json`，
 字段见 `contracts.EmergencyEvent`。未启用/缺密钥时接口返回 200 + `ok=false` + `degradation`，
 配置齐全但协作中途失败才返回 502。
+
+### 单次路径规划 `POST /api/v1/crew/route/plan`
+
+大屏「车路云诱导与取证」页需要一次独立的起终点规划，不必跑整轮 CrewAI 协作。该端点直接调用
+Agent 的 `plan_route` 工具（`service.toolbox.plan_route`），所以校验、`source`、`verified`、
+`tool_evidence` 与模型走的工具链完全同一份实现。请求体：
+
+```json
+{"origin_gps": [113.361, 23.129], "destination_gps": [113.307, 23.387]}
+```
+
+`destination_gps` 省略时按最近演示走廊给出路线。状态码：坐标非数字或越出中国范围 → 422；
+规划链路本身失败（无 Key 且无可用走廊、高德报错）→ 503 + `detail` 原因；成功 → 200，
+`data` 里带 `name/distance_km/eta_minutes/waypoints/source/verified/note`。
 
 ## 配置项
 
@@ -98,7 +112,8 @@ Mock 模式输出的正文带「非模型推理」前缀，**不作为验收 #3/
 | `TRAFFIC_CREW_TEMPERATURE` / `_TIMEOUT_SECONDS` / `_MAX_RETRIES` / `_MAX_ITER` | `0.3` / `60` / `1` / `6` | 越界会被夹住 |
 | `TRAFFIC_CREW_VERBOSE` / `_MEMORY` | `false` | 协作日志 / CrewAI 记忆 |
 | `TRAFFIC_CREW_ROUTE_MODE` | `auto` | `auto` 有高德密钥走真实路网、否则演示走廊；`static` 强制离线；`amap` 强制真实 |
-| `AMAP_KEY` | 空 | 路线核验；留空则路线 `verified=false` |
+| `AMAP_WEB_SERVICE_KEY` | 空 | 路线核验用的**高德「Web服务」Key**（v5 路径规划）；留空回退读 `AMAP_KEY`。两者都空则路线 `verified=false` |
+| `AMAP_KEY` / `AMAP_SECURITY_CODE` | 空 | 大屏地图用的是**「Web端(JS API)」Key**，与上面不是同一类型；只配 JS Key 时路线调用会返回 `USERKEY_PLAT_NOMATCH` |
 | `TRAFFIC_CREW_AUDIT_PATH` / `_NOTIFY_PATH` / `_CONFIG_PATH` | `data/crew/*.jsonl` | 审计、通告落盘、配置文件位置 |
 
 ## 课件验收对照
@@ -110,7 +125,7 @@ Mock 模式输出的正文带「非模型推理」前缀，**不作为验收 #3/
 | 3 | hierarchical 模式运行 | 编排已验证，推理内容待密钥 | 真实 CrewAI 层级编排离线跑通（见下节 Mock 说明）；`kickoff()` 打到百炼网关，无效密钥返回 401，说明工具 schema、端点、模型路由均被接受 |
 | 4 | SQL/预测/路线工具可调用 | 通过 | `tests/test_tools.py`，健康与故障两种网关；路线与通告工具同样写入 `tool_evidence` |
 | 5 | 端到端跑通 | 编排已验证，推理内容待密钥 | 降级链路（未启用/缺密钥/协作中途失败）已测；成功路径需 `DASHSCOPE_API_KEY` |
-| 6 | verbose 日志输出 | 通过 | `TRAFFIC_CREW_VERBOSE=true` 或 `--verbose` |
+| 6 | verbose 日志输出 | 通过 | 默认开启（`config.yaml` 的 `crew.verbose: true`），关闭用 `TRAFFIC_CREW_VERBOSE=false` 或 `--quiet`；离线 Mock 运行落盘 478 行协作日志 `data/crew/crew_mock_run_verbose.log` |
 | 7 | 工具失败有 fallback | 通过 | 每个工具捕获异常返回 `ok=false` + `source`；数据层不可用时协作继续（`tests/test_service.py`） |
 
 ### 无密钥时的离线验证（Mock 模型，不计入 #3/#5）

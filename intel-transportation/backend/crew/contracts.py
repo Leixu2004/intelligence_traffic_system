@@ -43,3 +43,19 @@ class CrewRunResponse(BaseModel):
     message: str = "success"
     data: CrewRunResult
     timestamp: int
+
+
+class RoutePlanRequest(BaseModel):
+    """路径诱导入参，与 EmergencyEvent 沿用同一套经纬度字段写法。"""
+
+    origin_gps: tuple[float, float] = Field(description="起点 [经度, 纬度]")
+    destination_gps: tuple[float, float] | None = Field(
+        default=None, description="终点 [经度, 纬度]，缺省时由备选走廊拓扑决定"
+    )
+
+
+class RoutePlanResponse(BaseModel):
+    code: int = 200
+    message: str = "success"
+    data: dict[str, Any]
+    timestamp: int

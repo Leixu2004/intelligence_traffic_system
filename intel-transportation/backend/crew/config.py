@@ -178,12 +178,14 @@ def load_crew_settings() -> CrewSettings:
         timeout_seconds=_number("TRAFFIC_CREW_TIMEOUT_SECONDS", 60.0, 5.0, 300.0, fallbacks),
         max_retries=_integer("TRAFFIC_CREW_MAX_RETRIES", 1, 0, 5, fallbacks),
         max_iter=_integer("TRAFFIC_CREW_MAX_ITER", 6, 1, 20),
-        verbose=_flag("TRAFFIC_CREW_VERBOSE", default=False, fallbacks=fallbacks),
+        verbose=_flag("TRAFFIC_CREW_VERBOSE", default=True, fallbacks=fallbacks),
         memory=_flag("TRAFFIC_CREW_MEMORY", default=False, fallbacks=fallbacks),
         audit_path=_path("TRAFFIC_CREW_AUDIT_PATH", INNER_ROOT / "data" / "crew" / "crew_runs.jsonl"),
         config_path=config_path,
         route_mode=_choice("TRAFFIC_CREW_ROUTE_MODE", "auto", VALID_ROUTE_MODES),
-        amap_key=os.getenv("AMAP_KEY", "").strip(),
+        # 高德「Web服务」Key 才能调 v5 路径规划；大屏用的是「Web端(JS API)」Key，
+        # 两类 Key 不通用，共用 AMAP_KEY 会让路线调用返回 USERKEY_PLAT_NOMATCH。
+        amap_key=(os.getenv("AMAP_WEB_SERVICE_KEY", "").strip() or os.getenv("AMAP_KEY", "").strip()),
         amap_security_code=os.getenv("AMAP_SECURITY_CODE", "").strip(),
         amap_timeout_seconds=_number("TRAFFIC_CREW_AMAP_TIMEOUT_SECONDS", 8.0, 1.0, 60.0),
         notify_path=_path("TRAFFIC_CREW_NOTIFY_PATH", INNER_ROOT / "data" / "crew" / "public_notices.jsonl"),

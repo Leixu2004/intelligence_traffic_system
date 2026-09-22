@@ -9,7 +9,7 @@ import time
 from collections import Counter
 from contextvars import ContextVar, Token
 from dataclasses import dataclass
-from typing import Any, Callable
+from typing import Any, Callable, Protocol
 
 import pandas as pd
 
@@ -22,12 +22,23 @@ CheckpointPredictor = Callable[[str, int], dict[str, Any]]
 LawSearch = Callable[[str, int], dict[str, Any]]
 
 
+class RoutePlannerLike(Protocol):
+    """backend.crew.routing.RoutePlanner 的结构化子集，避免 agent 反向依赖 crew。"""
+
+    def plan(
+        self,
+        origin: tuple[float, float] | None,
+        destination: tuple[float, float] | None = None,
+    ) -> Any: ...
+
+
 @dataclass(frozen=True)
 class TrafficToolGateway:
     traffic_records: TrafficRecordsLoader
     detection_records: TrafficRecordsLoader
     predict_checkpoint: CheckpointPredictor
     law_search: LawSearch | None = None
+    route_planner: RoutePlannerLike | None = None
 
 
 _TRACE: ContextVar[list[ToolEvidence] | None] = ContextVar(
@@ -361,6 +372,93 @@ class TrafficToolbox:
         )
         return self._json(result)
 
+    @staticmethod
+    def _coordinate(lng: Any, lat: Any, label: str) -> tuple[float, float]:
+        try:
+            point = (float(lng), float(lat))
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"{label}经纬度必须是数字") from exc
+        if not (73.0 <= point[0] <= 136.0 and 3.0 <= point[1] <= 54.0):
+            raise ValueError(f"{label}超出中国范围（经度 73–136，纬度 3–54）")
+        return point
+
+    def plan_route(
+        self,
+        origin_lng: str = "",
+        origin_lat: str = "",
+        destination_lng: str = "",
+        destination_lat: str = "",
+    ) -> str:
+        """规划机动车出行/绕行路线，返回距离、ETA、途经点与 source/verified 可信度标记。"""
+        started = time.perf_counter()
+        planner = self.gateway.route_planner
+        if planner is None:
+            summary = "路径规划器未接入"
+            self._record(
+                name="plan_route",
+                arguments={},
+                summary=summary,
+                source="RoutePlanner",
+                started=started,
+                ok=False,
+            )
+            return self._json({"ok": False, "message": summary, "source": "RoutePlanner"})
+        try:
+            origin = self._coordinate(origin_lng, origin_lat, "起点")
+            destination = None
+            if str(destination_lng).strip() or str(destination_lat).strip():
+                destination = self._coordinate(destination_lng, destination_lat, "终点")
+        except ValueError as exc:
+            summary = str(exc)
+            self._record(
+                name="plan_route",
+                arguments={
+                    "origin": [origin_lng, origin_lat],
+                    "destination": [destination_lng, destination_lat],
+                },
+                summary=summary,
+                source="validation",
+                started=started,
+                ok=False,
+            )
+            return self._json({"ok": False, "message": summary, "source": "validation"})
+        arguments = {
+            "origin": list(origin),
+            "destination": list(destination) if destination else None,
+        }
+        try:
+            plan = planner.plan(origin, destination)
+        except (RuntimeError, ValueError) as exc:
+            summary = f"路径规划失败: {type(exc).__name__}: {exc}"
+            self._record(
+                name="plan_route",
+                arguments=arguments,
+                summary=summary,
+                source="RoutePlanner",
+                started=started,
+                ok=False,
+            )
+            return self._json({"ok": False, "message": summary, "source": "RoutePlanner"})
+        payload = plan.as_dict() if hasattr(plan, "as_dict") else dict(plan)
+        source = str(payload.get("source") or "RoutePlanner")
+        verified = bool(payload.get("verified"))
+        if payload.get("ok"):
+            summary = (
+                f"路线 {payload.get('name') or '未命名'}：{payload.get('distance_km')} km / "
+                f"{payload.get('eta_minutes')} min（来源 {source}，verified={verified}）"
+            )
+        else:
+            summary = str(payload.get("error") or "路径规划无可用结果")
+        self._record(
+            name="plan_route",
+            arguments=arguments,
+            summary=summary,
+            source=source,
+            started=started,
+            ok=bool(payload.get("ok")),
+        )
+        return self._json({"ok": bool(payload.get("ok")), **payload, "message": summary})
+
     def as_langchain_tools(self) -> list[Any]:
         try:
             from langchain_core.tools import StructuredTool
@@ -395,6 +493,17 @@ class TrafficToolbox:
                 description=(
                     "检索交通法规知识库（道路交通安全法处罚标准等），返回条文原文、"
                     "条号、来源与版本。用于酒驾、超速、闯红灯等法规处罚类问题。"
+                ),
+            )
+        )
+        tools.append(
+            StructuredTool.from_function(
+                func=self.plan_route,
+                name="plan_route",
+                description=(
+                    "规划机动车出行或绕行路线：输入起点经纬度（origin_lng、origin_lat）与可选终点"
+                    "（destination_lng、destination_lat），返回路线名、距离 km、预计分钟数与途经点，"
+                    "并带 source 与 verified 标记（高德实时路网为 verified=true，演示走廊为 false）。"
                 ),
             )
         )

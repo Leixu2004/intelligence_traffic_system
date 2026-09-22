@@ -48,6 +48,7 @@ try:
     from .rag import RagService, load_rag_settings
     from .rag.router import router as rag_router
     from .vision import VisionService, load_vision_settings
+    from .vision.plate_service import PlateService
     from .vision.router import router as vision_router
 except ImportError:  # Supports `python backend/dashboard_api.py`.
     from agent import (
@@ -69,6 +70,7 @@ except ImportError:  # Supports `python backend/dashboard_api.py`.
     from rag import RagService, load_rag_settings
     from rag.router import router as rag_router
     from vision import VisionService, load_vision_settings
+    from vision.plate_service import PlateService
     from vision.router import router as vision_router
 
 
@@ -458,9 +460,15 @@ async def lifespan(app: FastAPI):
         ),
         law_search=rag_service.search_only,
     )
-    app.state.traffic_agent_service = TrafficAgentService(load_agent_settings(), tool_gateway)
     app.state.crew_service = CrewService.build(load_crew_settings(), gateway=tool_gateway)
+    # CrewService.build 已把路线规划器回填进它使用的网关（见 crew/service.py），这里直接复用同一份网关，
+    # 使 Agent 的 plan_route 与 /api/v1/crew/route/plan 走同一份校验、同一个 planner 和同一套证据口径。
+    app.state.traffic_agent_service = TrafficAgentService(
+        load_agent_settings(),
+        app.state.crew_service.toolbox.gateway,
+    )
     app.state.vision_service = VisionService.build(load_vision_settings())
+    app.state.plate_service = PlateService.build()
     integration_settings = load_integration_settings()
     integration_vllm = VllmClient(integration_settings)
     app.state.integration_service = IntegrationService(

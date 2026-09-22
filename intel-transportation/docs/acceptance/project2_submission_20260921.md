@@ -1,6 +1,6 @@
 # 项目2最终提交件（状态报告）
 
-报告日期：2026-09-21（夜间）　验收日期：2026-09-24　覆盖教学日历：9/17 CrewAI、9/18 Qwen-VL、9/21 Flink SQL + CEP、9/22 vLLM 服务化与车路云一体化集成
+报告日期：2026-09-21（夜间），2026-09-22 上午增补「9/22 补充」条目　验收日期：2026-09-24　覆盖教学日历：9/17 CrewAI、9/18 Qwen-VL、9/21 Flink SQL + CEP、9/22 vLLM 服务化与车路云一体化集成（含《大模型服务化与系统集成》补充材料与三合一交互页）
 
 所有数字均为本机实测或本地仓库内可复核的证据文件，未采用课件 PPT 里任何未复现的性能指标。
 
@@ -9,7 +9,7 @@
 | 交付物 | 位置 | 状态 |
 | --- | --- | --- |
 | 源码（四个模块） | `backend/flink/`、`backend/crew/`、`backend/vision/`、`backend/integration/` | 齐，测试见第四节 |
-| 大屏页面 | `dashboard/pages/3_视频智能解说.py` + `dashboard/vision_client.py` | 齐，降级路径已浏览器验证 |
+| 大屏页面 | `dashboard/pages/3_视频智能解说.py` + `dashboard/vision_client.py`；9/22 补充件 `dashboard/pages/4_车路云诱导与取证.py` + `agent_client.plan_route` / `vision_client.recognize_plate_upload` | 第 3 页齐，降级路径已浏览器验证；第 4 页 9/22 上午已在浏览器过一遍（三页签渲染正常，均为**降级态**：Agent 未启用、路线为演示拓扑、车牌缺依赖），真模型态仍待密钥与依赖 |
 | Compose | `docker-compose.yml`（Flink 1.19.1 JM+TM、Kafka、TimescaleDB、`--profile vllm`） | 齐，默认配置可解析并已实跑 |
 | Agent 设计文档 | 本文第二节 + `backend/crew/README.md`（架构/配置/证据边界） | 齐 |
 | 演示视频 | 未录制 | 素材已就位：`data/vision/traffic.mp4`（4096×2160 / 12fps / 10813 帧 / 15 分钟 / 451 MB），`.env` 的 `VIDEO_SOURCE` 已从不存在的路径改指它。大屏上传上限 200 MB，原片传不进去，已另裁演示用片段 `data/vision/traffic_demo_60s.mp4`（1280×674 / 12fps / 720 帧 / 60 s / 23 MB，抽样亮度 67–74 非黑帧） |
@@ -46,24 +46,50 @@
 | 9/21 | Flink SQL 窗口作业集群实跑 | PASS | 见第五节 |
 | 9/21 | CEP 四级预警与参考实现比对 | PASS | 快照 37 行逐字段一致（现库 38 行，见第五节） |
 | 9/21 | 预警→推送动作复算 | PASS | 快照 37 行 → 6 条推送动作（`pushes_from_db.json`） |
-| 9/22 | 五段集成链路 | PASS（Mock vLLM） | 64 项测试 |
-| 9/22 | vLLM 真实推理 | NOT_VERIFIED | 本机无 GPU / 无权重，仅 Mock 端点证明接线 |
+| 9/22 | 五段集成链路 | PASS（Mock vLLM） | 64 项测试；9/22 下午已用本机真实 vLLM 复跑，见下一行 |
+| 9/22 | vLLM 真实推理 | PASS（服务可用）/ NOT_VERIFIED（性能达标） | 本机 RTX 4060 8 GB 起 `vllm/vllm-openai`（权重 Qwen2.5-1.5B-Instruct，经 modelscope 下载），`/v1/models` 200；五段链路 `vllm_analysis=ok 5 285 ms`、`origin=vllm`；`/metrics`：2 次请求全部 `finished_reason=stop`，TTFT 合计 0.6224 s（均值 311 ms）、e2e 合计 6.468 s（均值 3.23 s）、prompt 239 / generation 323 token、抢占 0。样本仅 2 次且非 deploy 制品里的 7 B，故不支撑任何吞吐/时延达标结论 |
+| 9/22 补充 | 集成链路窗口段读库侧真实结果表 | PASS | `TIMESCALEDB_DSN` 指向 127.0.0.1:55432 后 `flink_window=ok`、`level=PURPLE`、`source=timescaledb`（`speed_stats` 13 行）；与 `SimulationWindowReader` 复算结果一致。`forecast` 段仍 `prediction_failed:PredictionInputMissing`——`speed_stats` 无 `checkpoint_id` 列，读取器回落成 `camera_id`，预测端按卡口取不到历史 |
+| 9/22 补充 | 模型端点服务化（不写死厂商） | PASS | `TRAFFIC_AGENT_PROVIDER/BASE_URL/MODEL` 三变量装配，指到 vLLM 的 `/v1` 即切换；`backend/agent/config.py` + 大屏健康卡片显示生效端点 |
+| 9/22 补充 | Agent 工具：路径规划 `plan_route` | PASS（单测＋同进程装配）/ BLOCKED（模型侧注册） | `test_route_tool.py` 5 项 + crew 回归 1 项；注册到模型侧需 `langchain_core`（未装） |
+| 9/22 补充 | `POST /api/v1/crew/route/plan` | PASS（真实 HTTP 实测） | 天河→白云机场 200：`demonstration_topology`、11.8 km/19.0 min、`verified=false`；越界 422、非数字 422（Pydantic） |
+| 9/22 补充 | 车牌取证 `POST /api/v1/vision/plate` | PASS（契约与降级）/ NOT_VERIFIED（真实识别） | `test_plate_service.py` 6 项含 TestClient 200/503；真实后端返回 503 `ModuleNotFoundError: ultralytics`，`/plate/health` 如实报 `available=false` |
+| 9/22 补充 | 大屏三合一页（诱导/规划/取证） | PASS（浏览器实测，降级态） | `dashboard/pages/4_车路云诱导与取证.py`：诱导页签显示 `TRAFFIC_AGENT_ENABLED 未启用` 且禁用发送；规划页签出 11.80 km/19.0 min 并标「演示拓扑，未经实时核验」；取证页签显示 503 原因＋8MB 上限说明。真实模型态待密钥与依赖 |
+| 9/23 | 《系统集成测试报告》 | 未开始 | 课件 §五 要求的提交物，需端到端 P95/P99、吞吐、首字时延等实测值 |
 
-## 四、自动化测试（2026-09-21 23:2x 实测）
+## 四、自动化测试（2026-09-22 14:5x 复测，六套后端一次跑完，56.9 s）
 
 | 套件 | 结果 |
 | --- | --- |
 | `backend/flink/tests` | 52 passed |
-| `backend/crew/tests` | 68 passed |
-| `backend/vision/tests` | 74 passed |
+| `backend/crew/tests` | 69 passed（含 9/22 新增网关装配回归 1 项） |
+| `backend/vision/tests` | 80 passed（含 9/22 新增 `test_plate_service.py` 6 项） |
 | `backend/integration/tests` | 64 passed |
-| `backend/agent/tests` | 13 passed / 2 failed |
-| `backend/rag/tests` | 10 passed / 3 failed / 5 skipped |
-| 合计 | 281 passed / 5 failed / 5 skipped |
+| `backend/agent/tests` | 19 passed / 1 failed（含 9/22 新增 `test_route_tool.py` 5 项） |
+| `backend/rag/tests` | 16 passed / 2 skipped |
+| 合计 | 300 passed / 1 failed / 2 skipped（共 303 条） |
 
-5 项失败全部是共享 `.venv` 缺可选依赖，不是代码回归：`langchain_core`（agent 1 项）、`psycopg2`（agent 1 项，`repository` 的 mock 目标为 None）、`pymilvus` + `faiss-cpu`（rag 3 项，向量后端两条路都不可用）。补齐需要装包，会动到能跑的 venv，答辩前是否安装由用户决定。
+唯一失败项 `test_law_tool.py::test_tool_registered_when_gateway_provided` 是 `.venv` 缺 `langchain_core`（`backend/agent/tools.py:464` 主动抛 `RuntimeError`），2 条跳过是 `test_vector_store.py` 缺 `milvus-lite`，都不是代码回归。
 
-本轮另修一处真实缺陷：`backend/integration/tests/test_flink_source.py::test_size_seconds_controls_window_length` 原先用 `duration_min` 判窗口长度，而该字段是联表带出的 CEP 拥堵段时长（本机数据里有一段 25 分钟），与 `size_seconds` 无关；改为用「进窗事件数峰值 + 最早窗口起点」随窗口长度变化来断言。
+**口径更正**：本节 10:0x 那次记录的是「293 passed / 5 failed / 5 skipped」，同一批 303 条用例，差异来自 `.venv` 的可选依赖——当时 `faiss-cpu` 尚未以 `--no-deps` 补装，依赖补齐后 RAG 的 3 项失败与 3 项跳过全部转为通过，agent 也少一项失败。具体哪一条用例对应哪个缺失包没有留当时的环境快照，不再追述。结论：报测试数字必须同时报解释器与依赖快照。
+
+本轮另修一处测试隔离缺陷：`backend/vision/tests/test_vl_analyzer.py::test_client_error_is_recorded_for_health`
+单独跑通过、与 `backend/crew/tests` 同进程跑就失败——crew 用例 import `crew_system` 时 `load_dotenv(.env)`
+把密钥泄进进程环境，破坏了「无密钥」这一前提。现在该测试类在 `setUp` 显式剥掉四个密钥变量，
+套件顺序不再影响结论。
+
+上一轮还修过一处真实缺陷：`backend/integration/tests/test_flink_source.py::test_size_seconds_controls_window_length` 原先用 `duration_min` 判窗口长度，而该字段是联表带出的 CEP 拥堵段时长（本机数据里有一段 25 分钟），与 `size_seconds` 无关；改为用「进窗事件数峰值 + 最早窗口起点」随窗口长度变化来断言。
+
+### 9/22 上午：两个只有跑起来才会暴露的缺陷
+
+1. **网关引用被复制走了**：`dashboard_api` 原先在 `CrewService.build()` 之后用 `dataclasses.replace`
+   造了个带 planner 的新网关给 Agent，但 `TrafficToolbox` 持有的是**构造时**那份旧网关（`route_planner=None`），
+   于是 `/api/v1/crew/route/plan` 一上线就 503「路径规划器未接入」——单测全绿，因为它直接构造 toolbox。
+   现在 planner 在 `CrewService.build` 内回填进网关，Agent 与 Crew 共用同一份对象，
+   并补了 `test_build_attaches_planner_to_the_toolbox_gateway` 锁住这条装配顺序。
+2. **Material 图标名不在白名单**：`streamlit.material_icon_names.ALL_MATERIAL_ICONS` 里没有
+   `alternate_route`（也没有 `chat_paste`），`page_icon` 直接抛 `StreamlitAPIException` 让整页打不开，
+   tab 标签里少写闭合冒号则会把 shortcode 当普通文字显示。已换成 `navigation` / `route` /
+   `question_answer` / `license`，四个名字都在白名单内。这类问题只能靠真实起服务＋过一遍 DOM 发现。
 
 ## 五、Flink 集群实测（9/21）
 
@@ -88,10 +114,17 @@ Flink 1.19.1 standalone（JM + 1 TM，4 slot，并行度 1），RocksDB + 增量
 
 1. 端到端时延未测。课件 PPT 里的 1.2 s / QPS 62 / 320 ms / 680 ms 一律不采用，本机没有对应证据。
 2. 视觉识别准确率没有人工真值，`traffic.mp4` 是真实影像但未经标注核对。
-3. vLLM 真实推理未跑（无 GPU/权重），只有 Mock 端点证明链路接线。
-4. 绕行路线来自 `demonstration_topology`，`verified=false`；`AMAP_KEY` 为空。
+3. vLLM 已在本机真实推理成功（1.5 B、8 GB 显存、2 次请求），但这只是「服务可用」的证据；吞吐与时延的达标口径仍未验证，且模型规模不是 `deploy/vllm_deploy.yaml` 里的 7 B，两者不可互相代表。
+4. 绕行路线来自 `demonstration_topology`，`verified=false`；`AMAP_WEB_SERVICE_KEY` 为空。注意大屏地图用的
+   `AMAP_KEY` 是「Web端(JS API)」Key，与 v5 路径规划要的「Web服务」Key 不是一类，配了前者也不会让路线转真。
 5. 2026-09-21 23:0x 起百炼账号对所有模型返回 `HTTP 400 {"type":"Arrearage"}`（可用额度 ¥0.00）。此前 22:56 的 CrewAI 报告是真实模型产物，仍然有效；之后的视觉整段视频跑不出真结果。
 6. `TRAFFIC_CREW_LLM_MODEL` 的仓库默认值 `deepseek-v4-flash-0731` 从未在本机验证过能否被百炼解析，实测走的是 `qwen-plus`。
+7. 车牌取证接口只做到**契约与降级验证**：`.venv` 未装 `ultralytics` / `paddleocr`，`/api/v1/vision/plate`
+   实际返回 503，`/plate/health` 返回 `available=false`。`core/pipeline.PlateRecognition` 的识别正确率
+   没有人工真值集，任何情况下不得对外声称整牌准确率。
+8. 诱导问答（`/api/v1/assistant/query`）依赖 `langchain` / `langgraph` / `langchain-openai`，本机 `.venv`
+   未安装，因此 9/22 补充页的第一个页签在本地只会显示不可用；`plan_route` 工具本身已按 5 个单测覆盖，
+   但在缺 `langchain_core` 的环境下 `as_langchain_tools()` 注册不到模型侧。
 
 ## 八、复现命令
 
@@ -117,12 +150,38 @@ TRAFFIC_VISION_MAX_FRAMES=12 PYTHONIOENCODING=utf-8 .venv/Scripts/python.exe \
 # 4) 测试
 PYTHONIOENCODING=utf-8 .venv/Scripts/python.exe -m pytest \
   backend/flink/tests backend/crew/tests backend/vision/tests backend/integration/tests -q
+
+# 5) 9/22 补充：路径规划与车牌取证（先起后端，未配 PREDICTION_API_KEY 时免鉴权）
+.venv/Scripts/python.exe -m uvicorn backend.dashboard_api:app --app-dir . --host 127.0.0.1 --port 8010
+curl -X POST http://127.0.0.1:8010/api/v1/crew/route/plan -H "Content-Type: application/json" \
+  -d '{"origin_gps":[113.361,23.129],"destination_gps":[113.307,23.387]}'   # 200，source=demonstration_topology
+curl -X POST http://127.0.0.1:8010/api/v1/crew/route/plan -H "Content-Type: application/json" \
+  -d '{"origin_gps":[2.5,48.9],"destination_gps":[113.3,23.3]}'              # 422，起点超出中国范围
+curl http://127.0.0.1:8010/api/v1/vision/plate/health                          # 200，available 反映真实装载状态
+curl -X POST http://127.0.0.1:8010/api/v1/vision/plate -F "file=@data/violations/压线违章_浙B3S65J_20260921_230524.jpg"
+  # 未装 ultralytics/paddleocr 时 503 + 原因；装好后返回号牌文本与框
+
+# 6) 大屏第 4 页（后端不在 8000 时用 DASHBOARD_API_URL 指过去）
+DASHBOARD_API_URL=http://127.0.0.1:8010 .venv/Scripts/python.exe -m streamlit run \
+  ../dashboard/app.py --server.port 8501 --server.headless true
 ```
 
 ## 九、9/24 前还需要用户给输入
 
 1. 阿里云充值（金额由你定），之后我立刻重跑第 3 条命令覆盖降级版证据。
-2. 演示录屏：大屏三页 + CrewAI CLI 输出 + Flink UI(8181) 作业页，答辩视频只能你录。
-3. 决定是否安装 `langchain-core` / `psycopg2` / `pymilvus` / `faiss-cpu` 以清掉那 5 项失败（会动 venv）。
-4. 是否要 `AMAP_KEY`（有则绕行路线可转真实路网，`verified` 才可能为真）。
-5. `backend/sql/migrate_existing_pipeline.sql` 仍未执行，需要你对目标库、备份状态和维护窗口明确确认后才动。
+2. 演示录屏：大屏三页 + CrewAI CLI 输出 + Flink UI(8181) 作业页，答辩视频只能你录。第 4 页我已在浏览器
+   跑通降级态（第八节第 6 条命令可复现），但录屏里要好看就需要：Agent 启用（充值）＋高德 Web服务 Key＋
+   车牌依赖，三者都齐才能录到「真结果」而不是降级提示。
+3. 决定是否安装可选依赖（会动到能跑的 venv，装什么由你点头）：
+   - `langchain-core` / `langgraph` / `langchain-openai`：LangChain Agent 与 `plan_route` 注册到模型侧，
+     也是第 4 页第一个页签能用起来的唯一前提；
+   - `psycopg2-binary`：清掉 agent 那 1 项 mock 失败；
+   - `pymilvus` / `faiss-cpu`：清掉 rag 那 3 项；
+   - `ultralytics` / `paddleocr`：车牌取证真实推理（权重 `models/exp-7.pt` 与 OCR 缓存已在仓库内）。
+4. 是否要高德**「Web服务」Key**（填 `AMAP_WEB_SERVICE_KEY`）：有则路线 `verified` 才可能为真。
+   大屏地图那个 `AMAP_KEY` 是「Web端(JS API)」Key，两者不通用，只配 JS Key 路线仍会退回演示走廊。
+5. 《系统集成测试报告》（9/23 课件 §五 的硬提交物）还没写：它要求端到端 P95/P99、吞吐与首字时延、
+   事件检测准确率与误报率、方案可执行率、大屏刷新时延、可用性——每项都要目标值＋实测值＋达标结论。
+   本机 vLLM 跑不了真实推理，这类指标只能出「Mock 端点下的链路时延分布」并明确标注不代表生产性能；
+   要不要按这个口径出报告，需要你先定。
+6. `backend/sql/migrate_existing_pipeline.sql` 仍未执行，需要你对目标库、备份状态和维护窗口明确确认后才动。

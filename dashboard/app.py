@@ -45,6 +45,7 @@ from dashboard.data_loader import (  # noqa: E402
     load_traffic_data,
 )
 from dashboard.map_component import render_amap_html  # noqa: E402
+from dashboard.nav import render_nav  # noqa: E402
 
 
 st.set_page_config(
@@ -79,9 +80,10 @@ def _inject_styles() -> None:
           background: var(--screen-bg);
         }
         [data-testid="stSidebar"] { display: none; }
+        /* 顶部要留够空白：stHeader 是 60px 高的绝对定位条，压着它会盖住标题 */
         .block-container {
           max-width: 1920px;
-          padding: 1.1rem 1.6rem 2.4rem;
+          padding: 4.6rem 1.6rem 2.4rem;
         }
         .dashboard-header {
           display: flex;
@@ -99,7 +101,7 @@ def _inject_styles() -> None:
           font-size: clamp(1.35rem, 2.2vw, 2.05rem);
           font-weight: 750;
           letter-spacing: .04em;
-          line-height: 1.15;
+          line-height: 1.5;
         }
         .dashboard-meta {
           display: flex;
@@ -472,14 +474,7 @@ def _render_evidence(detections: pd.DataFrame) -> None:
 def render_dashboard(page_title: str = "智慧交通流量监测大屏") -> None:
     _inject_styles()
     _render_header(page_title)
-    _, nav_right = st.columns([6, 1])
-    with nav_right:
-        st.page_link(
-            "pages/2_交通指挥助手.py",
-            label="交通指挥助手",
-            icon=":material/smart_toy:",
-            use_container_width=True,
-        )
+    render_nav()
     source_mode, api_url, auto_refresh, refresh_seconds = _render_runtime_controls()
     if auto_refresh and st_autorefresh is not None:
         st_autorefresh(interval=refresh_seconds * 1000, key="traffic-dashboard-refresh")

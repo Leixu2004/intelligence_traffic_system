@@ -1,7 +1,7 @@
 """Crew 组装与启动：三 Agent + 三任务 + Sequential/Hierarchical 编排。
 
 对应课件提交物 crew_system.py。独立运行：
-    python -m backend.crew.crew_system --process hierarchical --verbose
+    python -m backend.crew.crew_system --process hierarchical [--quiet]
 """
 
 from __future__ import annotations
@@ -128,15 +128,15 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="CrewAI 应急处置多 Agent 系统")
     parser.add_argument("--event-json", help="事件 JSON 文件；缺省使用课件第 11 页示例事件")
     parser.add_argument("--process", choices=("hierarchical", "sequential"), help="覆盖流程模式")
-    parser.add_argument("--verbose", action="store_true", help="打印 Agent 协作过程")
+    parser.add_argument("--quiet", action="store_true", help="关闭 Agent 协作过程输出（默认开启）")
     parser.add_argument("--output", help="把处置方案 JSON 写入指定文件")
     args = parser.parse_args(argv)
 
     _load_local_env()
     if args.process:
         os.environ["TRAFFIC_CREW_PROCESS"] = args.process
-    if args.verbose:
-        os.environ["TRAFFIC_CREW_VERBOSE"] = "true"
+    if args.quiet:
+        os.environ["TRAFFIC_CREW_VERBOSE"] = "false"
 
     raw = Path(args.event_json).read_text(encoding="utf-8") if args.event_json else json.dumps(SAMPLE_EVENT)
     event = EmergencyEvent.model_validate_json(raw)

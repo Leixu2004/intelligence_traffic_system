@@ -99,6 +99,28 @@ class CrewServiceTests(unittest.TestCase):
             self.assertTrue(service.available)
             self.assertEqual(service.health()["fallback_corridors"], 3)
 
+    def test_build_attaches_planner_to_the_toolbox_gateway(self):
+        """回归：toolbox 持有构造时的网关引用，planner 必须在建 toolbox 之前回填进网关。
+
+        早先 dashboard_api 在 CrewService.build 之后再 replace 一份新网关，导致
+        /api/v1/crew/route/plan 走 Crew 自己的 toolbox 时 planner 仍是 None，返回 503「路径规划器未接入」。
+        """
+        with TemporaryDirectory() as tmp:
+            service = CrewService.build(
+                make_settings(tmp),
+                gateway=TrafficToolGateway(
+                    traffic_records=lambda *a: [],
+                    detection_records=lambda *a: [],
+                    predict_checkpoint=lambda *a: {},
+                    law_search=lambda *a: [],
+                ),
+            )
+            self.assertIs(service.toolbox.gateway.route_planner, service.planner)
+            payload = json.loads(service.toolbox.plan_route("113.361", "23.129", "113.307", "23.387"))
+            self.assertTrue(payload["ok"], payload.get("message"))
+            self.assertEqual(payload["source"], "demonstration_topology")
+            self.assertFalse(payload["verified"])
+
     def _assert_degraded(self, result: CrewRunResult) -> None:
         self.assertFalse(result.ok)
         self.assertTrue(result.degradation)

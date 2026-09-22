@@ -126,6 +126,7 @@ curl "http://127.0.0.1:8600/api/v1/vision/results?alerts_only=true"
 | `TRAFFIC_VISION_PROMPTS_DIR` | `backend/vision/prompts` | 自定义提示词目录 |
 | `VISION_HOST` / `VISION_PORT` | `127.0.0.1` / `8600` | 独立服务监听 |
 | `VISION_CORS_ORIGINS` | `http://localhost:8501,…` | 逗号分隔白名单，`*` 会被忽略 |
+| `TRAFFIC_PLATE_ENABLED` | `true` | 单图车牌取证开关；关闭时 `/plate` 与 `/plate/health` 报 503/false，不影响图文链路 |
 
 ## 接口
 
@@ -142,6 +143,14 @@ curl "http://127.0.0.1:8600/api/v1/vision/results?alerts_only=true"
 | POST | `/api/v1/vision/video` | multipart 视频 → 抽帧分析 + 解说 + 告警 |
 | GET | `/api/v1/vision/results` | `limit` / `alerts_only`，读 `runs.jsonl` 或告警流水 |
 | WS | `/api/v1/vision/stream` | 收 `{"source": 视频路径或图片目录}`，推 `start → frame* → result`（异常推 `error`） |
+| GET | `/api/v1/vision/plate/health` | 车牌识别可用性（模型是否已装载、`call_count`、上次耗时、缺依赖原因） |
+| POST | `/api/v1/vision/plate` | multipart 车牌图片 → 本地 `core.pipeline.PlateRecognition`，**不调用多模态模型、不产生 token 费用** |
+
+车牌链路与图文解说链路相互独立：`plate_service.py` 惰性装载检测/OCR 管线，`TRAFFIC_PLATE_ENABLED=false`
+或依赖缺失时 `/plate` 返回 503 + 原因，`/analyze`、`/video` 不受影响。返回体固定带
+`source="core.pipeline.PlateRecognition"` 与两条 `limitations`（整牌准确率未经人工真值集核验、
+检测/OCR 置信度不代表识别正确），单张上限 8MB。响应只保留 JSON 友好的字段（`text/conf/det_conf/
+is_valid/plate_type/box`），`core.pipeline` 结果里的 `roi` 是 numpy 数组，会被剥掉而不是跟着序列化。
 
 `data` 里固定带 `verified` 与 `degradations`：只要有任何降级（无检测器、无密钥、解码失败、
 某帧推理出错），`verified` 就是 `false`，前端与验收都不能把这轮结果当真实结论。
@@ -173,7 +182,7 @@ Mock 不是 Qwen-VL，**不能用来宣称任何识别准确率**。想跑真实
 测试与覆盖率：
 
 ```bash
-python -m pytest backend/vision/tests -q            # 74 个用例
+python -m pytest backend/vision/tests -q            # 80 个用例（含 tests/test_plate_service.py 6 个）
 python -m coverage run -m pytest backend/vision/tests -q && python -m coverage report --include="backend/vision/*"
 ```
 
@@ -184,9 +193,10 @@ python -m coverage run -m pytest backend/vision/tests -q && python -m coverage r
    本机推理作可选路径——没有 GPU 也能完成端到端交付与验收 #2/#4/#6/#7/#8。
 2. **`VideoAnalysisSystem.run()` 保留课件签名**（返回 dict），内部转调 `analyze_video()`，
    验收时可直接照课件第 9 页调用。
-3. **车辆计数与车牌 OCR 都是可选**：课件第 7 页的 YOLOv8 / PaddleOCR 分支需要额外重型依赖，
-   这里 `VehicleCounter` 惰性导入、缺失即 `None`；OCR（车牌）未实现，因为识别结果无法离线核验，
-   写进时间线反而会诱导模型编造。
+3. **车辆计数与车牌识别都独立于多模态链路**：课件第 7 页的 YOLOv8 / PaddleOCR 分支需要额外重型依赖，
+   这里 `VehicleCounter` 惰性导入、缺失即 `None`；车牌走 `plate_service.py` 复用项目自己的
+   `core.pipeline.PlateRecognition`（检测权重 + 透视校正 + PaddleOCR + 号牌校验），只作为单图取证
+   接口暴露，**不会把结果写进解说时间线**——识别文本一旦进入提示词就会诱导模型把未核验的号牌当成事实。
 4. **事故标签沿用课件第 10 页字段**（`event_type/severity/vehicles/location/lane/action`），
    并加了 `confidence/latency_ms/model/verified`，便于把「模型说的」与「画面里有的」分开核对。
 5. **提示词禁止编造**：`narration.txt` 明确不许虚构车牌、伤亡人数、堆积车辆数，
@@ -196,6 +206,10 @@ python -m coverage run -m pytest backend/vision/tests -q && python -m coverage r
 
 ## 已知限制
 
+- 车牌取证目前只做到**接口与降级链路验证**：当前 `.venv` 未装 `ultralytics` 与 `paddleocr`，
+  `/plate` 会如实返回 503 + `ModuleNotFoundError` 原因，`/plate/health` 返回 `available=false`。
+  权重与 OCR 缓存已在仓库内（`models/exp-7.pt`、`data/paddlex_cache`，顶层 `config.py` 与 `core/ocr.py`
+  已把模型与缓存路径固定到项目内），装上这两个依赖即可真实推理；但**整牌准确率仍未做过真值集核验**，不得当作指标。
 - 本机 transformers 推理路径未实机验证（无 GPU、未装 torch），仅代码与错误提示就绪。
 - 不支持 RTSP 直连：`extract_frames` 收的是文件路径或图片目录，实时流需外部先落成片段。
 - WebSocket 推流复用单例 `VideoAnalysisSystem` 的订阅回调，多个客户端会收到彼此的帧进度；

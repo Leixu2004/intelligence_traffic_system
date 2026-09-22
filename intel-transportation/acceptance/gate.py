@@ -180,9 +180,20 @@ def _required_files(root: Path) -> CheckResult:
 def _submission_documents(root: Path) -> CheckResult:
     missing = [
         path
-        for path in ("README.md", "test_report.pdf", "screenshots", "performance.xlsx")
+        for path in ("README.md", "test_report.pdf", "performance.xlsx")
         if not (root / path).exists()
     ]
+    screenshot_candidates = ("screenshots", "data/demo_shots")
+    shots = next(
+        (
+            directory
+            for name in screenshot_candidates
+            if (directory := root / name).is_dir() and any(directory.glob("*.png"))
+        ),
+        None,
+    )
+    if shots is None:
+        missing.append("截图目录（" + " 或 ".join(screenshot_candidates) + "，需含图片）")
     if missing:
         return CheckResult(
             "DOC-001",
@@ -197,6 +208,7 @@ def _submission_documents(root: Path) -> CheckResult:
         "可独立部署的提交文档与验收附件",
         Status.PASS,
         "README、部署说明、测试报告、截图和性能材料齐全。",
+        f"截图取自 {shots.relative_to(root).as_posix()}（{len(list(shots.glob('*.png')))} 张 PNG）；"
         "所需路径均存在；内容有效性仍应由验收人复核。",
     )
 

@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from dashboard.nav import render_nav  # noqa: E402
 from dashboard.vision_client import (  # noqa: E402
     DEFAULT_API_URL,
     VisionClientError,
@@ -38,18 +39,15 @@ st.markdown(
     """
     <style>
     [data-testid="stSidebar"] { display: none; }
-    .block-container { max-width: 1180px; padding-top: 1.4rem; }
+    .block-container { max-width: 1180px; padding-top: 4.6rem; }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-header, nav = st.columns([5, 1])
-with header:
-    st.title("视频智能解说")
-    st.caption("Qwen-VL 多模态：抽帧 → 关键帧筛选 → 逐帧解读 → 解说与告警（9/18 课件）")
-with nav:
-    st.page_link("app.py", label="流量大屏", icon=":material/monitoring:", use_container_width=True)
+st.title("视频智能解说")
+st.caption("Qwen-VL 多模态：抽帧 → 关键帧筛选 → 逐帧解读 → 解说与告警（9/18 课件）")
+render_nav()
 
 with st.expander("运行设置", expanded=False):
     api_url = st.text_input("FastAPI 地址", value=DEFAULT_API_URL)

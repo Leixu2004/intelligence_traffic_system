@@ -18,8 +18,11 @@ crew:
   # hierarchical：Manager 动态分配任务（课件验收要求）
   # sequential：固定顺序，调用次数少，适合课堂快速演示
   process: hierarchical
+  # 长期记忆会写 CrewAI 本地存储且跨运行留存结论，演示环境保持关闭，改它需连带清理存储目录。
   memory: false
-  verbose: false
+  # 默认开启：三 Agent 的分配、工具调用与推理过程必须可见，否则协作日志无法作为验收证据。
+  # 关闭用 TRAFFIC_CREW_VERBOSE=false 或命令行 --quiet。
+  verbose: true
 
 roles:
   commander:

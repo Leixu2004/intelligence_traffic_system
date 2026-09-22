@@ -17,6 +17,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import VisionSettings, load_vision_settings
+from .plate_service import PlateService
 from .router import router
 from .service import VisionService
 
@@ -29,7 +30,11 @@ def _origins() -> list[str]:
     return [item.strip() for item in raw.split(",") if item.strip() and item.strip() != "*"]
 
 
-def create_app(settings: VisionSettings | None = None, service: VisionService | None = None) -> FastAPI:
+def create_app(
+    settings: VisionSettings | None = None,
+    service: VisionService | None = None,
+    plate: PlateService | None = None,
+) -> FastAPI:
     """装配独立服务。
 
     ``service`` 注入点给测试和「同一进程内复用已装配好的分析系统」用；
@@ -39,6 +44,7 @@ def create_app(settings: VisionSettings | None = None, service: VisionService | 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         app.state.vision_service = service or VisionService.build(settings or load_vision_settings())
+        app.state.plate_service = plate or PlateService.build()
         yield
 
     app = FastAPI(

@@ -17,6 +17,7 @@ from typing import Any
 from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile, WebSocket
 
 from .contracts import VisionAnalysisData, VisionAnalysisResponse
+from .plate_service import PlateService
 from .service import VisionService
 
 router = APIRouter(prefix="/api/v1/vision", tags=["多模态视频解说"])
@@ -88,6 +89,44 @@ async def analyze_video(
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     return _unwrap(result)
+
+
+def _plate_service(request: Request) -> PlateService:
+    service = getattr(request.app.state, "plate_service", None)
+    if service is None:
+        raise HTTPException(status_code=503, detail="plate service is not initialised")
+    return service
+
+
+@router.get("/plate/health")
+def plate_health(request: Request) -> dict[str, Any]:
+    return {"code": 200, "message": "ok", "data": _plate_service(request).health()}
+
+
+@router.post("/plate")
+async def recognize_plate(
+    request: Request,
+    file: UploadFile = File(...),
+) -> dict[str, Any]:
+    """上传一张车辆图片：车牌检测 → 透视校正 → OCR → 号牌校验，返回文本、置信度与框坐标。
+
+    与 /analyze 的区别：这里走的是项目自己的 LPR 流水线（结构化号牌），
+    不调用多模态大模型，因此不需要密钥，也不产生大模型费用。
+    """
+    service = _plate_service(request)
+    if not service.available:
+        raise HTTPException(
+            status_code=503,
+            detail=service.health()["error"] or "车牌取证不可用",
+        )
+    name, payload = await _read_upload(file, DEFAULT_FILENAMES["image"])
+    try:
+        result = await asyncio.to_thread(service.recognize, name, payload)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    return {"code": 200, "message": "ok", "data": result, "timestamp": int(time())}
 
 
 @router.get("/results")

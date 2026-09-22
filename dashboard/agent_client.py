@@ -105,3 +105,55 @@ def query_assistant(
         limitations=[str(item) for item in data.get("limitations") or []],
         requires_approval=bool(data.get("requires_approval")),
     )
+
+
+@dataclass(frozen=True)
+class RoutePlan:
+    name: str
+    distance_km: float
+    eta_minutes: float
+    waypoints: list[list[float]]
+    source: str
+    verified: bool
+    note: str = ""
+
+
+def plan_route(
+    *,
+    origin: tuple[float, float],
+    destination: tuple[float, float] | None = None,
+    api_url: str = DEFAULT_API_URL,
+    timeout: float = 30.0,
+) -> RoutePlan:
+    """调用 /api/v1/crew/route/plan：与 Agent 的 plan_route 工具同一份实现与口径。"""
+    payload: dict[str, Any] = {"origin_gps": [origin[0], origin[1]]}
+    if destination:
+        payload["destination_gps"] = [destination[0], destination[1]]
+    try:
+        response = requests.post(
+            f"{api_url.rstrip('/')}/api/v1/crew/route/plan",
+            json=payload,
+            headers=_headers(),
+            timeout=timeout,
+        )
+    except requests.RequestException as exc:
+        raise AgentClientError("无法连接路径规划 API") from exc
+    if response.status_code >= 400:
+        try:
+            detail = response.json().get("detail")
+        except ValueError:
+            detail = None
+        raise AgentClientError(str(detail or f"路径规划 API 返回 HTTP {response.status_code}"))
+    try:
+        data = response.json().get("data") or {}
+    except ValueError as exc:
+        raise AgentClientError("路径规划 API 返回了无效 JSON") from exc
+    return RoutePlan(
+        name=str(data.get("name") or ""),
+        distance_km=float(data.get("distance_km") or 0.0),
+        eta_minutes=float(data.get("eta_minutes") or 0.0),
+        waypoints=[list(map(float, point)) for point in data.get("waypoints") or []],
+        source=str(data.get("source") or ""),
+        verified=bool(data.get("verified")),
+        note=str(data.get("note") or ""),
+    )
